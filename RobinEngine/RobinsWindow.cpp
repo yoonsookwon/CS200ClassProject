@@ -47,10 +47,16 @@ void PlatformImpl::CreateAndShowWindow(const wchar_t* title, int w, int h)
 			title, window_style, x, y, w, h, no_parent_window, no_menus,
 			instanceHandle, nothing_for_wm_create);
 
+	if(windowHandle == nullptr)
+	{
+		ErrorLogger::Log(GetLastError(), "CreateWindowEx Failed!");
+		return;
+	}
 	SetWindowLongPtr(windowHandle, GWLP_USERDATA,
 		reinterpret_cast<LONG_PTR>(this));
 
 	ShowWindow(windowHandle, SW_SHOWDEFAULT);
+	SetForegroundWindow(windowHandle);
 	UpdateWindow(windowHandle);
 
 }

@@ -1,5 +1,6 @@
 #pragma once
 
+#include "ErrorLogger.h"
 #include <memory>
 #include <functional>
 
@@ -33,3 +34,20 @@ public:
 private:
 	std::unique_ptr<PlatformImpl> pimpl{};
 };
+
+//
+//#pragma once
+//#include  "ErrorLogger.h"
+//
+//class RobinsWindow
+//{
+//public:
+//	bool Init(HINSTANCE hInstance, std::string window_title, std::string window_class, int width, int height);
+//	bool ProcessMessages();
+//	~RobinsWindow();
+//
+//private:
+//	void RegisterWindowClass();
+//	HWND handle = NULL;
+//	HINSTANCE hInstance = NULL;
+//};

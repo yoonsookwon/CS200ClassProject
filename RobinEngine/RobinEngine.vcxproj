@@ -148,12 +148,16 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ErrorLogger.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="RobinsWindow.cpp" />
+    <ClCompile Include="StringConverter.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ErrorLogger.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="RobinsWindow.h" />
+    <ClInclude Include="StringConvertor.h" />
     <ClInclude Include="Win32OS.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
