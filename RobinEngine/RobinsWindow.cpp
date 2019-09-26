@@ -18,7 +18,7 @@ struct PlatformImpl
 
 namespace
 {
-	const wchar_t* WindowClassName = L"RudyWindowsWin324Fun";
+	const wchar_t* WindowClassName = L"RobinWindowsWin324Fun";
 	LRESULT CALLBACK WndProc(HWND hwnd, UINT message,
 		WPARAM wparam, LPARAM lparam);
 	bool RegisterWindowClass(HINSTANCE hinstance, LPCWSTR str, int iconid);
