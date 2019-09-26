@@ -1,8 +1,25 @@
-#include "vector3.hpp"
+#include "RobinsWindow.h"
+#include "Win32OS.h"
 
-int main()
+int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
+	_In_opt_ HINSTANCE hPrevInstance,
+	_In_ LPWSTR    lpCmdLine,
+	_In_ int       nCmdShow)
 {
-	vector3<int> asd;
+	UNREFERENCED_PARAMETER(hInstance);
+	UNREFERENCED_PARAMETER(hPrevInstance);
+	UNREFERENCED_PARAMETER(lpCmdLine);
+	UNREFERENCED_PARAMETER(nCmdShow);
+
+	RobinsWindow window;
+	window.CreateAndShowWindow(L"Hello", 800, 600);
+	while (!window.ShouldQuit())
+	{
+		window.PollEvents();
+		// update logic
+		// draw stuff
+	}
 
 	return 0;
 }
+

@@ -1,4 +1,4 @@
-﻿#include "RudysWindow.h"
+#include "RobinsWindow.h"
 #include "Win32OS.h"
 
 struct PlatformImpl
@@ -79,31 +79,31 @@ void PlatformImpl::CloseWindow()
 }
 
 
-RudysWindow::RudysWindow() :pimpl(new PlatformImpl)
+RobinsWindow::RobinsWindow() :pimpl(new PlatformImpl)
 {
 }
 
-RudysWindow::~RudysWindow()
+RobinsWindow::~RobinsWindow()
 {
 }
 
-bool RudysWindow::CreateAndShowWindow(const wchar_t* title, int w, int h)
+bool RobinsWindow::CreateAndShowWindow(const wchar_t* title, int w, int h)
 {
 	pimpl->CreateAndShowWindow(title, w, h);
 	return true;
 }
 
-void RudysWindow::PollEvents()
+void RobinsWindow::PollEvents()
 {
 	pimpl->PollEvents();
 }
 
-void RudysWindow::CloseWindow()
+void RobinsWindow::CloseWindow()
 {
 	pimpl->CloseWindow();
 }
 
-bool RudysWindow::ShouldQuit()
+bool RobinsWindow::ShouldQuit()
 {
 	return pimpl->shouldQuit;
 }
