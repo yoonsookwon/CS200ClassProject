@@ -1,5 +1,5 @@
 /************************************************
- *NAME              : sangmin.kim
+ *NAME              : yoonsoo.kwon
  *ASSIGNMENT NUMBER : 1
  *COURSE NAME       : CS230
  *TERM              : Spring 2019
@@ -30,6 +30,7 @@ constexpr void operator+=(vector3<T>& v, const vector3<T>& adding_vector) noexce
     v.y += adding_vector.y;
     v.z += adding_vector.z;
 }
+
 template <typename T>
 constexpr void operator-=(vector3<T>& v, const vector3<T>& subtracting_vector) noexcept
 {

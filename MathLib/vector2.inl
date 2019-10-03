@@ -1,5 +1,5 @@
 /************************************************
- *NAME              : sangmin.kim
+ *NAME              : yoonsoo.kwon
  *ASSIGNMENT NUMBER : 1
  *COURSE NAME       : CS230
  *TERM              : Spring 2019

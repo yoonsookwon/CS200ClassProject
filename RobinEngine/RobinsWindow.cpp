@@ -11,7 +11,7 @@ struct PlatformImpl
 	WINDOWPLACEMENT windowPlacement = { sizeof(WINDOWPLACEMENT) };
 	bool shouldQuit = false;
 	HINSTANCE instanceHandle{};
-	void CreateAndShowWindow(const wchar_t* title, int w, int h);
+	bool CreateAndShowWindow(const wchar_t* title, int w, int h);
 	void PollEvents();
 	void CloseWindow();
 };
@@ -25,7 +25,7 @@ namespace
 
 }
 
-void PlatformImpl::CreateAndShowWindow(const wchar_t* title, int w, int h)
+bool PlatformImpl::CreateAndShowWindow(const wchar_t* title, int w, int h)
 {
 	instanceHandle = GetModuleHandleW(nullptr);
 	if (const bool registered_wndclass =
@@ -59,6 +59,7 @@ void PlatformImpl::CreateAndShowWindow(const wchar_t* title, int w, int h)
 	SetForegroundWindow(windowHandle);
 	UpdateWindow(windowHandle);
 
+	return false;
 }
 
 void PlatformImpl::PollEvents()
