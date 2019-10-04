@@ -1,14 +1,18 @@
 #pragma once
-<<<<<<< HEAD
-=======
 #include  "RobinsWindow.h"
+#include  "Keyboard/KeyboardClass.h"
+#include "Mouse/MouseClass.h"
 
 class WindowContainer
 {
 public:
-	//bool CreateAndShowWindow(const wchar_t* title, int w, int h);
+    WindowContainer();
+    LRESULT WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
+//    Mouse
+//    KeyBoard
 protected:
 	RobinsWindow robins_windows;
+    keyboardClass keyboard;
+    MouseClass mouse;
 private:
 };
->>>>>>> master

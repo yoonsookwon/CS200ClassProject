@@ -4,15 +4,8 @@
 class Engine : WindowContainer
 {
 public:
-	bool CreateAndShowWindow(const wchar_t* title, int w, int h);
-	bool ProcessMessage();
-	Engine() = default;
-
-	void Init();
-	void Update();
-	void Delete();
-
-private:
-	bool isRunning = false;
-	float dt;
+    bool Init(HINSTANCE hInstance, std::string window_title, std::string window_class, int width, int height);
+	bool ProcessMessages();
+    void Update();
 };
+

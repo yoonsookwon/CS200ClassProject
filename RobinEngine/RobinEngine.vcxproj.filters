@@ -13,6 +13,18 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Header Files\Keyboard">
+      <UniqueIdentifier>{98e7dccf-e14d-4286-8ea8-f7c361c15759}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Keyboard">
+      <UniqueIdentifier>{4a31ce00-faef-4fda-bc6f-bd408ab9f8b3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Mouse">
+      <UniqueIdentifier>{281ed876-bc0f-475d-b162-d4eb04af02e0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Mouse">
+      <UniqueIdentifier>{60750f3d-aac6-408f-a59a-142da0ec7259}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -32,6 +44,21 @@
     </ClCompile>
     <ClCompile Include="Engine.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="WindowContainer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Keyboard\KeyboardClass.cpp">
+      <Filter>Source Files\Keyboard</Filter>
+    </ClCompile>
+    <ClCompile Include="Keyboard\KeyboardEvent.cpp">
+      <Filter>Source Files\Keyboard</Filter>
+    </ClCompile>
+    <ClCompile Include="Mouse\MouseClass.cpp">
+      <Filter>Source Files\Mouse</Filter>
+    </ClCompile>
+    <ClCompile Include="Mouse\MouseEvent.cpp">
+      <Filter>Source Files\Mouse</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -58,6 +85,18 @@
     </ClInclude>
     <ClInclude Include="RobinWindow.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Keyboard\KeyboardClass.h">
+      <Filter>Header Files\Keyboard</Filter>
+    </ClInclude>
+    <ClInclude Include="Keyboard\KeyboardEvent.h">
+      <Filter>Header Files\Keyboard</Filter>
+    </ClInclude>
+    <ClInclude Include="Mouse\MouseEvent.h">
+      <Filter>Header Files\Mouse</Filter>
+    </ClInclude>
+    <ClInclude Include="Mouse\MouseClass.h">
+      <Filter>Header Files\Mouse</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

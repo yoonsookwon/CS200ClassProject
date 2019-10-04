@@ -24,7 +24,6 @@
             };
             T elements[2];
         };
-
         vector2() noexcept;
 		explicit vector2(T repeated_float) noexcept;
 		vector2(T fx, T fy) noexcept;
@@ -78,9 +77,5 @@
 	template<typename T>
     constexpr vector2<T>             rotate_by(float angle_in_radians, vector2<T> v) noexcept;
 
-
 #pragma warning(pop)
-
-
-
 #include "vector2.inl"
