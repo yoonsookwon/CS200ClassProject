@@ -1,4 +1,5 @@
 #include "WindowContainer.h"
+#include <memory>
 
 WindowContainer::WindowContainer()
 {
@@ -128,7 +129,7 @@ LRESULT WindowContainer::WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM 
     }
     case WM_INPUT: 
     {
-        UINT dataSize;
+        UINT dataSize = 0;
 
         GetRawInputData(reinterpret_cast<HRAWINPUT>(lParam), RID_INPUT, NULL, &dataSize, sizeof(RAWINPUTHEADER));
         if (dataSize > 0) {

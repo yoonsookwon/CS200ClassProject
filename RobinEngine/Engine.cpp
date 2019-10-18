@@ -2,9 +2,14 @@
 
 bool Engine::Init(HINSTANCE hInstance, std::string window_title, std::string window_class, int width, int height)
 {
-   // keyboard.EnableAutoRepeatChars();
-    return this->robins_windows.Init(this,hInstance,window_title,window_class,width,height);
-    //In the future after initialize window we will do graphic
+    if(!this->robins_windows.Init(this,hInstance,window_title,window_class,width,height))
+        return false;
+
+    if(gfx.Init(this->robins_windows.GetHWND(), width, height))
+        return false;
+
+    return true;
+    
 }
 
 bool Engine::ProcessMessages()

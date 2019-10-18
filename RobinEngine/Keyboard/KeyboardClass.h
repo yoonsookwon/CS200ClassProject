@@ -23,7 +23,7 @@ public:
 private:
     bool autoRepeatKeys = false;
     bool autoRepeatChars = false;
-    bool keyStates[256];
+    bool keyStates[256] = {false};
     std::queue<KeyboardEvent> keyBuffer;
     std::queue<unsigned char> charBuffer;
 };

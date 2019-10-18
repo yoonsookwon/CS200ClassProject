@@ -2,6 +2,7 @@
 #include  "RobinsWindow.h"
 #include  "Keyboard/KeyboardClass.h"
 #include "Mouse/MouseClass.h"
+#include  "Graphics\Graphics.h"
 
 class WindowContainer
 {
@@ -14,5 +15,6 @@ protected:
 	RobinsWindow robins_windows;
     keyboardClass keyboard;
     MouseClass mouse;
+    Graphics gfx;
 private:
 };

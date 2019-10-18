@@ -1,4 +1,7 @@
 #include "WindowContainer.h"
+#include  "resource1.h"
+//#include <winuser.h>
+
 //#include "Win32OS.h"
 
 //struct PlatformImpl
@@ -275,6 +278,11 @@ bool RobinsWindow::ProcessMessages()
     return true;
 }
 
+HWND RobinsWindow::GetHWND() const
+{
+    return  this->handle;
+}
+
 RobinsWindow::~RobinsWindow() {
     if (this->handle != NULL) {
         UnregisterClass(this->window_class_wide.c_str(), this->hInstance);
@@ -334,8 +342,8 @@ void RobinsWindow::RegisterWindowClass()
     wc.cbClsExtra = 0;
     wc.cbWndExtra = 0;
     wc.hInstance = this->hInstance;
-    wc.hIcon = NULL;
-    wc.hIconSm = NULL;
+    wc.hIcon = static_cast<HICON>(LoadImage(hInstance, MAKEINTRESOURCE(IDI_ICON1),IMAGE_ICON,32,32,0));
+    wc.hIconSm = static_cast<HICON>(LoadImage(hInstance, MAKEINTRESOURCE(IDI_ICON1), IMAGE_ICON, 16, 16, 0));
     wc.hCursor = LoadCursor(NULL, IDC_ARROW);
     wc.hbrBackground = NULL;
     wc.lpszMenuName = NULL;
