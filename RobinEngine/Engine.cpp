@@ -5,8 +5,9 @@ bool Engine::Init(HINSTANCE hInstance, std::string window_title, std::string win
     if(!this->robins_windows.Init(this,hInstance,window_title,window_class,width,height))
         return false;
 
+    //여기서 리턴 flase 인가 true인가?
     if(gfx.Init(this->robins_windows.GetHWND(), width, height))
-        return false;
+        return true;
 
     return true;
     
@@ -76,4 +77,9 @@ void Engine::Update()
         OutputDebugStringA(outmsg.c_str());
         }*/
     }
+}
+
+void Engine::RenderFrame()
+{
+    gfx.RenderFrame();
 }

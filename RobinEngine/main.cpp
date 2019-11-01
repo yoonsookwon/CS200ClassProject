@@ -7,14 +7,27 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	_In_ int       nCmdShow)
 {
     Engine engine;
-    engine.Init(hInstance, "RobinEngine", "MyWindowClass", 800, 600);
-
-    while (engine.ProcessMessages() == true)
+    if (engine.Init(hInstance, "RobinEngine", "MyWindowClass", 800, 600))
     {
-        engine.Update();
+        while (engine.ProcessMessages() == true)
+        {
+            engine.Update();
+            engine.RenderFrame();
+        }
     }
     return 0;
 }
+//The things that need to be implemented for drawing something
+//INPUT ASSEMBLER - COMPLETED
+//VERTEX SHADER - COMPLETED
+//RASTERIZER - COMPLETED
+//PIXEL SHADER- COMPLETED
+//OUTPUT MERGER - COMPLETED
+
+
+//create our vertex buffer
+//Draw
+
 
 
 //int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
