@@ -227,14 +227,25 @@ bool RobinsWindow::Init(WindowContainer * pWindowContainer,HINSTANCE hInstance, 
 
     this->RegisterWindowClass();
 
+    int centerScreenX = GetSystemMetrics(SM_CXSCREEN) / 2 - this->width / 2;
+    int centerScreenY = GetSystemMetrics(SM_CYSCREEN) / 2 - this->height / 2;
+
+    RECT wr; //Window Rectangle
+    //이거를 셋팅하면서 시작하는 윈도우 창을 설정가능?
+    wr.left = centerScreenX;
+    wr.top = centerScreenY;
+    wr.right = wr.left + this->width;
+    wr.bottom = wr.top + this->height;
+    AdjustWindowRect(&wr, WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU, FALSE);
+
     this->handle = CreateWindowEx(0,
         this->window_class_wide.c_str(),
         this->window_title_wide.c_str(),
         WS_CAPTION| WS_MINIMIZEBOX|WS_SYSMENU,
-        0,
-        0,
-        this->width,
-        this->height,
+        wr.left, // Window X Position
+        wr.top,  // Window Y Position
+    wr.right - wr.left,
+   wr.bottom - wr.top,
         NULL,
         NULL,
         this->hInstance,
