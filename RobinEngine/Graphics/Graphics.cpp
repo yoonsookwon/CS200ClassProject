@@ -26,19 +26,18 @@ void Graphics::RenderFrame()
     this->deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY::D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
     this->deviceContext->RSSetState(this->rasterizerState.Get());
     this->deviceContext->OMSetDepthStencilState(this->depthStencilState.Get(), 0);
+    this->deviceContext->PSSetSamplers(0, 1, this->samplerState.GetAddressOf());
     this->deviceContext->VSSetShader(vertexshader.GetShader(), NULL, 0);
     this->deviceContext->PSSetShader(pixelshader.GetShader(), NULL, 0);
 
     UINT stride = sizeof(Vertex);
     UINT offset = 0;
 
-
-    //Green Triangle
-    this->deviceContext->IASetVertexBuffers(0, 1, vertexBuffer2.GetAddressOf(), &stride, &offset);
-    this->deviceContext->Draw(3, 0);
-    //Red Triangle
-    this->deviceContext->IASetVertexBuffers(0, 1, vertexBuffer.GetAddressOf(), &stride, &offset);
-    this->deviceContext->Draw(3, 0);
+    //Square
+  /*이미지 로딩하는 코드*/  this->deviceContext->PSSetShaderResources(0, 1, this->myTexture.GetAddressOf());
+  /*이미지 로딩하는 코드*/ this->deviceContext->IASetVertexBuffers(0, 1, vertexBuffer.GetAddressOf(), &stride, &offset);
+    //점찍어주는데서 찍어준뒤에 여기에 그점만큼 셋팅을 해줘야한다.
+    this->deviceContext->Draw(6, 0);
 
     //Draw Text
     spriteBatch->Begin();
@@ -260,10 +259,19 @@ bool Graphics::InitScene()
 {
     //Triangle (Red)
     Vertex v[] = {
-        //Ordering must be ClockWise
-        Vertex(-0.5f, -0.5f,1.0f, 0.0f, 1.0f),//bottom left
-        Vertex(0.0f, 0.5f,1.0f, 0.5f,0.0f), //top middle 
-        Vertex(0.5f, -0.5f, 1.0f,1.0f,1.0f), //bottom right
+        //Ordering must be ClockWise(TRIANGLE 그리기)
+    //    Vertex(-0.5f, -0.5f,1.0f, 0.0f, 1.0f),//bottom left
+    //    Vertex(0.0f, 0.5f,1.0f, 0.5f,0.0f), //top middle 
+    //    Vertex(0.5f, -0.5f, 1.0f,1.0f,1.0f), //bottom right
+    //
+         Vertex(-0.5f, -0.5f,1.0f, 0.0f, 1.0f),//bottom left
+         Vertex(-0.5f, 0.5f,1.0f, 0.0f,0.0f), //top left 
+         Vertex(0.5f, 0.5f, 1.0f,1.0f,0.0f), //top right
+
+
+         Vertex(-0.5f, -0.5f,1.0f, 0.0f, 1.0f),//bottom left
+         Vertex(0.5f, 0.5f,1.0f, 1.0f,0.0f), //top right 
+         Vertex(0.5f, -0.5f, 1.0f,1.0f,1.0f), //bottom right
     };
 
     D3D11_BUFFER_DESC vertexBufferDesc;
@@ -287,6 +295,13 @@ bool Graphics::InitScene()
         return false;
     }
 
+    //이미지 입히는곳
+    hr = DirectX::CreateWICTextureFromFile(this->device.Get(), L"Data\\Textures\\chicken.png", nullptr, myTexture.GetAddressOf());
+    if (FAILED(hr))
+    {
+        ErrorLogger::Log(hr, "Failed to create wic texture from file.");
+        return false;
+    }
     //Triangle2(Green)
     //Vertex v2[] = {
     //    //Ordering must be ClockWise

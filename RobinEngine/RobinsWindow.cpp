@@ -279,6 +279,7 @@ bool RobinsWindow::ProcessMessages()
 
     //Check if the window was closed
     if (msg.message == WM_NULL) {
+
         if (!IsWindow(this->handle)) {
             this->handle = NULL;
             UnregisterClass(this->window_class_wide.c_str(), this->hInstance);
@@ -288,6 +289,7 @@ bool RobinsWindow::ProcessMessages()
     //Always return true if window still exist
     return true;
 }
+
 
 HWND RobinsWindow::GetHWND() const
 {

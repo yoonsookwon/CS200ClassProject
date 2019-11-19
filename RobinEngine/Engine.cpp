@@ -28,11 +28,19 @@ void Engine::Update()
         outmsg += "\n";
         OutputDebugStringA(outmsg.c_str());
     }
+
     while (!keyboard.KeyBufferIsEmpty())
     {
         KeyboardEvent kbe = keyboard.ReadKey();
         unsigned char keycode = kbe.GetKeyCode();
         std::string outmsg = "";
+        if(keycode == 27)
+        {
+        //    robins_windows.GetHWND()
+         //   IsWindow(robins_windows.GetHWND()) = false;
+          //  robins_windows.getMSG() = WM_NULL;
+            //this->robins_windows.GetHWND() = NULL;
+        }
         if (kbe.IsPress()) {
             outmsg += "key press: ";
         }
