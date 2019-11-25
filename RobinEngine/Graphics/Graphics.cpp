@@ -2,13 +2,15 @@
 
 bool Graphics::Init(HWND hwnd, int width, int height)
 {
-    if (!InitDirectX(hwnd, width, height))
+    this->windowWidth = width;
+    this->windowHeight = height;
+    if (!InitDirectX(hwnd))
         return  false;
 
-    if(!InitShaders())
+    if (!InitShaders())
         return false;
 
-    if(!InitScene())
+    if (!InitScene())
         return false;
 
     return  true;
@@ -30,29 +32,50 @@ void Graphics::RenderFrame()
     this->deviceContext->VSSetShader(vertexshader.GetShader(), NULL, 0);
     this->deviceContext->PSSetShader(pixelshader.GetShader(), NULL, 0);
 
-    UINT stride = sizeof(Vertex);
     UINT offset = 0;
 
+
+    //여기서 이미지 위치가 바뀜
+    //Update Constant Buffer
+    
+    /// 이런식으로 static 변수값을 지속적으로 주면서 이미지가 계속 움직이게 만들수 있음
+    static float yOff = 0.5f;
+    yOff -= 0.1f;
+    
+    constantBuffer.data.xOffset = 0.0f;
+    constantBuffer.data.yOffset = yOff;
+    if (!constantBuffer.ApplyChanges())
+        return;
+    this->deviceContext->VSSetConstantBuffers(0,1, this->constantBuffer.GetAddressOf());
+    /*D3D11_MAPPED_SUBRESOURCE mappedResource;
+    HRESULT hr = this->deviceContext->Map(constantBuffer.Get(), 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
+    CopyMemory(mappedResource.pData, &data, sizeof(CB_VS_vertexshader));
+    this->deviceContext->Unmap(constantBuffer.Get(), 0);
+    this->deviceContext->VSSetConstantBuffers(0,1, constantBuffer.GetAddressOf());
+*/
+
     //Square
-  /*이미지 로딩하는 코드*/  this->deviceContext->PSSetShaderResources(0, 1, this->myTexture.GetAddressOf());
-  /*이미지 로딩하는 코드*/ this->deviceContext->IASetVertexBuffers(0, 1, vertexBuffer.GetAddressOf(), &stride, &offset);
+    /*이미지 로딩하는 코드*/  this->deviceContext->PSSetShaderResources(0, 1, this->myTexture.GetAddressOf());
+    /*이미지 로딩하는 코드*/ this->deviceContext->IASetVertexBuffers(0, 1, vertexBuffer.GetAddressOf(), vertexBuffer.StridePtr(), &offset);
+    this->deviceContext->IASetIndexBuffer(indicesBuffer.Get(), DXGI_FORMAT_R32_UINT, 0);
     //점찍어주는데서 찍어준뒤에 여기에 그점만큼 셋팅을 해줘야한다.
-    this->deviceContext->Draw(6, 0);
+
+    this->deviceContext->DrawIndexed(indicesBuffer.BufferSize(), 0, 0);
 
     //Draw Text
     spriteBatch->Begin();
-    spriteFont->DrawString(spriteBatch.get(),L"HELLO I'M ROBIN!!",DirectX::XMFLOAT2(0,0),DirectX::Colors::White, 0.0f, DirectX::XMFLOAT2(0.0f,0.0f), DirectX::XMFLOAT2(1.0f, 1.0f));
+    spriteFont->DrawString(spriteBatch.get(), L"HELLO I'M ROBIN!!", DirectX::XMFLOAT2(0, 0), DirectX::Colors::White, 0.0f, DirectX::XMFLOAT2(0.0f, 0.0f), DirectX::XMFLOAT2(1.0f, 1.0f));
     spriteBatch->End();
 
     //If want to turn on the vSync put the value 1, otherwise put 0 
     this->swapChain->Present(1, NULL);
 }
 
-bool Graphics::InitDirectX(HWND hwnd, int width, int height)
+bool Graphics::InitDirectX(HWND hwnd)
 {
     std::vector<AdapterData> adapters = AdapterReader::GetAdapters();
 
-    if(adapters.size() < 1)
+    if (adapters.size() < 1)
     {
         ErrorLogger::Log("No IDXGI Adapters found.");
         return false;
@@ -61,8 +84,8 @@ bool Graphics::InitDirectX(HWND hwnd, int width, int height)
     DXGI_SWAP_CHAIN_DESC scd;
     ZeroMemory(&scd, sizeof(DXGI_SWAP_CHAIN_DESC));
 
-    scd.BufferDesc.Width = width;
-    scd.BufferDesc.Height = height;
+    scd.BufferDesc.Width = this->windowWidth;
+    scd.BufferDesc.Height = this->windowHeight;
     scd.BufferDesc.RefreshRate.Numerator = 60;
     scd.BufferDesc.RefreshRate.Denominator = 1;
 
@@ -82,19 +105,19 @@ bool Graphics::InitDirectX(HWND hwnd, int width, int height)
 
     //튜토리얼 9
     HRESULT hr;
-    hr = D3D11CreateDeviceAndSwapChain(adapters[0].pAdapter, 
-                                D3D_DRIVER_TYPE_UNKNOWN,
-                          NULL,
-                            NULL,
-                      NULL,
-                       0,
-                         D3D11_SDK_VERSION,
-                                 &scd,
-                        this->swapChain.GetAddressOf(),
-                          this->device.GetAddressOf(),
-                       NULL,
-                   this->deviceContext.GetAddressOf());
-    if(FAILED(hr))
+    hr = D3D11CreateDeviceAndSwapChain(adapters[0].pAdapter,
+        D3D_DRIVER_TYPE_UNKNOWN,
+        NULL,
+        NULL,
+        NULL,
+        0,
+        D3D11_SDK_VERSION,
+        &scd,
+        this->swapChain.GetAddressOf(),
+        this->device.GetAddressOf(),
+        NULL,
+        this->deviceContext.GetAddressOf());
+    if (FAILED(hr))
     {
         ErrorLogger::Log(hr, "Failed to create device and swapchain.");
         return  false;
@@ -118,8 +141,8 @@ bool Graphics::InitDirectX(HWND hwnd, int width, int height)
     }
     //Describe our Depth/Stencil buffer
     D3D11_TEXTURE2D_DESC depthStencilDesc;
-    depthStencilDesc.Width = width;
-    depthStencilDesc.Height = height;
+    depthStencilDesc.Width = this->windowWidth;
+    depthStencilDesc.Height = this->windowHeight;
     depthStencilDesc.MipLevels = 1;
     depthStencilDesc.ArraySize = 1;
     depthStencilDesc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
@@ -167,8 +190,8 @@ bool Graphics::InitDirectX(HWND hwnd, int width, int height)
 
     viewport.TopLeftX = 0;
     viewport.TopLeftY = 0;
-    viewport.Width = width;
-    viewport.Height = height;
+    viewport.Width = this->windowWidth;
+    viewport.Height = this->windowHeight;
     viewport.MinDepth = 0.0f;
     viewport.MaxDepth = 1.0f;
 
@@ -182,10 +205,10 @@ bool Graphics::InitDirectX(HWND hwnd, int width, int height)
     //RasterizerDesc!! 
     rasterizerDesc.FillMode = D3D11_FILL_MODE::D3D11_FILL_SOLID;
     rasterizerDesc.CullMode = D3D11_CULL_MODE::D3D11_CULL_BACK;
-   /* rasterizerDesc.FrontCounterClockwise = TRUE;*/
+    /* rasterizerDesc.FrontCounterClockwise = TRUE;*/
 
     hr = this->device->CreateRasterizerState(&rasterizerDesc, this->rasterizerState.GetAddressOf());
-    if(hr != S_OK)
+    if (hr != S_OK)
     {
         ErrorLogger::Log(hr, "Failed to create rasterizer state.");
         return false;
@@ -208,9 +231,9 @@ bool Graphics::InitDirectX(HWND hwnd, int width, int height)
 
     if (FAILED(hr))
     {
-         ErrorLogger::Log(hr, "Failed to create sampler state.");
-         return false;
-     }
+        ErrorLogger::Log(hr, "Failed to create sampler state.");
+        return false;
+    }
 
     return  true;
 }
@@ -220,7 +243,7 @@ bool Graphics::InitShaders()
     std::wstring shaderfolder = L"";
 #pragma  region DetermineShaderPath
 
-    if (IsDebuggerPresent() == TRUE) 
+    if (IsDebuggerPresent() == TRUE)
     {
 #ifdef  _DEBUG // Debug mode
 #ifdef  _WIN64 //x64
@@ -246,10 +269,10 @@ bool Graphics::InitShaders()
     UINT numElements = ARRAYSIZE(layout);
 
 
-    if (!vertexshader.Initialize(this->device,  shaderfolder + L"vertexshader.cso",layout,numElements))
+    if (!vertexshader.Initialize(this->device, shaderfolder + L"vertexshader.cso", layout, numElements))
         return  false;
 
-    if(!pixelshader.Initialize(this->device, shaderfolder + L"pixelshader.cso"))
+    if (!pixelshader.Initialize(this->device, shaderfolder + L"pixelshader.cso"))
         return false;
 
     return true;
@@ -264,35 +287,34 @@ bool Graphics::InitScene()
     //    Vertex(0.0f, 0.5f,1.0f, 0.5f,0.0f), //top middle 
     //    Vertex(0.5f, -0.5f, 1.0f,1.0f,1.0f), //bottom right
     //
-         Vertex(-0.5f, -0.5f,1.0f, 0.0f, 1.0f),//bottom left
-         Vertex(-0.5f, 0.5f,1.0f, 0.0f,0.0f), //top left 
-         Vertex(0.5f, 0.5f, 1.0f,1.0f,0.0f), //top right
+         Vertex(-0.5f, -0.5f,1.0f, 0.0f, 1.0f),//bottom left [0]
+         Vertex(-0.5f, 0.5f,1.0f, 0.0f,0.0f), //top left [1]
 
-
-         Vertex(-0.5f, -0.5f,1.0f, 0.0f, 1.0f),//bottom left
-         Vertex(0.5f, 0.5f,1.0f, 1.0f,0.0f), //top right 
-         Vertex(0.5f, -0.5f, 1.0f,1.0f,1.0f), //bottom right
+         Vertex(0.5f, 0.5f,1.0f, 1.0f,0.0f), //top right [2]
+         Vertex(0.5f, -0.5f, 1.0f,1.0f,1.0f), //bottom right [3]
     };
 
-    D3D11_BUFFER_DESC vertexBufferDesc;
-    ZeroMemory(&vertexBufferDesc, sizeof(vertexBufferDesc));
-
-    vertexBufferDesc.Usage = D3D11_USAGE_DEFAULT;
-    vertexBufferDesc.ByteWidth = sizeof(Vertex)* ARRAYSIZE(v);
-    vertexBufferDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-    vertexBufferDesc.CPUAccessFlags = 0;
-    vertexBufferDesc.MiscFlags = 0;
-
-    D3D11_SUBRESOURCE_DATA vertexBufferData;
-    ZeroMemory(&vertexBufferData, sizeof(vertexBufferData));
-    vertexBufferData.pSysMem = v;
-
-    HRESULT hr = this->device->CreateBuffer(&vertexBufferDesc, &vertexBufferData, this->vertexBuffer.GetAddressOf());
-
-    if(FAILED(hr))
+    //Load Vertex Data
+    HRESULT hr = this->vertexBuffer.Initialize(this->device.Get(), v, ARRAYSIZE(v));
+    if (FAILED(hr))
     {
         ErrorLogger::Log(hr, "Failed to create vertex buffer.");
         return false;
+    }
+
+    DWORD indices[] =
+    {   
+        0,1,2,
+        0,2,3
+    };
+
+
+    //Load index data
+    hr = this->indicesBuffer.Initialize(this->device.Get(), indices, ARRAYSIZE(indices));
+     if (FAILED(hr))
+    {
+        ErrorLogger::Log(hr, "Failed to create indices buffer");
+        return hr;
     }
 
     //이미지 입히는곳
@@ -302,32 +324,13 @@ bool Graphics::InitScene()
         ErrorLogger::Log(hr, "Failed to create wic texture from file.");
         return false;
     }
-    //Triangle2(Green)
-    //Vertex v2[] = {
-    //    //Ordering must be ClockWise
-    //    Vertex(-0.25f, -0.25f,0.0f, 0.0f, 1.0f,0.0f),//bottom left
-    //    Vertex(0.0f,   0.25f,0.0f,0.0f,1.0f,0.0f), //top middle 
-    //    Vertex(0.25f, -0.25f, 0.0f,0.0f,1.0f,0.0f), //bottom right
-    //};
 
-    //ZeroMemory(&vertexBufferDesc, sizeof(vertexBufferDesc));
-
-    //vertexBufferDesc.Usage = D3D11_USAGE_DEFAULT;
-    ////
-    //vertexBufferDesc.ByteWidth = sizeof(Vertex) * ARRAYSIZE(v2);
-    //vertexBufferDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-    //vertexBufferDesc.CPUAccessFlags = 0;
-    //vertexBufferDesc.MiscFlags = 0;
-
-    //ZeroMemory(&vertexBufferData, sizeof(vertexBufferData));
-    ////
-    //vertexBufferData.pSysMem = v2;
-    //hr = this->device->CreateBuffer(&vertexBufferDesc, &vertexBufferData, this->vertexBuffer2.GetAddressOf());
-
-    //if (FAILED(hr))
-    //{
-    //    ErrorLogger::Log(hr, "Failed to create vertex buffer.");
-    //    return false;
-    //}
+    //Initialize Constant Buffer(s)
+    
+    hr = this->constantBuffer.Initialize(this->device.Get(),this->deviceContext.Get());
+    if (FAILED(hr)) {
+        ErrorLogger::Log(hr, "Failed to initialize constant buffer.");
+        return false;
+    }
     return true;
 }
