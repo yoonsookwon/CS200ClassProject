@@ -1,7 +1,7 @@
 cbuffer mycBuffer : register(b0) //second를 만들고 싶으면 b1이라고 한다
 {
-    float xOffset;
-    float yOffset;
+    //row_major & column_major
+    float4x4 mat;
 };
 
 struct VS_INPUT 
@@ -19,10 +19,8 @@ struct VS_OUTPUT
 VS_OUTPUT main(VS_INPUT input)
 {
     VS_OUTPUT output;
-    input.inPos.x += xOffset;
-    input.inPos.y += yOffset;
 
-    output.outPosition = float4(input.inPos, 1.0f);
+    output.outPosition = mul(float4(input.inPos, 1.0f), mat);
     output.outTexCoord = input.inTexCoord;
     return output;
 }

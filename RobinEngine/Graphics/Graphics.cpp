@@ -39,11 +39,19 @@ void Graphics::RenderFrame()
     //Update Constant Buffer
     
     /// 이런식으로 static 변수값을 지속적으로 주면서 이미지가 계속 움직이게 만들수 있음
+    /*
     static float yOff = 0.5f;
-    yOff -= 0.1f;
+    yOff -= 0.01f;
+    */
+    //DirectX::XMMatrixRotationRollPitchYaw(0.0f,0.0f, DirectX::XM_PIDIV2); -> 90도 반시계방향으로 돌리기
+    //DirectX::Translation.. d이동
+    XMMATRIX world = XMMatrixIdentity();
     
-    constantBuffer.data.xOffset = 0.0f;
-    constantBuffer.data.yOffset = yOff;
+    camera.AdjustPosition(0.0f, 0.01f, 0.0f);
+    constantBuffer.data.mat = world * camera.GetViewMatrix() * camera.GetProjectionMatrix();
+    constantBuffer.data.mat = DirectX::XMMatrixTranspose(constantBuffer.data.mat);
+    
+    
     if (!constantBuffer.ApplyChanges())
         return;
     this->deviceContext->VSSetConstantBuffers(0,1, this->constantBuffer.GetAddressOf());
@@ -282,16 +290,11 @@ bool Graphics::InitScene()
 {
     //Triangle (Red)
     Vertex v[] = {
-        //Ordering must be ClockWise(TRIANGLE 그리기)
-    //    Vertex(-0.5f, -0.5f,1.0f, 0.0f, 1.0f),//bottom left
-    //    Vertex(0.0f, 0.5f,1.0f, 0.5f,0.0f), //top middle 
-    //    Vertex(0.5f, -0.5f, 1.0f,1.0f,1.0f), //bottom right
-    //
-         Vertex(-0.5f, -0.5f,1.0f, 0.0f, 1.0f),//bottom left [0]
-         Vertex(-0.5f, 0.5f,1.0f, 0.0f,0.0f), //top left [1]
+         Vertex(-0.5f, -0.5f, 0.0f, 0.0f, 1.0f),//bottom left [0]
+         Vertex(-0.5f, 0.5f,0.0f, 0.0f,0.0f), //top left [1]
 
-         Vertex(0.5f, 0.5f,1.0f, 1.0f,0.0f), //top right [2]
-         Vertex(0.5f, -0.5f, 1.0f,1.0f,1.0f), //bottom right [3]
+         Vertex(0.5f, 0.5f,0.0f, 1.0f,0.0f), //top right [2]
+         Vertex(0.5f, -0.5f, 0.0f,1.0f,1.0f), //bottom right [3]
     };
 
     //Load Vertex Data
@@ -332,5 +335,8 @@ bool Graphics::InitScene()
         ErrorLogger::Log(hr, "Failed to initialize constant buffer.");
         return false;
     }
+
+    camera.SetPosition(0.0f, 0.0f, -2.0f);
+    camera.SetProjectionValues(90.0f, static_cast<float>(windowWidth)/static_cast<float>(windowHeight),0.1f, 1000.0f);
     return true;
 }

@@ -34,7 +34,7 @@ public:
         this->deviceContext = deviceContext;
 
         D3D11_BUFFER_DESC desc;
-        desc.Usage = D3D11_USAGE_DEFAULT;
+        desc.Usage = D3D11_USAGE_DYNAMIC;
         desc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
         desc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
         desc.MiscFlags = 0;
@@ -47,7 +47,7 @@ public:
     bool ApplyChanges() {
         D3D11_MAPPED_SUBRESOURCE mappedResource;
         //? What should i use for the last parameter?
-        HRESULT hr = this->deviceContext->Map(buffer.Get(), 0, D3D11_MAP_WRITE_DISCARD,0,&mappedResource.pData);
+        HRESULT hr = this->deviceContext->Map(buffer.Get(), 0, D3D11_MAP_WRITE_DISCARD,0,&mappedResource);
         if (FAILED(hr)) {
             ErrorLogger::Log(hr, "Failed to map constant buffer.");
             return false;
