@@ -267,7 +267,6 @@ bool RobinsWindow::ProcessMessages()
 {
     MSG msg;
     ZeroMemory(&msg, sizeof(MSG));
-
     while (PeekMessage(&msg,
         this->handle,
         0,

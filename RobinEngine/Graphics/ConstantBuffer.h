@@ -31,6 +31,9 @@ public:
 
     HRESULT Initialize(ID3D11Device *device, ID3D11DeviceContext * deviceContext) 
     {
+        if (buffer.Get() != nullptr)
+            buffer.Reset();
+
         this->deviceContext = deviceContext;
 
         D3D11_BUFFER_DESC desc;
@@ -38,9 +41,9 @@ public:
         desc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
         desc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
         desc.MiscFlags = 0;
-        desc.ByteWidth = static_cast<UINT>(sizeof(T) + (16 - (sizeof(T)% 16)));
+        desc.ByteWidth = static_cast<UINT>(sizeof(T) + (16 - (sizeof(T) % 16)));   
         desc.StructureByteStride = 0;
-
+        
         HRESULT hr = device->CreateBuffer(&desc, 0, buffer.GetAddressOf());
         return hr;
     }

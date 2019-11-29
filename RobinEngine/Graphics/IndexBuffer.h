@@ -30,6 +30,9 @@ public:
 
     HRESULT Initialize(ID3D11Device *device, DWORD * data, UINT numIndices) 
     {
+        if (buffer.Get() != nullptr)
+            buffer.Reset();
+
         this->buffersize = numIndices;
 
         //Load Index Data
