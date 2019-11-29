@@ -2,7 +2,7 @@
 #include <DirectXMath.h>
 using namespace DirectX;
 
-class Camera 
+class Camera
 {
 public:
     Camera();
@@ -24,6 +24,7 @@ public:
     void SetRotation(float x, float y, float z);
     void AdjustRotation(const XMVECTOR & rot);
     void AdjustRotation(float x, float y, float z);
+    void SetLookAtPos(XMFLOAT3 lookAtPos);
 
 private:
     void UpdateViewMatrix();
@@ -36,5 +37,4 @@ private:
 
     const XMVECTOR DEFAULT_FORWARD_VECTOR = XMVectorSet(0.0f, 0.0f, 1.0f, 0.0f);
     const XMVECTOR DEFAULT_UP_VECTOR = XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f);
-
 };
