@@ -1,20 +1,23 @@
 #pragma once
 #include "AdapterReader.h"
 #include  "Shaders.h"
-#include "Vertex.h"
+//#include "Vertex.h"
 #include  <SpriteBatch.h>
 #include  <SpriteFont.h>
 #include <WICTextureLoader.h>
-#include "vertexbuffer.h"
-#include "IndexBuffer.h"
+//#include "vertexbuffer.h"
+//#include "IndexBuffer.h"
 #include "ConstantBuffer.h"
 #include "Camera.h"
+#include "Model.h"
 
 class Graphics
 {
 public:
     bool Init(HWND hwnd, int width, int height);
     void RenderFrame();
+    Camera camera;
+    Model model;
 
 private:
     bool InitDirectX(HWND hwnd);
@@ -30,10 +33,8 @@ private:
 
     VertexShader vertexshader;
     PixelShader pixelshader;
-    ConstantBuffer<CB_VS_vertexshader> constantBuffer;
-
-    VertexBuffer<Vertex> vertexBuffer;
-    IndexBuffer indicesBuffer;
+    ConstantBuffer<CB_VS_vertexshader> cb_vs_vertexshader;
+    ConstantBuffer<CB_PS_pixelshader> cb_ps_pixelshader;
 
 
     Microsoft::WRL::ComPtr<ID3D11DepthStencilView>depthStencilView;
@@ -41,6 +42,8 @@ private:
     Microsoft::WRL::ComPtr<ID3D11DepthStencilState>depthStencilState;
 
     Microsoft::WRL::ComPtr<ID3D11RasterizerState> rasterizerState;
+    Microsoft::WRL::ComPtr<ID3D11BlendState> blendState;
+   
 
     std::unique_ptr<DirectX::SpriteBatch> spriteBatch;
     std::unique_ptr<DirectX::SpriteFont> spriteFont;
@@ -50,6 +53,4 @@ private:
 
     int windowWidth = 0;
     int windowHeight = 0;
-
-    Camera camera;
 };

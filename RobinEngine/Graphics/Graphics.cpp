@@ -28,9 +28,11 @@ void Graphics::RenderFrame()
     this->deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY::D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
     this->deviceContext->RSSetState(this->rasterizerState.Get());
     this->deviceContext->OMSetDepthStencilState(this->depthStencilState.Get(), 0);
+    this->deviceContext->OMSetBlendState(/*this->blendState.Get()*/NULL, NULL, 0xFFFFFFFF);
     this->deviceContext->PSSetSamplers(0, 1, this->samplerState.GetAddressOf());
     this->deviceContext->VSSetShader(vertexshader.GetShader(), NULL, 0);
     this->deviceContext->PSSetShader(pixelshader.GetShader(), NULL, 0);
+    
 
     UINT offset = 0;
 
@@ -45,31 +47,10 @@ void Graphics::RenderFrame()
     */
     //DirectX::XMMatrixRotationRollPitchYaw(0.0f,0.0f, DirectX::XM_PIDIV2); -> 90도 반시계방향으로 돌리기
     //DirectX::Translation.. d이동
-    XMMATRIX world = XMMatrixIdentity();
-    
-    camera.AdjustPosition(0.0f, 0.01f, 0.0f);
-    camera.SetLookAtPos(XMFLOAT3(0.0f, 0.0f, 0.0f));
-    constantBuffer.data.mat = world * camera.GetViewMatrix() * camera.GetProjectionMatrix();
-    constantBuffer.data.mat = DirectX::XMMatrixTranspose(constantBuffer.data.mat);
-    
-    
-    if (!constantBuffer.ApplyChanges())
-        return;
-    this->deviceContext->VSSetConstantBuffers(0,1, this->constantBuffer.GetAddressOf());
-    /*D3D11_MAPPED_SUBRESOURCE mappedResource;
-    HRESULT hr = this->deviceContext->Map(constantBuffer.Get(), 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
-    CopyMemory(mappedResource.pData, &data, sizeof(CB_VS_vertexshader));
-    this->deviceContext->Unmap(constantBuffer.Get(), 0);
-    this->deviceContext->VSSetConstantBuffers(0,1, constantBuffer.GetAddressOf());
-*/
-
-    //Square
-    /*이미지 로딩하는 코드*/  this->deviceContext->PSSetShaderResources(0, 1, this->myTexture.GetAddressOf());
-    /*이미지 로딩하는 코드*/ this->deviceContext->IASetVertexBuffers(0, 1, vertexBuffer.GetAddressOf(), vertexBuffer.StridePtr(), &offset);
-    this->deviceContext->IASetIndexBuffer(indicesBuffer.Get(), DXGI_FORMAT_R32_UINT, 0);
-    //점찍어주는데서 찍어준뒤에 여기에 그점만큼 셋팅을 해줘야한다.
-
-    this->deviceContext->DrawIndexed(indicesBuffer.BufferSize(), 0, 0);
+   
+    {//Chicken
+        this->model.Draw(camera.GetViewMatrix() * camera.GetProjectionMatrix());
+    }
 
     //Draw Text
     spriteBatch->Begin();
@@ -213,7 +194,7 @@ bool Graphics::InitDirectX(HWND hwnd)
 
     //RasterizerDesc!! 
     rasterizerDesc.FillMode = D3D11_FILL_MODE::D3D11_FILL_SOLID;
-    rasterizerDesc.CullMode = D3D11_CULL_MODE::D3D11_CULL_BACK;
+    rasterizerDesc.CullMode = D3D11_CULL_MODE::D3D11_CULL_NONE;
     /* rasterizerDesc.FrontCounterClockwise = TRUE;*/
 
     hr = this->device->CreateRasterizerState(&rasterizerDesc, this->rasterizerState.GetAddressOf());
@@ -222,6 +203,32 @@ bool Graphics::InitDirectX(HWND hwnd)
         ErrorLogger::Log(hr, "Failed to create rasterizer state.");
         return false;
     }
+
+    //Create Blend State
+    D3D11_BLEND_DESC blendDesc;
+    ZeroMemory(&blendDesc, sizeof(blendDesc));
+
+    D3D11_RENDER_TARGET_BLEND_DESC rtbd;
+    ZeroMemory(&rtbd, sizeof(rtbd));
+
+    rtbd.BlendEnable = true;
+    rtbd.SrcBlend = D3D11_BLEND::D3D11_BLEND_SRC_ALPHA;
+    rtbd.DestBlend = D3D11_BLEND::D3D11_BLEND_INV_SRC_ALPHA;
+    rtbd.BlendOp = D3D11_BLEND_OP::D3D11_BLEND_OP_ADD;
+    rtbd.SrcBlendAlpha = D3D11_BLEND::D3D11_BLEND_ONE;
+    rtbd.DestBlendAlpha = D3D11_BLEND::D3D11_BLEND_ZERO;
+    rtbd.BlendOpAlpha = D3D11_BLEND_OP::D3D11_BLEND_OP_ADD;
+    rtbd.RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE::D3D11_COLOR_WRITE_ENABLE_ALL;
+
+    blendDesc.RenderTarget[0] = rtbd;
+
+    hr = this->device->CreateBlendState(&blendDesc, this->blendState.GetAddressOf());
+    if (FAILED(hr))
+    {
+        ErrorLogger::Log(hr, "Failed to create blend state.");
+        return false;
+    }
+
 
     spriteBatch = std::make_unique<DirectX::SpriteBatch>(this->deviceContext.Get());
     spriteFont = std::make_unique<DirectX::SpriteFont>(this->device.Get(), L"Data\\Fonts\\robins_sprite_ms_16.spritefont");
@@ -289,40 +296,8 @@ bool Graphics::InitShaders()
 
 bool Graphics::InitScene()
 {
-    //Triangle (Red)
-    Vertex v[] = {
-         Vertex(-0.5f, -0.5f, 0.0f, 0.0f, 1.0f),//bottom left [0]
-         Vertex(-0.5f, 0.5f,0.0f, 0.0f,0.0f), //top left [1]
-
-         Vertex(0.5f, 0.5f,0.0f, 1.0f,0.0f), //top right [2]
-         Vertex(0.5f, -0.5f, 0.0f,1.0f,1.0f), //bottom right [3]
-    };
-
-    //Load Vertex Data
-    HRESULT hr = this->vertexBuffer.Initialize(this->device.Get(), v, ARRAYSIZE(v));
-    if (FAILED(hr))
-    {
-        ErrorLogger::Log(hr, "Failed to create vertex buffer.");
-        return false;
-    }
-
-    DWORD indices[] =
-    {   
-        0,1,2,
-        0,2,3
-    };
-
-
-    //Load index data
-    hr = this->indicesBuffer.Initialize(this->device.Get(), indices, ARRAYSIZE(indices));
-     if (FAILED(hr))
-    {
-        ErrorLogger::Log(hr, "Failed to create indices buffer");
-        return hr;
-    }
-
     //이미지 입히는곳
-    hr = DirectX::CreateWICTextureFromFile(this->device.Get(), L"Data\\Textures\\chicken.png", nullptr, myTexture.GetAddressOf());
+    HRESULT hr = DirectX::CreateWICTextureFromFile(this->device.Get(), L"Data\\Textures\\chicken.png", nullptr, myTexture.GetAddressOf());
     if (FAILED(hr))
     {
         ErrorLogger::Log(hr, "Failed to create wic texture from file.");
@@ -330,14 +305,25 @@ bool Graphics::InitScene()
     }
 
     //Initialize Constant Buffer(s)
-    
-    hr = this->constantBuffer.Initialize(this->device.Get(),this->deviceContext.Get());
+   hr = this->cb_vs_vertexshader.Initialize(this->device.Get(), this->deviceContext.Get());
     if (FAILED(hr)) {
         ErrorLogger::Log(hr, "Failed to initialize constant buffer.");
         return false;
     }
+    hr = this->cb_ps_pixelshader.Initialize(this->device.Get(), this->deviceContext.Get());
+    if (FAILED(hr))
+    {
+        ErrorLogger::Log(hr, "Failed to initialize constant buffer.");
+        return false;
+    }
 
-    camera.SetPosition(0.0f, 0.0f, -2.0f);
+    //Initialize Model
+    if (!model.Initialize(this->device.Get(), this->deviceContext.Get(), this->myTexture.Get(), cb_vs_vertexshader)) {
+        return false;
+    }
+    //model.SetPosition(2.0f,0.0f,0.0f);
+
+    camera.SetPosition(0.0f, 0.0f, -3.0f);
     camera.SetProjectionValues(90.0f, static_cast<float>(windowWidth)/static_cast<float>(windowHeight),0.1f, 1000.0f);
     return true;
 }
