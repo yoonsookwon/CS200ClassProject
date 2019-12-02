@@ -5,6 +5,8 @@
  *TERM              : Spring 2019
  ************************************************/
 
+#define MATHLIB_PI 3.141592
+
 template <typename T>
 vector2<T>::vector2() noexcept
 {
