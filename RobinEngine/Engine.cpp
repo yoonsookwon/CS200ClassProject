@@ -2,6 +2,7 @@
 
 bool Engine::Init(HINSTANCE hInstance, std::string window_title, std::string window_class, int width, int height)
 {
+    timer.Start();
     if(!this->robins_windows.Init(this,hInstance,window_title,window_class,width,height))
         return false;
 
@@ -105,24 +106,41 @@ void Engine::Update()
          float a = XMVectorGetX(tmp);
          float b = XMVectorGetY(tmp);
         //tmp.x * cameraspeed, tmp.y * cameraspeed
-         this->gfx.camera.AdjustPosition( b*cameraSpeed,
-              
-             (-a)*cameraSpeed, 0.f);
+         this->gfx.camera.AdjustPosition( this->gfx.camera.GetForwardVector() * cameraSpeed * dt);
         //this->gfx.camera.AdjustPosition(this->gfx.camera.GetForwardVector() * cameraSpeed);
     }
     if (keyboard.KeyIsPressed('S'))
     {
-        this->gfx.camera.AdjustPosition(0.0f, cameraSpeed, 0.0f);
+        this->gfx.camera.AdjustPosition(this->gfx.camera.GetBackwardVector() * cameraSpeed * dt);
         //this->gfx.camera.AdjustPosition(this->gfx.camera.GetBackwardVector() * cameraSpeed);
     }
     if (keyboard.KeyIsPressed('A'))
     {
-        this->gfx.camera.AdjustPosition(cameraSpeed, 0.0f, 0.0f);
+        this->gfx.camera.AdjustPosition(this->gfx.camera.GetLeftVector() * cameraSpeed * dt);
+
         //this->gfx.camera.AdjustPosition(this->gfx.camera.GetLeftVector() * cameraSpeed);
     }
+
     if (keyboard.KeyIsPressed('D'))
     {
-        this->gfx.camera.AdjustPosition(-cameraSpeed, 0.0f, 0.0f);
+        this->gfx.camera.AdjustPosition(this->gfx.camera.GetRightVector() * cameraSpeed * dt);
+
+    }
+   // if(keyboard.KeyIsPressed('Q'))//LEFT
+   // {
+   ///*     this->gfx.model.rectPos1.x -= 0.01;
+   //     this->gfx.model.rectPos2.x -= 0.01;
+   //*/
+   //     this->gfx.model.AdjustRectangleTranslation(-cameraSpeed,0.0f, -cameraSpeed,0.0f);
+   // }
+    if (keyboard.KeyIsPressed('77'))//RIGHT
+    {
+    }
+    if (keyboard.KeyIsPressed('72'))//UP
+    {
+    }
+    if (keyboard.KeyIsPressed('80'))//DOWN
+    {
     }
 
     if (keyboard.KeyIsPressed('Z'))

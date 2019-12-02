@@ -25,7 +25,7 @@ void Graphics::RenderFrame()
 
 
     this->deviceContext->IASetInputLayout(this->vertexshader.GetInputLayout());
-    this->deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY::D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+    this->deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY::D3D10_PRIMITIVE_TOPOLOGY_LINESTRIP);
     this->deviceContext->RSSetState(this->rasterizerState.Get());
     this->deviceContext->OMSetDepthStencilState(this->depthStencilState.Get(), 0);
     this->deviceContext->OMSetBlendState(/*this->blendState.Get()*/NULL, NULL, 0xFFFFFFFF);
@@ -48,17 +48,34 @@ void Graphics::RenderFrame()
     //DirectX::XMMatrixRotationRollPitchYaw(0.0f,0.0f, DirectX::XM_PIDIV2); -> 90도 반시계방향으로 돌리기
     //DirectX::Translation.. d이동
    
-    {//Chicken
-        this->model.Draw(camera.GetViewMatrix() * camera.GetProjectionMatrix());
+    {//Chicken 
+        
+        this->Line.Draw(camera.GetViewMatrix() * camera.GetProjectionMatrix());
+        this->deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY::D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+        this->Elipse.Draw(camera.GetViewMatrix() * camera.GetProjectionMatrix());
+        this->Rectangle.Draw(camera.GetViewMatrix() * camera.GetProjectionMatrix());
+        this->Triangle.Draw(camera.GetViewMatrix() * camera.GetProjectionMatrix());
+        this->Quad.Draw(camera.GetViewMatrix() * camera.GetProjectionMatrix());
     }
 
     //Draw Text
+    static int fpsCounter = 0;
+    static std::string fpsString = "FPS: 0";
+    fpsCounter += 1;
+    if (fpsTimer.GetMilisecondsElapsed() > 1000.0)
+    {
+        fpsString = "FPS: " + std::to_string(fpsCounter);
+        fpsCounter = 0;
+        fpsTimer.Restart();
+    }
     spriteBatch->Begin();
-    spriteFont->DrawString(spriteBatch.get(), L"HELLO I'M ROBIN!!", DirectX::XMFLOAT2(0, 0), DirectX::Colors::White, 0.0f, DirectX::XMFLOAT2(0.0f, 0.0f), DirectX::XMFLOAT2(1.0f, 1.0f));
+    //spriteFont->DrawString(spriteBatch.get(), L"HELLO I'M ROBIN!!", DirectX::XMFLOAT2(0, 0), DirectX::Colors::White, 0.0f, DirectX::XMFLOAT2(0.0f, 0.0f), DirectX::XMFLOAT2(1.0f, 1.0f));
+    spriteFont->DrawString(spriteBatch.get(), StringConverter::StringToWide(fpsString).c_str(), DirectX::XMFLOAT2(0, 0), DirectX::Colors::White, 0.0f, DirectX::XMFLOAT2(0.0f, 0.0f), DirectX::XMFLOAT2(1.0f, 1.0f));
+
     spriteBatch->End();
 
     //If want to turn on the vSync put the value 1, otherwise put 0 
-    this->swapChain->Present(1, NULL);
+    this->swapChain->Present(0, NULL);
 }
 
 bool Graphics::InitDirectX(HWND hwnd)
@@ -318,7 +335,19 @@ bool Graphics::InitScene()
     }
 
     //Initialize Model
-    if (!model.Initialize(this->device.Get(), this->deviceContext.Get(), this->myTexture.Get(), cb_vs_vertexshader)) {
+    if (!Line.Initialize(this->device.Get(), this->deviceContext.Get(), this->myTexture.Get(), cb_vs_vertexshader, Line.Line)) {
+        return false;
+    }
+    if (!Triangle.Initialize(this->device.Get(), this->deviceContext.Get(), this->myTexture.Get(), cb_vs_vertexshader, Triangle.Triangle)) {
+        return false;
+    }  
+    if (!Quad.Initialize(this->device.Get(), this->deviceContext.Get(), this->myTexture.Get(), cb_vs_vertexshader, Quad.Quad)) {
+        return false;
+    }  
+    if (!Rectangle.Initialize(this->device.Get(), this->deviceContext.Get(), this->myTexture.Get(), cb_vs_vertexshader, Rectangle.Rectangle)) {
+        return false;
+    } 
+    if (!Elipse.Initialize(this->device.Get(), this->deviceContext.Get(), this->myTexture.Get(), cb_vs_vertexshader, Elipse.Elipse)) {
         return false;
     }
     //model.SetPosition(2.0f,0.0f,0.0f);

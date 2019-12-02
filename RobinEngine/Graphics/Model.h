@@ -9,7 +9,14 @@ using namespace DirectX;
 class Model
 {
 public:
-    bool Initialize(ID3D11Device * device, ID3D11DeviceContext * deviceContext, ID3D11ShaderResourceView * texture, ConstantBuffer<CB_VS_vertexshader> & cb_vs_vertexshader);
+    enum MeshType{
+        Elipse,
+        Line,
+        Rectangle, 
+        Triangle,
+        Quad
+    };
+    bool Initialize(ID3D11Device * device, ID3D11DeviceContext * deviceContext, ID3D11ShaderResourceView * texture, ConstantBuffer<CB_VS_vertexshader> & cb_vs_vertexshader, Model::MeshType MeshType);
     void SetTexture(ID3D11ShaderResourceView * texture);
     void Draw(const XMMATRIX & viewProjectionMatrix);
    

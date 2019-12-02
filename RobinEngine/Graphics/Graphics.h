@@ -10,14 +10,20 @@
 #include "ConstantBuffer.h"
 #include "Camera.h"
 #include "Model.h"
-
+#include "vector2.hpp"
+#include "..\\Timer.h"
 class Graphics
 {
 public:
     bool Init(HWND hwnd, int width, int height);
     void RenderFrame();
     Camera camera;
-    Model model;
+
+    Model Triangle;
+    Model Quad;
+    Model Line;
+    Model Rectangle;
+    Model Elipse;
 
 private:
     bool InitDirectX(HWND hwnd);
@@ -53,4 +59,5 @@ private:
 
     int windowWidth = 0;
     int windowHeight = 0;
+    Timer fpsTimer;
 };
