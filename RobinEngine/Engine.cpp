@@ -57,16 +57,17 @@ void Engine::Update()
 
     //this->gfx.model.AdjustRotation(0.0f, 0.0f, 0.001f);
     const float cameraSpeed = 0.04f;
+    const float objectSpeed = 0.05f;
     while (!mouse.EventBufferisEmpty())
     {
         MouseEvent mouse_event = mouse.ReadEvent();
 
         if (mouse_event.GetType() == MouseEvent::EventType::RAW_MOVE) {
-            this->gfx.camera.AdjustRotation((float)mouse_event.GetPosY() * 0.01f, (float)mouse_event.GetPosX() * 0.01f, 0);
+           // this->gfx.camera.AdjustRotation((float)mouse_event.GetPosY() * 0.01f, (float)mouse_event.GetPosX() * 0.01f, 0);
         }
         if (mouse_event.GetType() == MouseEvent::EventType::WheelUp)
         {
-            this->gfx.camera.AdjustPosition(this->gfx.camera.GetForwardVector() * cameraSpeed);
+            this->gfx.camera.AdjustPosition(0.0f,0.0f,-cameraSpeed);
             OutputDebugStringA("MouseWheelUp!\n");
         }
         if (mouse_event.GetType() == MouseEvent::EventType::WheelDown)
@@ -87,69 +88,68 @@ void Engine::Update()
         {
             OutputDebugStringA("MouseRightPressed!\n");
         }
-        /*   if (mouse_event.GetType() == MouseEvent::EventType::RAW_MOVE)
-           {
-           std::string outmsg = "X:  ";
-           outmsg += std::to_string(mouse_event.GetPosX());
-           outmsg += ", ";
-           outmsg += "Y: ";
-           outmsg += std::to_string(mouse_event.GetPosY());
-           outmsg += "\n";
-           OutputDebugStringA(outmsg.c_str());
-           }*/
     }
 
     if (keyboard.KeyIsPressed('W'))
     {
-        XMVECTOR tmp = gfx.camera.GetRightVector();
-      //  XMVectorGetX(tmp);
-         float a = XMVectorGetX(tmp);
-         float b = XMVectorGetY(tmp);
-        //tmp.x * cameraspeed, tmp.y * cameraspeed
-         this->gfx.camera.AdjustPosition( this->gfx.camera.GetForwardVector() * cameraSpeed * dt);
+        this->gfx.camera.AdjustPosition(0.0f, -cameraSpeed, 0.0f);
         //this->gfx.camera.AdjustPosition(this->gfx.camera.GetForwardVector() * cameraSpeed);
     }
     if (keyboard.KeyIsPressed('S'))
     {
-        this->gfx.camera.AdjustPosition(this->gfx.camera.GetBackwardVector() * cameraSpeed * dt);
+        this->gfx.camera.AdjustPosition(0.0f, cameraSpeed , 0.0f);
         //this->gfx.camera.AdjustPosition(this->gfx.camera.GetBackwardVector() * cameraSpeed);
     }
     if (keyboard.KeyIsPressed('A'))
     {
-        this->gfx.camera.AdjustPosition(this->gfx.camera.GetLeftVector() * cameraSpeed * dt);
+        this->gfx.camera.AdjustPosition(cameraSpeed, 0.0f,0.0f);
 
         //this->gfx.camera.AdjustPosition(this->gfx.camera.GetLeftVector() * cameraSpeed);
     }
 
     if (keyboard.KeyIsPressed('D'))
     {
-        this->gfx.camera.AdjustPosition(this->gfx.camera.GetRightVector() * cameraSpeed * dt);
+        this->gfx.camera.AdjustPosition(-cameraSpeed, 0.0f, 0.0f);
+        //this->gfx.camera.AdjustPosition(this->gfx.camera.GetRightVector() * cameraSpeed );
 
     }
-   // if(keyboard.KeyIsPressed('Q'))//LEFT
-   // {
-   ///*     this->gfx.model.rectPos1.x -= 0.01;
-   //     this->gfx.model.rectPos2.x -= 0.01;
-   //*/
-   //     this->gfx.model.AdjustRectangleTranslation(-cameraSpeed,0.0f, -cameraSpeed,0.0f);
-   // }
-    if (keyboard.KeyIsPressed('77'))//RIGHT
+    if (keyboard.KeyIsPressed('V'))
     {
+        if (this->gfx.is_vSyncOn == false)
+        {
+            this->gfx.is_vSyncOn = true;
+        }
+        else
+        {
+            this->gfx.is_vSyncOn = false;
+        }
     }
-    if (keyboard.KeyIsPressed('72'))//UP
+    if (keyboard.KeyIsPressed(VK_LEFT))
     {
+        this->gfx.Rectangle.AdjustPosition(-objectSpeed, 0.0f, 0.0f);
     }
-    if (keyboard.KeyIsPressed('80'))//DOWN
+    if (keyboard.KeyIsPressed(VK_RIGHT))
     {
+        this->gfx.Rectangle.AdjustPosition(objectSpeed, 0.0f, 0.0f);
+    }
+    if (keyboard.KeyIsPressed(VK_UP))
+    {
+        this->gfx.Rectangle.AdjustPosition(0.0f, objectSpeed, 0.0f);
+    }
+    if (keyboard.KeyIsPressed(VK_DOWN))
+    {
+        this->gfx.Rectangle.AdjustPosition(0.0f, -objectSpeed, 0.0f);
     }
 
     if (keyboard.KeyIsPressed('Z'))
     {
-        this->gfx.camera.AdjustRotation(0.0f, 0.0f, -cameraSpeed);
+        this->gfx.camera.AdjustRotation(-cameraSpeed);
+       // this->gfx.camera.AdjustRotation(0.0f, 0.0f, -cameraSpeed);
     }
     if (keyboard.KeyIsPressed('X'))
     {
-        this->gfx.camera.AdjustRotation(0.0f, 0.0f, cameraSpeed);
+        this->gfx.camera.AdjustRotation(cameraSpeed);
+      //  this->gfx.camera.AdjustRotation(0.0f, 0.0f, cameraSpeed);
     }
 }
 

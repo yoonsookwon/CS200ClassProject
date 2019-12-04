@@ -12,11 +12,13 @@
 #include "Model.h"
 #include "vector2.hpp"
 #include "..\\Timer.h"
+
 class Graphics
 {
 public:
     bool Init(HWND hwnd, int width, int height);
     void RenderFrame();
+    //void Set_vsync();
     Camera camera;
 
     Model Triangle;
@@ -24,6 +26,7 @@ public:
     Model Line;
     Model Rectangle;
     Model Elipse;
+    bool is_vSyncOn = true;
 
 private:
     bool InitDirectX(HWND hwnd);
@@ -56,6 +59,8 @@ private:
 
     Microsoft::WRL::ComPtr<ID3D11SamplerState> samplerState;
     Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> myTexture;
+    Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> ttuckBokki_Texture;
+    Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> ramen_Texture;
 
     int windowWidth = 0;
     int windowHeight = 0;

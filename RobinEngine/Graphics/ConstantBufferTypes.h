@@ -1,9 +1,10 @@
 #pragma once
 #include <DirectXMath.h>
+#include "matrix4.hpp"
 
 struct CB_VS_vertexshader
 {
-    DirectX::XMMATRIX mat;
+    matrix4<float> mat;
 };
 
 struct CB_PS_pixelshader

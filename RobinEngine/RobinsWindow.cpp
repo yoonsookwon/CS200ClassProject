@@ -241,7 +241,7 @@ bool RobinsWindow::Init(WindowContainer * pWindowContainer,HINSTANCE hInstance, 
     this->handle = CreateWindowEx(0,
         this->window_class_wide.c_str(),
         this->window_title_wide.c_str(),
-        WS_CAPTION| WS_MINIMIZEBOX|WS_SYSMENU,
+        WS_OVERLAPPEDWINDOW | WS_MINIMIZEBOX|WS_SYSMENU,
         wr.left, // Window X Position
         wr.top,  // Window Y Position
     wr.right - wr.left,
@@ -249,7 +249,8 @@ bool RobinsWindow::Init(WindowContainer * pWindowContainer,HINSTANCE hInstance, 
         NULL,
         NULL,
         this->hInstance,
-        pWindowContainer);    
+        pWindowContainer);
+
 
     if (this->handle == NULL) {
         ErrorLogger::Log(GetLastError(), "CreateWindow Failed for" + this->window_title);

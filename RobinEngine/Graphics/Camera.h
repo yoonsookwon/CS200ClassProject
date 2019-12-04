@@ -1,4 +1,7 @@
 #pragma once
+#include "matrix4.hpp"
+#include "vector4.hpp"
+
 #include <DirectXMath.h>
 using namespace DirectX;
 
@@ -8,52 +11,56 @@ public:
     Camera();
     void SetProjectionValues(float fovDegrees, float aspectRatio, float nearZ, float farZ);
 
-    const XMMATRIX & GetViewMatrix() const;
-    const XMMATRIX & GetProjectionMatrix() const;
+    const  matrix4<float>& GetViewMatrix() const;
+    const matrix4<float> & GetProjectionMatrix() const;
 
-    const XMVECTOR & GetPositionVector() const;
-    const XMFLOAT3 & GetPositionFloat3() const;
-    const XMVECTOR & GetRotationVector() const;
-    const XMFLOAT3 & GetRotationFloat3() const;
+    const vector4<float> & GetPositionVector() const;
+    const vector3<float> & GetPositionFloat3() const;
+    const vector4<float> & GetRotationVector() const;
+    const vector3<float>& GetRotationFloat3() const;
 
-    void SetPosition(const XMVECTOR & pos);
-    void SetPosition(const XMFLOAT3 & pos);
+    void SetPosition(const vector4<float> & pos);
+    void SetPosition(const vector3<float> & pos);
     void SetPosition(float x, float y, float z);
 
-    void AdjustPosition(const XMVECTOR & pos);
-    void AdjustPosition(const XMFLOAT3 & pos);
+    void AdjustPosition(const vector4<float> & pos);
+    void AdjustPosition(const vector3<float> & pos);
     void AdjustPosition(float x, float y, float z);
 
-    void SetRotation(const XMVECTOR & rot);
-    void SetRotation(const XMFLOAT3 & pos);
-    void SetRotation(float x, float y, float z);
+  //  void SetRotation(const vector4<float> & rot);
+   // void SetRotation(const vector3<float> & pos);
+  //  void SetRotation(float x, float y, float z);
 
-    void AdjustRotation(const XMVECTOR & rot); 
-    void AdjustRotation(const XMFLOAT3 & pos);
-    void AdjustRotation(float x, float y, float z);
+   // void AdjustRotation(const vector4<float> & rot); 
+  //  void AdjustRotation(const vector3<float> & pos);
+    void AdjustRotation(float angle);
 
-    void SetLookAtPos(XMFLOAT3 lookAtPos);
-    const XMVECTOR & GetForwardVector();
-    const XMVECTOR & GetRightVector();
-    const XMVECTOR & GetBackwardVector();
-    const XMVECTOR & GetLeftVector();
-private:
+    void SetLookAtPos(vector3<float> lookAtPos);
+    const vector4<float> & GetForwardVector();
+    const vector4<float> & GetRightVector();
+    const vector4<float> & GetBackwardVector();
+    const vector4<float> & GetLeftVector();
     void UpdateViewMatrix();
-    XMVECTOR posVector;
-    XMVECTOR rotVector;
-    XMFLOAT3 pos;
-    XMFLOAT3 rot;
-    XMMATRIX viewMatrix;
-    XMMATRIX projectionMatrix;
+private:
+    vector4<float> posVector;
+    vector4<float> rotVector;
+    vector3<float> pos;
+    float angle=0;
+    float zoom = 0.3f;
+    float translation_x=0;
+    float translation_y=0;
+    float translation_z=0;
+    matrix4<float> viewMatrix;
+    matrix4<float> projectionMatrix = MATRIX4::build_identity<float>();
 
-    const XMVECTOR DEFAULT_FORWARD_VECTOR = XMVectorSet(0.0f, 0.0f, 1.0f, 0.0f);
-    const XMVECTOR DEFAULT_UP_VECTOR = XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f);
-    const XMVECTOR DEFAULT_BACKWARD_VECTOR = XMVectorSet(0.0f, 0.0f, -1.0f, 0.0f);
-    const XMVECTOR DEFAULT_LEFT_VECTOR = XMVectorSet(-1.0f, 0.0f, 0.0f, 0.0f);
-    const XMVECTOR DEFAULT_RIGHT_VECTOR = XMVectorSet(1.0f, 0.0f, 0.0f, 0.0f);
+    const vector4<float> DEFAULT_FORWARD_VECTOR = vector4<float>(0.0f, 0.0f, 1.0f, 0.0f);
+    const vector4<float> DEFAULT_UP_VECTOR = vector4<float>(0.0f, 1.0f, 0.0f, 0.0f);
+    const vector4<float> DEFAULT_BACKWARD_VECTOR = vector4<float>(0.0f, 0.0f, -1.0f, 0.0f);
+    const vector4<float> DEFAULT_LEFT_VECTOR = vector4<float>(-1.0f, 0.0f, 0.0f, 0.0f);
+    const vector4<float> DEFAULT_RIGHT_VECTOR = vector4<float>(1.0f, 0.0f, 0.0f, 0.0f);
 
-    XMVECTOR vec_forward;
-    XMVECTOR vec_left;
-    XMVECTOR vec_right;
-    XMVECTOR vec_backward;
+    vector4<float> vec_forward;
+    vector4<float> vec_left;
+    vector4<float> vec_right;
+    vector4<float> vec_backward;
 };

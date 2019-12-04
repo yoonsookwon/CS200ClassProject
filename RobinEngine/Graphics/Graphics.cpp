@@ -4,6 +4,7 @@ bool Graphics::Init(HWND hwnd, int width, int height)
 {
     this->windowWidth = width;
     this->windowHeight = height;
+    this->fpsTimer.Start();
     if (!InitDirectX(hwnd))
         return  false;
 
@@ -48,14 +49,14 @@ void Graphics::RenderFrame()
     //DirectX::XMMatrixRotationRollPitchYaw(0.0f,0.0f, DirectX::XM_PIDIV2); -> 90도 반시계방향으로 돌리기
     //DirectX::Translation.. d이동
    
-    {//Chicken 
-        
-        this->Line.Draw(camera.GetViewMatrix() * camera.GetProjectionMatrix());
+    {//Chicken
+       // camera.UpdateViewMatrix();
+        this->Line.Draw(camera.GetViewMatrix() /** camera.GetProjectionMatrix()*/);
         this->deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY::D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-        this->Elipse.Draw(camera.GetViewMatrix() * camera.GetProjectionMatrix());
-        this->Rectangle.Draw(camera.GetViewMatrix() * camera.GetProjectionMatrix());
-        this->Triangle.Draw(camera.GetViewMatrix() * camera.GetProjectionMatrix());
-        this->Quad.Draw(camera.GetViewMatrix() * camera.GetProjectionMatrix());
+        this->Elipse.Draw(camera.GetViewMatrix() );
+        this->Rectangle.Draw(camera.GetViewMatrix() );
+        this->Triangle.Draw(camera.GetViewMatrix() );
+        this->Quad.Draw(camera.GetViewMatrix() );
     }
 
     //Draw Text
@@ -74,8 +75,10 @@ void Graphics::RenderFrame()
 
     spriteBatch->End();
 
-    //If want to turn on the vSync put the value 1, otherwise put 0 
-    this->swapChain->Present(0, NULL);
+    //If want to turn on the vSync put the value 1, otherwise put 0
+    //if (vSync) {
+    //}
+    this->swapChain->Present(is_vSyncOn, NULL);
 }
 
 bool Graphics::InitDirectX(HWND hwnd)
@@ -320,6 +323,18 @@ bool Graphics::InitScene()
         ErrorLogger::Log(hr, "Failed to create wic texture from file.");
         return false;
     }
+   hr = DirectX::CreateWICTextureFromFile(this->device.Get(), L"Data\\Textures\\ttuck.png", nullptr, ttuckBokki_Texture.GetAddressOf());
+    if (FAILED(hr))
+    {
+        ErrorLogger::Log(hr, "Failed to create wic texture from file.");
+        return false;
+    }
+    hr = DirectX::CreateWICTextureFromFile(this->device.Get(), L"Data\\Textures\\ramen.png", nullptr, ramen_Texture.GetAddressOf());
+    if (FAILED(hr))
+    {
+        ErrorLogger::Log(hr, "Failed to create wic texture from file.");
+        return false;
+    }
 
     //Initialize Constant Buffer(s)
    hr = this->cb_vs_vertexshader.Initialize(this->device.Get(), this->deviceContext.Get());
@@ -341,10 +356,10 @@ bool Graphics::InitScene()
     if (!Triangle.Initialize(this->device.Get(), this->deviceContext.Get(), this->myTexture.Get(), cb_vs_vertexshader, Triangle.Triangle)) {
         return false;
     }  
-    if (!Quad.Initialize(this->device.Get(), this->deviceContext.Get(), this->myTexture.Get(), cb_vs_vertexshader, Quad.Quad)) {
+    if (!Quad.Initialize(this->device.Get(), this->deviceContext.Get(), this->ttuckBokki_Texture.Get(), cb_vs_vertexshader, Quad.Quad)) {
         return false;
     }  
-    if (!Rectangle.Initialize(this->device.Get(), this->deviceContext.Get(), this->myTexture.Get(), cb_vs_vertexshader, Rectangle.Rectangle)) {
+    if (!Rectangle.Initialize(this->device.Get(), this->deviceContext.Get(), this->ramen_Texture.Get(), cb_vs_vertexshader, Rectangle.Rectangle)) {
         return false;
     } 
     if (!Elipse.Initialize(this->device.Get(), this->deviceContext.Get(), this->myTexture.Get(), cb_vs_vertexshader, Elipse.Elipse)) {
