@@ -54,7 +54,7 @@ void keyboardClass::OnKeyPressed(const unsigned char key)
     this->keyBuffer.push(KeyboardEvent(KeyboardEvent::EventType::Press,key));
 }
 
-void keyboardClass::OnKeyReleased(const unsigned char key)
+void keyboardClass::OnKeyReleased( unsigned char key)
 {
     this->keyStates[key] = false;
     this->keyBuffer.push(KeyboardEvent(KeyboardEvent::EventType::Release, key));

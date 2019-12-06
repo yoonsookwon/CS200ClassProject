@@ -26,7 +26,10 @@ public:
     bool Init(HWND hwnd, int width, int height);
     void RenderFrame();
     void FULLSCREEN(bool toggle);
-    //void Set_vsync();
+    void vSync(bool toggle);
+
+    Microsoft::WRL::ComPtr<IDXGISwapChain> swapChain;
+
     Camera camera;
 
     Model Triangle;
@@ -34,7 +37,11 @@ public:
     Model Line;
     Model Rectangle;
     Model Elipse;
-    bool is_vSyncOn = true;
+
+    Model ChulHead;
+    Model ChulBody;
+
+    bool is_vSyncOn = false;
 
     STATE _state = LEVEL1;
 private:
@@ -45,7 +52,6 @@ private:
     //Work like smart pointer
     Microsoft::WRL::ComPtr<  ID3D11Device> device;
     Microsoft::WRL::ComPtr<ID3D11DeviceContext> deviceContext;
-    Microsoft::WRL::ComPtr<IDXGISwapChain> swapChain;
     Microsoft::WRL::ComPtr<ID3D11RenderTargetView>renderTargetView;
 
 
@@ -70,6 +76,11 @@ private:
     Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> myTexture;
     Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> ttuckBokki_Texture;
     Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> ramen_Texture;
+
+
+    Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> ChulHead_Texture;
+    Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> ChulBody_Texture;
+   // Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> ramen_Texture;
 
     int windowWidth = 0;
     int windowHeight = 0;

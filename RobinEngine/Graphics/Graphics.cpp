@@ -58,12 +58,16 @@ void Graphics::RenderFrame()
             this->Rectangle.Draw(camera.GetViewMatrix() * camera.GetProjectionMatrix());
             this->Triangle.Draw(camera.GetViewMatrix() * camera.GetProjectionMatrix());
             this->Quad.Draw(camera.GetViewMatrix() * camera.GetProjectionMatrix());
+
         }
         else if(_state == LEVEL2)
         {
-            InitScene();
+            //InitScene();
             this->deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY::D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-            this->Triangle.Draw(camera.GetViewMatrix() * camera.GetProjectionMatrix());
+            //this->Triangle.Draw(camera.GetViewMatrix() * camera.GetProjectionMatrix());
+          //  this->deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY::D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+            this->ChulBody.Draw(camera.GetViewMatrix() * camera.GetProjectionMatrix());
+            this->ChulHead.Draw(camera.GetViewMatrix() * camera.GetProjectionMatrix());
         }
     }
 
@@ -94,6 +98,14 @@ void Graphics::FULLSCREEN(bool toggle)
 {
     swapChain->SetFullscreenState(toggle, nullptr);
 }
+void Graphics::vSync(bool toggle)
+{
+    is_vSyncOn = toggle;
+
+    toggle = !toggle;
+   // swapChain->Present(toggle ,NULL);
+}
+
 
 bool Graphics::InitDirectX(HWND hwnd)
 {
@@ -349,7 +361,12 @@ bool Graphics::InitScene()
         ErrorLogger::Log(hr, "Failed to create wic texture from file.");
         return false;
     }
-
+    hr = DirectX::CreateWICTextureFromFile(this->device.Get(), L"Data\\Textures\\CHULJJA.png", nullptr, ChulHead_Texture.GetAddressOf());
+    if (FAILED(hr))
+    {
+        ErrorLogger::Log(hr, "Failed to create wic texture from file.");
+        return false;
+    }
     //Initialize Constant Buffer(s)
    hr = this->cb_vs_vertexshader.Initialize(this->device.Get(), this->deviceContext.Get());
     if (FAILED(hr)) {
@@ -379,7 +396,27 @@ bool Graphics::InitScene()
     if (!Elipse.Initialize(this->device.Get(), this->deviceContext.Get(), this->myTexture.Get(), cb_vs_vertexshader, Elipse.Elipse)) {
         return false;
     }
-    //model.SetPosition(2.0f,0.0f,0.0f);
+    if (!ChulHead.Initialize(this->device.Get(), this->deviceContext.Get(), this->ChulHead_Texture.Get(), cb_vs_vertexshader, Elipse.Rectangle)) {
+        return false;
+    }
+    ChulHead.translation.x += 2.f;
+    ChulHead.scale.x += 0.2f;
+    ChulHead.scale.y += 0.2f;
+
+
+    hr = DirectX::CreateWICTextureFromFile(this->device.Get(), L"Data\\Textures\\Chulbody.png", nullptr, ChulBody_Texture.GetAddressOf());
+    if (FAILED(hr))
+    {
+        ErrorLogger::Log(hr, "Failed to create wic texture from file.");
+        return false;
+    }
+    if (!ChulBody.Initialize(this->device.Get(), this->deviceContext.Get(), this->ChulBody_Texture.Get(), cb_vs_vertexshader, ChulBody.Rectangle)) {
+        return false;
+    }
+    ChulBody.translation.x += 2.0f;
+    ChulBody.translation.y -= 1.3f;
+    ChulBody.scale.x += 1.5;
+    ChulBody.scale.y += 1.4;
 
     camera.SetPosition(0.0f, 0.0f, -3.0f);
     camera.SetProjectionValues(90.0f, static_cast<float>(windowWidth)/static_cast<float>(windowHeight),0.1f, 1000.0f);

@@ -269,13 +269,7 @@ bool Model::Initialize(ID3D11Device * device, ID3D11DeviceContext * deviceContex
        // this->SetRotation(0.0f, 0.0f, 0.0f);
     }
     else if (MeshType == Rectangle) {
-        //Vertex v[] = {
-        //    // Rectangle & texturing
-        //     Vertex(-2.9f, 0.5f, 0.0f, 0.0f, 1.0f), //FRONT Bottom Left
-        //    Vertex(-2.9f, 1.2f, 0.0f, 0.0f, 0.0f), //FRONT Top Left    
-        //    Vertex(-1.5f, 1.2f, 0.0f, 1.0f, 0.0f), //FRONT Top Right   
-        //    Vertex(-1.5f, 0.5f, 0.0f, 1.0f, 1.0f), //FRONT Bottom Right
-        //};
+      
         Vertex v[] = {
                 // Rectangle & texturing
                 Vertex(-0.7f, -0.5f, 0.0f, 1.0f, 1.0f), //FRONT Bottom Left
