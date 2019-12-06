@@ -51,12 +51,20 @@ void Graphics::RenderFrame()
    
     {//Chicken
        // camera.UpdateViewMatrix();
-        this->Line.Draw(camera.GetViewMatrix() /** camera.GetProjectionMatrix()*/);
-        this->deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY::D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-        this->Elipse.Draw(camera.GetViewMatrix() );
-        this->Rectangle.Draw(camera.GetViewMatrix() );
-        this->Triangle.Draw(camera.GetViewMatrix() );
-        this->Quad.Draw(camera.GetViewMatrix() );
+        if (_state == LEVEL1) {
+            this->Line.Draw(camera.GetViewMatrix() * camera.GetProjectionMatrix());
+            this->deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY::D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+            this->Elipse.Draw(camera.GetViewMatrix() * camera.GetProjectionMatrix());
+            this->Rectangle.Draw(camera.GetViewMatrix() * camera.GetProjectionMatrix());
+            this->Triangle.Draw(camera.GetViewMatrix() * camera.GetProjectionMatrix());
+            this->Quad.Draw(camera.GetViewMatrix() * camera.GetProjectionMatrix());
+        }
+        else if(_state == LEVEL2)
+        {
+            InitScene();
+            this->deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY::D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+            this->Triangle.Draw(camera.GetViewMatrix() * camera.GetProjectionMatrix());
+        }
     }
 
     //Draw Text
@@ -79,6 +87,12 @@ void Graphics::RenderFrame()
     //if (vSync) {
     //}
     this->swapChain->Present(is_vSyncOn, NULL);
+  
+}
+
+void Graphics::FULLSCREEN(bool toggle)
+{
+    swapChain->SetFullscreenState(toggle, nullptr);
 }
 
 bool Graphics::InitDirectX(HWND hwnd)

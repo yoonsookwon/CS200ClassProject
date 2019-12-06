@@ -164,7 +164,13 @@ constexpr void operator*=(matrix4<T>& m1, const matrix4<T>& m2) noexcept
 {
     m1 = m1 * m2;
 }
-
+//template <typename T>
+//constexpr void operator=(const matrix4<T>& m1) noexcept
+//{
+//    MATRIX4<flaot> result;
+//
+//    
+//}
 
 template <typename T>
 constexpr vector4<T> operator*(const matrix4<T>& m, vector4<T> v) noexcept
@@ -232,30 +238,52 @@ constexpr matrix4<T> MATRIX4::build_rotation(float angle_in_radians) noexcept
 {
     matrix4<T> matrix;
     matrix.column0.x = cos(angle_in_radians);
+    matrix.column0.y = sin(angle_in_radians);
     matrix.column0.z = 0.0f;
     matrix.column0.w = 0.0f;
 
-    if (std::abs(sin(angle_in_radians)) < std::numeric_limits<float>::epsilon())
-    {
-        matrix.column0.y = 0.0f;
-        matrix.column1.x = 0.0f;
-    }
-    else
-    {
-        matrix.column0.y = sin(angle_in_radians);
-        matrix.column1.x = -sin(angle_in_radians);
-    }
+
+    matrix.column1.x = -sin(angle_in_radians);
     matrix.column1.y = cos(angle_in_radians);
     matrix.column1.z = 0.0f;
     matrix.column1.w = 0.0f;
+
+
+
     matrix.column2.x = 0.0f;
     matrix.column2.y = 0.0f;
-    matrix.column2.z = 1.0f;
+    matrix.column2.z = 0.0f;
     matrix.column2.w = 0.0f;
+
     matrix.column3.x = 0.0f;
     matrix.column3.y = 0.0f;
     matrix.column3.z = 0.0f;
     matrix.column3.w = 1.0f;
+
+
+    //if (std::abs(sin(angle_in_radians)) < std::numeric_limits<float>::epsilon())
+    //{
+    //    matrix.column0.y = 0.0f;
+    //    matrix.column1.x = 0.0f;
+    //}
+    //else
+    //{
+    //    matrix.column0.y = sin(angle_in_radians);
+    //    matrix.column1.x = -sin(angle_in_radians);
+    //}
+    //matrix.column1.y = cos(angle_in_radians);
+    //matrix.column1.z = 0.0f;
+    //matrix.column1.w = 0.0f;
+    //matrix.column2.x = 0.0f;
+    //matrix.column2.y = 0.0f;
+    //matrix.column2.z = 0.0f;
+    //matrix.column2.w = 0.0f;
+    //matrix.column3.x = 0.0f;
+    //matrix.column3.y = 0.0f;
+    //matrix.column3.z = 0.0f;
+    //matrix.column3.w = 1.0f;
+    //return matrix;
+    //
     return matrix;
 }
 
@@ -285,7 +313,7 @@ constexpr matrix4<T> MATRIX4::build_scale(float scale_x, float scale_y, float sc
     matrix.column1.w = 0.0f;
     matrix.column2.x = 0.0f;
     matrix.column2.y = 0.0f;
-    matrix.column2.z = scale_z;
+    matrix.column2.z = 0.0f;
     matrix.column2.w = 0.0f;
     matrix.column3.x = 0.0f;
     matrix.column3.y = 0.0f;
@@ -308,7 +336,7 @@ constexpr matrix4<T> MATRIX4::build_scale(float scale) noexcept
     matrix.column1.w = 0.0f;
     matrix.column2.x = 0.0f;
     matrix.column2.y = 0.0f;
-    matrix.column2.z = scale;
+    matrix.column2.z = 0.0f;
     matrix.column2.w = 0.0f;
     matrix.column3.x = 0.0f;
     matrix.column3.y = 0.0f;
@@ -349,17 +377,23 @@ constexpr matrix4<T> MATRIX4::build_translation(float translate_x, float transla
     matrix.column0.y = 0.0f;
     matrix.column0.z = 0.0f;
     matrix.column0.w = 0.0f;
+
     matrix.column1.x = 0.0f;
     matrix.column1.y = 1.0f;
     matrix.column1.z = 0.0f;
     matrix.column1.w = 0.0f;
+
     matrix.column2.x = 0.0f;
     matrix.column2.y = 0.0f;
-    matrix.column2.z = 1.0f;
+    matrix.column2.z = 0.0f;
     matrix.column2.w = 0.0f;
-    matrix.column3.x += translate_x;
+
+    matrix.column3.x = translate_x;
+    matrix.column3.y = translate_y;
+  /*  matrix.column3.x += translate_x;
     matrix.column3.y += translate_y;
-    matrix.column3.z += translate_z;
+  */
+    matrix.column3.z = translate_z;
     matrix.column3.w = 1.0f;
 
     return matrix;

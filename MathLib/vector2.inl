@@ -224,7 +224,7 @@ template <typename T>
 constexpr float angle_between(vector2<T> a, vector2<T> b) noexcept
 {
     float cos_theta = dot(a, b) / (magnitude(a) * magnitude(b));
-    float radian = acosf(cos_theta);
+    float radian = cos(cos_theta);
     float angle = radian;
 
     return angle;

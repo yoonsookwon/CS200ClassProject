@@ -20,7 +20,7 @@ VS_OUTPUT main(VS_INPUT input)
 {
     VS_OUTPUT output;
 
-    output.outPosition = mul(float4(input.inPos, 1.0f), mat);
+    output.outPosition = mul(float4(input.inPos.x, input.inPos.y,0.0f, 1.0f), mat);
     output.outTexCoord = input.inTexCoord;
     return output;
 }

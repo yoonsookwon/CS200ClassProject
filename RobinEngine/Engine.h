@@ -12,5 +12,6 @@ public:
   
 private:
     Timer timer;
+    bool is_FullScreen = false;
 };
 

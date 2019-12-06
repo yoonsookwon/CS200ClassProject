@@ -8,7 +8,7 @@ bool Model::Initialize(ID3D11Device * device, ID3D11DeviceContext * deviceContex
     this->deviceContext = deviceContext;
     this->texture = texture;
     this->cb_vs_vertexshader = &cb_vs_vertexshader;
-    this->scale = { 1.0f,1.f,1.f };
+    this->scale = { 1.0f,1.0f };
 
     if (MeshType == Elipse)
     {
@@ -266,16 +266,23 @@ bool Model::Initialize(ID3D11Device * device, ID3D11DeviceContext * deviceContex
             return hr;
         }
       //  this->SetPosition(0.0f, 0.0f, 0.0f);
-        this->SetRotation(0.0f, 0.0f, 0.0f);
+       // this->SetRotation(0.0f, 0.0f, 0.0f);
     }
     else if (MeshType == Rectangle) {
+        //Vertex v[] = {
+        //    // Rectangle & texturing
+        //     Vertex(-2.9f, 0.5f, 0.0f, 0.0f, 1.0f), //FRONT Bottom Left
+        //    Vertex(-2.9f, 1.2f, 0.0f, 0.0f, 0.0f), //FRONT Top Left    
+        //    Vertex(-1.5f, 1.2f, 0.0f, 1.0f, 0.0f), //FRONT Top Right   
+        //    Vertex(-1.5f, 0.5f, 0.0f, 1.0f, 1.0f), //FRONT Bottom Right
+        //};
         Vertex v[] = {
-            // Rectangle & texturing
-             Vertex(-2.9f, 0.5f, 0.0f, 0.0f, 1.0f), //FRONT Bottom Left
-            Vertex(-2.9f, 1.2f, 0.0f, 0.0f, 0.0f), //FRONT Top Left    
-            Vertex(-1.5f, 1.2f, 0.0f, 1.0f, 0.0f), //FRONT Top Right   
-            Vertex(-1.5f, 0.5f, 0.0f, 1.0f, 1.0f), //FRONT Bottom Right
-        };
+                // Rectangle & texturing
+                Vertex(-0.7f, -0.5f, 0.0f, 1.0f, 1.0f), //FRONT Bottom Left
+                Vertex(-0.7f, 0.5f, 0.0f, 1.0f, 0.0f), //FRONT Top Left    
+                Vertex(0.7f, 0.5f, 0.0f, 0.0f, 0.0f), //FRONT Top Right   
+                Vertex(0.7f, -0.5f, 0.0f, 0.0f, 1.0f), //FRONT Top Right
+            };
         HRESULT hr = this->vertexBuffer.Initialize(this->device, v, ARRAYSIZE(v));
         if (FAILED(hr))
         {
@@ -293,6 +300,7 @@ bool Model::Initialize(ID3D11Device * device, ID3D11DeviceContext * deviceContex
             ErrorLogger::Log(hr, "Failed to create indices buffer");
             return hr;
         }
+        this->translation = { -2.0f, 1.2f };
     }
     else if (MeshType == Triangle)
     {
@@ -349,8 +357,8 @@ bool Model::Initialize(ID3D11Device * device, ID3D11DeviceContext * deviceContex
     else if (MeshType == Line)
     {
     Vertex v[] = {
-        Vertex(0.5f, -1.5f, 0.0f, 1.0f, 1.0f),
-        Vertex(2.5f, -0.97f, 0.0f, 1.0f, 1.0f),
+        Vertex(0.5f, -1.5f, 0.0f, 0.0f, 0.0f),
+        Vertex(2.5f, -0.97f, 0.0f, 0.0f, 0.0f),
 
     };
     HRESULT hr = this->vertexBuffer.Initialize(this->device, v, ARRAYSIZE(v));
@@ -372,32 +380,6 @@ bool Model::Initialize(ID3D11Device * device, ID3D11DeviceContext * deviceContex
     }
 
 
-    //    //Quad
-    //   
-    //   
-
-    //    //LINe
-    //    11, 12, 13,
-    //    11, 13, 14,
-
-
-    //   
-    //   
-    //   
-    //   
-
-    //    
-    //    
-    //    
-    //    
-    //    
-
-    //     //Line
-    //    Vertex(0.5f, -1.5f, 0.0f, 1.0f, 1.0f),
-    //    Vertex(0.5f, -1.47f, 0.0f, 1.0f, 1.0f),
-    //    Vertex(2.5f, -1.0f, 0.0f, 1.0f, 1.0f),
-    //    Vertex(2.5f, -0.97f, 0.0f, 1.0f, 1.0f),
-
     this->UpdateWorldMatrix();
     return true;
 }
@@ -409,11 +391,11 @@ void Model::SetTexture(ID3D11ShaderResourceView * texture)
 
 void Model::Draw(const matrix4<float> & viewProjectionMatrix)
 {
+    
     UpdateWorldMatrix();
     //Update Constant buffer with WVP Matrix
     this->cb_vs_vertexshader->data.mat = this->worldMatrix * viewProjectionMatrix; //Calculate World-View-Projection Matrix
-    this->cb_vs_vertexshader->data.mat = MATRIX4::transpose(this->cb_vs_vertexshader->data.mat);//XMMatrixTranspose(this->cb_vs_vertexshader->data.mat);
-
+  
     this->cb_vs_vertexshader->ApplyChanges();
     this->deviceContext->VSSetConstantBuffers(0, 1, this->cb_vs_vertexshader->GetAddressOf());
 
@@ -427,175 +409,38 @@ void Model::Draw(const matrix4<float> & viewProjectionMatrix)
 
 void Model::UpdateWorldMatrix()
 {
-    this->worldMatrix = MATRIX4::build_identity<float>();
-    this->worldMatrix *=  MATRIX4::build_translation<float>(translation) * MATRIX4::build_rotation<float>(angle) * MATRIX4::build_scale<float>(scale);
-    this->worldMatrix = MATRIX4::transpose(this->worldMatrix);
-}
+   // matrix4<float> theResult = MATRIX4::build_identity<float>();
 
-    ///this->worldMatrix = XMMatrixRotationRollPitchYaw(this->rot.x, this->rot.y, this->rot.z) * MATRIX4::build_translation(pos/*this->pos.x, this->pos.y, this->pos.z*/);
-    //XMMATRIX vecRotationMatrix = XMMatrixRotationRollPitchYaw(0.0f, this->rot.y, 0.0f);
-    //this->vec_forward = XMVector3TransformCoord(this->DEFAULT_FORWARD_VECTOR, vecRotationMatrix);
-    //this->vec_backward = XMVector3TransformCoord(this->DEFAULT_BACKWARD_VECTOR, vecRotationMatrix);
-    //this->vec_left = XMVector3TransformCoord(this->DEFAULT_LEFT_VECTOR, vecRotationMatrix);
-    //this->vec_right = XMVector3TransformCoord(this->DEFAULT_RIGHT_VECTOR, vecRotationMatrix);
-//}
-//
-//const XMVECTOR & Model::GetPositionVector() const
-//{
-//    return this->posVector;
-//}
-//
-//const XMFLOAT3 & Model::GetPositionFloat3() const
-//{
-//    return this->pos;
-//}
-//
-//const XMVECTOR & Model::GetRotationVector() const
-//{
-//    return this->rotVector;
-//}
-//
-//const XMFLOAT3 & Model::GetRotationFloat3() const
-//{
-//    return this->rot;
-//}
-//
-//void Model::SetPosition(const XMVECTOR & pos)
-//{
-//  //  XMStoreFloat3(&this->pos, pos);
-//    this->posVector = pos;
-//    this->UpdateWorldMatrix();
-//}
-//
-//void Model::SetPosition(const XMFLOAT3 & pos)
-//{
-//    this->pos = pos;
-//  //  this->posVector = XMLoadFloat3(&this->pos);
-//    this->UpdateWorldMatrix();
-//}
-//
-//void Model::SetPosition(float x, float y, float z)
-//{
-//    this->pos = XMFLOAT3(x, y, z);
-//   // this->posVector = XMLoadFloat3(&this->pos);
-//    this->UpdateWorldMatrix();
-//}
-//
-//void Model::AdjustPosition(const XMVECTOR & pos)
-//{
-//    this->posVector += pos;
-//   // XMStoreFloat3(&this->pos, this->posVector);
-//    this->UpdateWorldMatrix();
-//}
-//
-//void Model::AdjustPosition(const XMFLOAT3 & pos)
-//{
-//    this->pos.x += pos.y;
-//    this->pos.y += pos.y;
-//    this->pos.z += pos.z;
-//  //  this->posVector = XMLoadFloat3(&this->pos);
-//    this->UpdateWorldMatrix();
-//}
+  //  this->worldMatrix = XMMatrixRotationRollPitchYaw(this->rot.x, this->rot.y, this->rot.z) * XMMatrixTranslation(this->translation.x, this->pos.y, this->pos.z);
+    matrix4<float> _translation = MATRIX4::build_translation<float>(translation.x, translation.y, 0.0f);
+    matrix4<float> _rotation = MATRIX4::build_rotation<float>(angle);
+    matrix4<float> _scale = MATRIX4::build_scale<float>(scale.x, scale.y, 0.0f);
+    
+    this->worldMatrix = _translation * _rotation * _scale;
+    this->worldMatrix = MATRIX4::transpose(this->worldMatrix);
+/*
+   this->worldMatrix = MATRIX4::build_identity<float>();
+    this->worldMatrix *= MATRIX4::build_translation<float>(translation.x, translation.y,0.0f) * MATRIX4::build_rotation<float>(angle) * MATRIX4::build_scale<float>(scale.x, scale.y, 0.0f);
+  */ // this->worldMatrix = MATRIX4::transpose(this->worldMatrix);
+}
 
 void Model::AdjustPosition(float x, float y, float z)
 {
-    this->rotate.x += x;
-    this->rotate.y += y;
-    this->rotate.z += z;
-   // this->posVector = XMLoadFloat3(&this->pos);
+    this->translation.x += x;
+    this->translation.y += y;
+  //  this->translation.z = 0.0f;
     this->UpdateWorldMatrix();
 }
-//
-//void Model::SetRotation(const XMVECTOR & rot)
-//{
-//    this->rotVector = rot;
-//  //  XMStoreFloat3(&this->rot, rot);
-//    this->UpdateWorldMatrix();
-//}
-//
-//void Model::SetRotation(const XMFLOAT3 & rot)
-//{
-//    this->rot = rot;
-//    this->rotVector = XMLoadFloat3(&this->rot);
-//    this->UpdateWorldMatrix();
-//}
 
-void Model::SetRotation(float x, float y, float z)
+void Model::AdjustScale(float scaleX, float scaleY)
 {
-    this->rot = XMFLOAT3(x, y, z);
-    this->rotVector = XMLoadFloat3(&this->rot);
-    this->UpdateWorldMatrix();
+    this->scale.x += scaleX;
+    this->scale.y += scaleY;
 }
 
-//void Model::AdjustRotation(const XMVECTOR & rot)
-//{
-//    this->rotVector += rot;
-//    XMStoreFloat3(&this->rot, this->rotVector);
-//    this->UpdateWorldMatrix();
-//}
-//
-//void Model::AdjustRotation(const XMFLOAT3 & rot)
-//{
-//    this->rot.x += rot.x;
-//    this->rot.y += rot.y;
-//    this->rot.z += rot.z;
-//    this->rotVector = XMLoadFloat3(&this->rot);
-//    this->UpdateWorldMatrix();
-//}
-
-void Model::AdjustRotation(float x, float y, float z)
+void Model::AdjustRotation(float __angle)
 {
-    this->rot.x += x;
-    this->rot.y += y;
-    this->rot.z += z;
-    //this->rotVector = XMLoadFloat3(&this->rot);
+    angle += __angle;
+
     this->UpdateWorldMatrix();
 }
-//
-//void Model::SetLookAtPos(XMFLOAT3 lookAtPos)
-//{
-//    //Verify that look at pos is not the same as cam pos. They cannot be the same as that wouldn't make sense and would result in undefined behavior.
-//    if (lookAtPos.x == this->pos.x && lookAtPos.y == this->pos.y && lookAtPos.z == this->pos.z)
-//        return;
-//
-//    lookAtPos.x = this->pos.x - lookAtPos.x;
-//    lookAtPos.y = this->pos.y - lookAtPos.y;
-//    lookAtPos.z = this->pos.z - lookAtPos.z;
-//
-//    float pitch = 0.0f;
-//    if (lookAtPos.y != 0.0f)
-//    {
-//        const float distance = sqrt(lookAtPos.x * lookAtPos.x + lookAtPos.z * lookAtPos.z);
-//        pitch = atan(lookAtPos.y / distance);
-//    }
-//
-//    float yaw = 0.0f;
-//    if (lookAtPos.x != 0.0f)
-//    {
-//        yaw = atan(lookAtPos.x / lookAtPos.z);
-//    }
-//    if (lookAtPos.z > 0)
-//        yaw += XM_PI;
-//
-//    this->SetRotation(pitch, yaw, 0.0f);
-//}
-//
-//const XMVECTOR & Model::GetForwardVector()
-//{
-//    return this->vec_forward;
-//}
-//
-//const XMVECTOR & Model::GetRightVector()
-//{
-//    return this->vec_right;
-//}
-//
-//const XMVECTOR & Model::GetBackwardVector()
-//{
-//    return this->vec_backward;
-//}
-//
-//const XMVECTOR & Model::GetLeftVector()
-//{
-//    return this->vec_left;
-//}

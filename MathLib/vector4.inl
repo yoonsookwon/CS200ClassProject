@@ -14,7 +14,7 @@ vector4<T>::vector4(T repeated_float) noexcept
 {
     x = repeated_float;
     y = repeated_float;
-    z = repeated_float;
+    z = 0.0f;
     w = repeated_float;
 }
 template <typename T>
@@ -22,7 +22,7 @@ vector4<T>::vector4(T fx, T fy, T fz ,T fw) noexcept
 {
     x = fx;
     y = fy;
-    z = fz;
+    z = 0.0f;
     w = fw;
 }
 template <typename T>

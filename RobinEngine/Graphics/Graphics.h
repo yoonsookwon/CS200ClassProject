@@ -13,11 +13,19 @@
 #include "vector2.hpp"
 #include "..\\Timer.h"
 
+enum STATE
+{
+    LEVEL1,
+    LEVEL2,
+    LEVEL3,
+    LEVEL4,
+};
 class Graphics
 {
 public:
     bool Init(HWND hwnd, int width, int height);
     void RenderFrame();
+    void FULLSCREEN(bool toggle);
     //void Set_vsync();
     Camera camera;
 
@@ -28,6 +36,7 @@ public:
     Model Elipse;
     bool is_vSyncOn = true;
 
+    STATE _state = LEVEL1;
 private:
     bool InitDirectX(HWND hwnd);
     bool InitShaders();
