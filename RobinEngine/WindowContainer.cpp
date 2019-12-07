@@ -146,6 +146,5 @@ LRESULT WindowContainer::WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM 
     default:
         return DefWindowProc(hwnd, uMsg, wParam, lParam);
     }
-//    OutputDebugStringA("WINDOW PROC FROM WINDOW CONTAINER\n");
     return DefWindowProc(hwnd,uMsg,wParam,lParam);
 }

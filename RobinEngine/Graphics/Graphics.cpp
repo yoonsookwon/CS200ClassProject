@@ -37,17 +37,6 @@ void Graphics::RenderFrame()
 
     UINT offset = 0;
 
-
-    //여기서 이미지 위치가 바뀜
-    //Update Constant Buffer
-    
-    /// 이런식으로 static 변수값을 지속적으로 주면서 이미지가 계속 움직이게 만들수 있음
-    /*
-    static float yOff = 0.5f;
-    yOff -= 0.01f;
-    */
-    //DirectX::XMMatrixRotationRollPitchYaw(0.0f,0.0f, DirectX::XM_PIDIV2); -> 90도 반시계방향으로 돌리기
-    //DirectX::Translation.. d이동
    
     {//Chicken
        // camera.UpdateViewMatrix();
@@ -63,6 +52,7 @@ void Graphics::RenderFrame()
         else if(current_state == LEVEL2)
         {
             //InitScene();
+            this->camera.SetPosition( 0,0);
             this->deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY::D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
             //this->Triangle.Draw(camera.GetViewMatrix() * camera.GetProjectionMatrix());
           //  this->deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY::D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
@@ -101,13 +91,6 @@ void Graphics::FULLSCREEN(bool toggle)
 {
     swapChain->SetFullscreenState(toggle, nullptr);
 }
-void Graphics::vSync(bool toggle)
-{
-    is_vSyncOn = toggle;
-
-    toggle = !toggle;
-   // swapChain->Present(toggle ,NULL);
-}
 
 
 bool Graphics::InitDirectX(HWND hwnd)
@@ -142,7 +125,6 @@ bool Graphics::InitDirectX(HWND hwnd)
     scd.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;
     scd.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH;
 
-    //튜토리얼 9
     HRESULT hr;
     hr = D3D11CreateDeviceAndSwapChain(adapters[0].pAdapter,
         D3D_DRIVER_TYPE_UNKNOWN,
@@ -458,7 +440,7 @@ bool Graphics::InitScene()
     ChulRArm.translation.x += 3.5f;
     ChulRArm.translation.y -= 1.3f;
 
-    camera.SetPosition(0.0f, 0.0f, -3.0f);
+    camera.SetPosition(0.0f, 0.0f);
     camera.SetProjectionValues(90.0f, static_cast<float>(windowWidth)/static_cast<float>(windowHeight),0.1f, 1000.0f);
     return true;
 }

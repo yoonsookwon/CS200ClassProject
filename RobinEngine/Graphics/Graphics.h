@@ -26,7 +26,6 @@ public:
     bool Init(HWND hwnd, int width, int height);
     void RenderFrame();
     void FULLSCREEN(bool toggle);
-    void vSync(bool toggle);
 
     Microsoft::WRL::ComPtr<IDXGISwapChain> swapChain;
 

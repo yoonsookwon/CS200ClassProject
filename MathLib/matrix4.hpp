@@ -3,7 +3,7 @@
 #pragma warning(push)
 #pragma warning(disable : 4201) // warning C4201 : nonstandard extension used : nameless struct / union
 /**
- * \brief Column first 3x3 matrix class
+ * \brief 4x4 matrix
  */
 template <typename T>
 struct [[nodiscard]] matrix4
@@ -24,13 +24,10 @@ public:
 constexpr matrix4() noexcept;
 constexpr matrix4(T column0_row0, T column0_row1, T column0_row2, T column0_row3,T column1_row0, T column1_row1,
     T column1_row2, T column1_row3,T column2_row0, T column2_row1, T column2_row2, T column2_row3, T column3_row0, T column3_row1, T column3_row2, T column3_row3) noexcept;
-//constexpr matrix4(vector3<T> first_column, vector3<T> second_column, vector3<T> third_column, vector3<T> fourth_column) noexcept;
 
 constexpr T  operator()(int column, int row) const noexcept;
 constexpr T& operator()(int column, int row) noexcept;
 };
-
-//static_assert(sizeof(matrix3) == sizeof(float) * 3 * 3, "matrix3 should be 3x3 floats");
 
 template <typename T>
 constexpr matrix4<T> operator*(const matrix4<T>& m1, const matrix4<T>& m2) noexcept;

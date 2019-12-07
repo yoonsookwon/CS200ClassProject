@@ -66,9 +66,7 @@
 	template<typename T>
     constexpr float magnitude_squared(vector3<T> a) noexcept;
 	template<typename T>
-    constexpr float magnitude(vector3<T> a) noexcept;/*
-	template<typename T>
-    constexpr vector3<T>             normalize(vector3<T> a) noexcept;*/
+    constexpr float magnitude(vector3<T> a) noexcept;
 	template<typename T>
     constexpr float distance_between_squared(vector3<T> a, vector3<T> b) noexcept;
 	template<typename T>

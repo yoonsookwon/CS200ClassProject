@@ -4,12 +4,11 @@
  * CS230
  */
 #pragma once
-//#include <CS230/math/vector3.hpp>
 #include  "vector3.hpp"
 #pragma warning(push)
 #pragma warning(disable : 4201) // warning C4201 : nonstandard extension used : nameless struct / union
     /**
-     * \brief Column first 3x3 matrix class
+     * \brief 3x3 matrix
      */
 	template<typename T>
     struct [[nodiscard]] matrix3
@@ -39,8 +38,6 @@
     constexpr matrix3<T> operator*(const matrix3<T>& m1, const matrix3<T>& m2) noexcept;
 	template<typename T>
     constexpr void    operator*=(matrix3<T>& m1, const matrix3<T>& m2) noexcept;
-	//template<typename T>
- //   constexpr vector3<T> operator*(const matrix3<T>& m, vector3<T> v) noexcept;
 
 	template<typename>
     struct vector2;

@@ -10,6 +10,14 @@ void Camera::SetProjectionValues(float fovDegrees, float aspectRatio, float near
     float fovRadians = (fovDegrees / 360.0f) * XM_2PI;
 }
 
+vector2<float> Camera::GetCameraPosition()
+{
+    vector2<float> result;
+    result.x = pos.x;
+    result.x = pos.y;
+    return  result;
+}
+
 const  matrix4<float> & Camera::GetViewMatrix() const
 {
     return this->viewMatrix;
@@ -20,16 +28,7 @@ const matrix4<float>& Camera::GetProjectionMatrix() const
     return this->projectionMatrix;
 }
 
-
-
-void Camera::SetPosition(const vector4<float> & pos)
-{
-    this->posVector = pos;
-    this->UpdateViewMatrix();
-}
-
-
-void Camera::SetPosition(float x, float y, float z)
+void Camera::SetPosition(float x, float y)
 {
     this->pos = vector2<float>(x, y);
     this->UpdateViewMatrix();

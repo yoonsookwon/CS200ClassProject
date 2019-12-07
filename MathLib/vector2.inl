@@ -220,23 +220,5 @@ constexpr float distance_between(vector2<T> a, vector2<T> b) noexcept
     return distance;
 }
 
-//template <typename T>
-//constexpr float angle_between(vector2<T> a, vector2<T> b) noexcept
-//{
-//    float cos_theta = dot(a, b) / (magnitude(a) * magnitude(b));
-//    float radian = cos(cos_theta);
-//    float angle = radian;
-//
-//    return angle;
-//}
 
-//template <typename T>
-//constexpr vector2<T> rotate_by(float angle_in_radians, vector2<T> v) noexcept
-//{
-//    vector2<T> result_vec;
-//    result_vec.x = ((cos(angle_in_radians) * v.x) - (sin(angle_in_radians) * v.y));
-//    result_vec.y = ((sin(angle_in_radians) * v.x) + (cos(angle_in_radians) * v.y));
-//
-//    return result_vec;
-//}
 

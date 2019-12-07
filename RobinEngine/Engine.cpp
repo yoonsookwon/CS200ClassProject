@@ -6,7 +6,6 @@ bool Engine::Init(HINSTANCE hInstance, std::string window_title, std::string win
     if (!this->robins_windows.Init(this, hInstance, window_title, window_class, width, height))
         return false;
 
-    //여기서 리턴 flase 인가 true인가?
     if (gfx.Init(this->robins_windows.GetHWND(), width, height))
         return true;
 
@@ -39,10 +38,6 @@ void Engine::Update()
         std::string outmsg = "";
         if (keycode == 27)
         {
-            //    robins_windows.GetHWND()
-             //   IsWindow(robins_windows.GetHWND()) = false;
-              //  robins_windows.getMSG() = WM_NULL;
-                //this->robins_windows.GetHWND() = NULL;
         }
         if (kbe.IsPress()) {
             if (keycode == 'V')

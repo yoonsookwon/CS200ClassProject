@@ -19,21 +19,7 @@ constexpr matrix3<T>::matrix3() noexcept
         }
     }
 }
-//template <typename T>
-//constexpr matrix3<T>::matrix3(vector3<T> first_column, vector3<T> second_column, vector3<T> third_column) noexcept
-//{
-//    elements[0][0] = first_column.x;
-//    elements[1][0] = second_column.x;
-//    elements[2][0] = third_column.x;
-//
-//    elements[0][1] = first_column.y;
-//    elements[1][1] = second_column.y;
-//    elements[2][1] = third_column.y;
-//
-//    elements[0][2] = first_column.z;
-//    elements[1][2] = second_column.z;
-//    elements[2][2] = third_column.z;
-//}
+
 template <typename T>
 constexpr matrix3<T>::matrix3(T column0_row0, T column0_row1, T column0_row2, T column1_row0, T column1_row1,
     T column1_row2, T column2_row0, T column2_row1, T column2_row2) noexcept
@@ -93,18 +79,6 @@ constexpr void    operator*=(matrix3<T>& m1, const matrix3<T>& m2) noexcept
 {
     m1 = m1 * m2;
 }
-
-//template <typename T>
-//constexpr vector3<T> operator*(const matrix3<T>& m, matrix3<T> v) noexcept
-//{
-//    vector3<T> my_vec;
-//    my_vec.x = ((m.column0.x * v.x) + (m.column1.x * v.y) + (m.column2.x * v.z));
-//    my_vec.y = ((m.column0.y * v.x) + (m.column1.y * v.y) + (m.column2.y * v.z));
-//    my_vec.z = ((m.column0.z * v.x) + (m.column1.z * v.y) + (m.column2.z * v.z));
-//
-//    return my_vec;
-//}
-
 
 
 template <typename T>

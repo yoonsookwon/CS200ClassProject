@@ -411,10 +411,7 @@ void Model::UpdateWorldMatrix()
     
     this->worldMatrix = _translation * _rotation * _scale;//_scale * _rotation * _translation;
     this->worldMatrix = MATRIX4::transpose(this->worldMatrix);
-/*
-   this->worldMatrix = MATRIX4::build_identity<float>();
-    this->worldMatrix *= MATRIX4::build_translation<float>(translation.x, translation.y,0.0f) * MATRIX4::build_rotation<float>(angle) * MATRIX4::build_scale<float>(scale.x, scale.y, 0.0f);
-  */ // this->worldMatrix = MATRIX4::transpose(this->worldMatrix);
+
 }
 
 void Model::AdjustPosition(float x, float y, float z)

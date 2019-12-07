@@ -72,10 +72,6 @@
     constexpr  float distance_between_squared(vector2<T> a, vector2<T> b) noexcept;
 	template<typename T>
     constexpr float distance_between(vector2<T> a, vector2<T> b) noexcept;
-	//template<typename T>
- //   constexpr float angle_between(vector2<T> a, vector2<T> b) noexcept;
-	//template<typename T>
- //   constexpr vector2<T>             rotate_by(float angle_in_radians, vector2<T> v) noexcept;
 
 #pragma warning(pop)
 #include "vector2.inl"
