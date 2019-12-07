@@ -6,7 +6,6 @@
 #include  "matrix3.hpp"
 #include  "matrix4.hpp"
 
-
 TEST_CASE("vector2<float> constructor")
 {
     vector2<float> test;
@@ -334,3 +333,130 @@ TEST_CASE("matrix3<float> all value constructor")
     REQUIRE(test.column2.y == 0);
     REQUIRE(test.column2.z == 0);
 }
+
+TEST_CASE("operator*(const matrix3<float>& m1, const matrix3<float>& m2)")
+{
+    matrix3<float> test(0,0,0,
+        1,1,1,
+        0,0,0);
+    matrix3<float> test2(0, 1, 0, 
+        0, 1, 0, 
+        0, 1, 0);
+
+    matrix3<float> result = test * test2;
+    REQUIRE(result.column0.x == 1);
+    REQUIRE(result.column0.y == 1);
+    REQUIRE(result.column0.z == 1);
+    REQUIRE(result.column1.x == 1);
+    REQUIRE(result.column1.y == 1);
+    REQUIRE(result.column1.z == 1);              
+    REQUIRE(result.column2.x == 1);
+    REQUIRE(result.column2.y == 1);
+    REQUIRE(result.column2.z == 1);
+}
+
+TEST_CASE(" operator*=(matrix3<T>& m1, const matrix3<T>& m2)")
+{
+    matrix3<float> test(0, 0, 0,
+        1, 1, 1,
+        0, 0, 0);
+
+    matrix3<float> test2(0, 1, 0,
+        0, 1, 0,
+        0, 1, 0);
+
+    test *= test2;
+    REQUIRE(test.column0.x == 1);
+    REQUIRE(test.column0.y == 1);
+    REQUIRE(test.column0.z == 1);
+    REQUIRE(test.column1.x == 1);
+    REQUIRE(test.column1.y == 1);
+    REQUIRE(test.column1.z == 1);
+    REQUIRE(test.column2.x == 1);
+    REQUIRE(test.column2.y == 1);
+    REQUIRE(test.column2.z == 1);
+}
+
+TEST_CASE("matrix3<float> build_identity() ")
+{
+    matrix3<float> TEST_identity = MATRIX3::build_identity<float>();
+
+    REQUIRE(TEST_identity.column0.x == 1);
+    REQUIRE(TEST_identity.column0.y == 0);
+    REQUIRE(TEST_identity.column0.z == 0);
+
+    REQUIRE(TEST_identity.column1.x == 0);
+    REQUIRE(TEST_identity.column1.y == 1);
+    REQUIRE(TEST_identity.column1.z == 0);
+
+    REQUIRE(TEST_identity.column2.x == 0);
+    REQUIRE(TEST_identity.column2.y == 0);
+    REQUIRE(TEST_identity.column2.z == 1);
+}
+
+TEST_CASE("matrix3<float> transpose(const matrix3<float>& m) ")
+{
+    matrix3<float> test(1,2,3,4,5,6,7,8,9);
+    test = MATRIX3::transpose(test);
+
+    REQUIRE(test.column0.x == 1);
+    REQUIRE(test.column0.y == 4);
+    REQUIRE(test.column0.z == 7);
+
+    REQUIRE(test.column1.x == 2);
+    REQUIRE(test.column1.y == 5);
+    REQUIRE(test.column1.z == 8);
+
+    REQUIRE(test.column2.x == 3);
+    REQUIRE(test.column2.y == 6);
+    REQUIRE(test.column2.z == 9);
+}
+
+TEST_CASE("matrix3<float> build_scale")
+{
+    matrix3<float> test = MATRIX3::build_identity<float>();
+    test = MATRIX3::build_scale<float>(12,5);
+
+    REQUIRE(test.column0.x ==12);
+    REQUIRE(test.column1.y == 5);
+
+    test = MATRIX3::build_identity<float>();
+    test = MATRIX3::build_scale<float>(5);
+
+    REQUIRE(test.column0.x == 5);
+    REQUIRE(test.column1.y == 5);
+
+    vector2<float> a(5,10);
+    test = MATRIX3::build_identity<float>();
+    test = MATRIX3::build_scale<float>(a);
+
+    REQUIRE(test.column0.x == 5);
+    REQUIRE(test.column1.y == 10);
+}
+TEST_CASE("matrix3<float> build_translation")
+{
+    matrix3<float> test = MATRIX3::build_identity<float>();
+    test = MATRIX3::build_translation<float>(4,17);
+    REQUIRE(test.column2.x == 4);
+    REQUIRE(test.column2.y == 17);
+
+    vector2<float> a(50, 128);
+    test = MATRIX3::build_identity<float>();
+    test = MATRIX3::build_translation(a);
+    REQUIRE(test.column2.x == 50);
+    REQUIRE(test.column2.y == 128);
+}
+TEST_CASE("matrix3<float> build_rotation")
+{
+   // matrix3<float> test = MATRIX3::build_identity<float>();
+    matrix3<float> test = MATRIX3::build_rotation<float>(60.0f);
+
+    REQUIRE(test.column0.x == cos(60.0f));
+    REQUIRE(test.column0.y == sin(60.0f));
+    REQUIRE(test.column1.x == -sin(60.0f));
+    REQUIRE(test.column1.y == cos(60.0f));
+}
+
+//matrix4
+
+
