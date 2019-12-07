@@ -7,6 +7,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RobinEngine", "RobinEngine\
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MathLib", "MathLib\MathLib.vcxproj", "{D72C5F88-D999-44D2-ADC6-293E339613DF}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "UNIT_TEST", "UNIT_TEST\UNIT_TEST.vcxproj", "{22FA721C-B481-4A15-B55A-0597A4F07752}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -31,6 +33,14 @@ Global
 		{D72C5F88-D999-44D2-ADC6-293E339613DF}.Release|x64.Build.0 = Release|x64
 		{D72C5F88-D999-44D2-ADC6-293E339613DF}.Release|x86.ActiveCfg = Release|Win32
 		{D72C5F88-D999-44D2-ADC6-293E339613DF}.Release|x86.Build.0 = Release|Win32
+		{22FA721C-B481-4A15-B55A-0597A4F07752}.Debug|x64.ActiveCfg = Debug|x64
+		{22FA721C-B481-4A15-B55A-0597A4F07752}.Debug|x64.Build.0 = Debug|x64
+		{22FA721C-B481-4A15-B55A-0597A4F07752}.Debug|x86.ActiveCfg = Debug|Win32
+		{22FA721C-B481-4A15-B55A-0597A4F07752}.Debug|x86.Build.0 = Debug|Win32
+		{22FA721C-B481-4A15-B55A-0597A4F07752}.Release|x64.ActiveCfg = Release|x64
+		{22FA721C-B481-4A15-B55A-0597A4F07752}.Release|x64.Build.0 = Release|x64
+		{22FA721C-B481-4A15-B55A-0597A4F07752}.Release|x86.ActiveCfg = Release|Win32
+		{22FA721C-B481-4A15-B55A-0597A4F07752}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

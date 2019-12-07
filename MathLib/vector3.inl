@@ -8,6 +8,9 @@
 template <typename T>
 vector3<T>::vector3() noexcept
 {
+    x = 0.0f;
+    y = 0.0f;
+    z = 0.0f;
 }
 template <typename T>
 vector3<T>::vector3(T repeated_float) noexcept

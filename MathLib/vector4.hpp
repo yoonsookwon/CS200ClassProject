@@ -58,24 +58,6 @@ constexpr bool operator==(const vector4<T>& v1, const vector4<T>& v2) noexcept;
 template<typename T>
 constexpr bool operator!=(const vector4<T>& v1, const vector4<T>& v2) noexcept;
 
-
-template<typename T>
-constexpr float dot(vector4<T> a, vector4<T> b) noexcept;
-template<typename T>
-constexpr vector4<T>             cross(vector4<T> a, vector4<T> b) noexcept;
-template<typename T>
-constexpr float magnitude_squared(vector4<T> a) noexcept;
-template<typename T>
-constexpr float magnitude(vector4<T> a) noexcept;
-template<typename T>
-constexpr vector4<T>             normalize(vector4<T> a) noexcept;
-template<typename T>
-constexpr float distance_between_squared(vector4<T> a, vector4<T> b) noexcept;
-template<typename T>
-constexpr float distance_between(vector4<T> a, vector4<T> b) noexcept;
-template<typename T>
-constexpr float angle_between(vector4<T> a, vector4<T> b) noexcept;
-
 #pragma warning(pop)
 #include <cassert>
 #include <limits>
