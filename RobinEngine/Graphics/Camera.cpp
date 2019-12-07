@@ -72,12 +72,12 @@ void Camera::AdjustRotation(float x, float y, float z)
 
 void Camera::UpdateViewMatrix() //Updates view matrix and also updates the movement vectors
 {
-    matrix4<float> translation = MATRIX4::build_translation<float>(pos.x,pos.y,0.0f);
+    matrix4<float> translation = MATRIX4::build_translation<float>(pos.x,pos.y);
     matrix4<float> rotation = MATRIX4::build_rotation<float>(rot.x);
     matrix4<float> scale = MATRIX4::build_scale<float>(zoom);
 
     //Rebuild view matrix
-    this->viewMatrix = scale * rotation * translation;
+    this->viewMatrix = translation * rotation * scale;// scale * rotation * translation;
     this->viewMatrix = MATRIX4::transpose(this->viewMatrix);
 
 }

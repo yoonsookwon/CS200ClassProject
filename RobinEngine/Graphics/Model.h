@@ -1,4 +1,4 @@
-#pragma once;
+#pragma once
 #include "Vertex.h"
 #include "vertexbuffer.h"
 #include "IndexBuffer.h"
@@ -17,6 +17,12 @@ public:
         Triangle,
         Quad
     };
+    enum ModelType
+    {
+        HierarchicalBODY
+    };
+    ModelType HierarchicalTYPE = HierarchicalBODY;
+    
     bool Initialize(ID3D11Device * device, ID3D11DeviceContext * deviceContext, ID3D11ShaderResourceView * texture, ConstantBuffer<CB_VS_vertexshader> & cb_vs_vertexshader, Model::MeshType MeshType);
     void SetTexture(ID3D11ShaderResourceView * texture);
     void Draw(const matrix4<float> & viewProjectionMatrix);
@@ -41,6 +47,7 @@ public:
     vector2<float> translation;
     vector2<float> scale;
     vector3<float> rot;
+   
 private:
 
     ID3D11Device * device = nullptr;
@@ -61,7 +68,7 @@ private:
 
 
     vector2<float> rotate;
-
+    //Graphics Hierarchical_GFX;
 
 
     const XMVECTOR DEFAULT_FORWARD_VECTOR = XMVectorSet(0.0f, 0.0f, 1.0f, 0.0f);

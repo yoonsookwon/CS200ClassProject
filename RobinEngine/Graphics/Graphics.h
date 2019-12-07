@@ -40,10 +40,14 @@ public:
 
     Model ChulHead;
     Model ChulBody;
+    Model Chullegs;
+    Model ChulLArm;
+    Model ChulRArm;
 
-    bool is_vSyncOn = false;
+ 
+    bool is_vSyncOn = true;
 
-    STATE _state = LEVEL1;
+    STATE current_state = LEVEL1;
 private:
     bool InitDirectX(HWND hwnd);
     bool InitShaders();
@@ -80,6 +84,9 @@ private:
 
     Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> ChulHead_Texture;
     Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> ChulBody_Texture;
+    Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> Chullegs_Texture;
+    Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> ChulLarm_Texture;
+    Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> ChulRarm_Texture;
    // Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> ramen_Texture;
 
     int windowWidth = 0;

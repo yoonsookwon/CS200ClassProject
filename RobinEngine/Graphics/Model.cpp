@@ -1,7 +1,6 @@
 #include "Model.h"
 #include "vector2.hpp"
 
-
 bool Model::Initialize(ID3D11Device * device, ID3D11DeviceContext * deviceContext, ID3D11ShaderResourceView * texture, ConstantBuffer<CB_VS_vertexshader> & cb_vs_vertexshader, Model::MeshType MeshType)
 {
     this->device = device;
@@ -406,11 +405,11 @@ void Model::UpdateWorldMatrix()
    // matrix4<float> theResult = MATRIX4::build_identity<float>();
 
   //  this->worldMatrix = XMMatrixRotationRollPitchYaw(this->rot.x, this->rot.y, this->rot.z) * XMMatrixTranslation(this->translation.x, this->pos.y, this->pos.z);
-    matrix4<float> _translation = MATRIX4::build_translation<float>(translation.x, translation.y, 0.0f);
+    matrix4<float> _translation = MATRIX4::build_translation<float>(translation.x, translation.y);
     matrix4<float> _rotation = MATRIX4::build_rotation<float>(angle);
-    matrix4<float> _scale = MATRIX4::build_scale<float>(scale.x, scale.y, 0.0f);
+    matrix4<float> _scale = MATRIX4::build_scale<float>(scale.x, scale.y);
     
-    this->worldMatrix = _translation * _rotation * _scale;
+    this->worldMatrix = _translation * _rotation * _scale;//_scale * _rotation * _translation;
     this->worldMatrix = MATRIX4::transpose(this->worldMatrix);
 /*
    this->worldMatrix = MATRIX4::build_identity<float>();
@@ -422,6 +421,7 @@ void Model::AdjustPosition(float x, float y, float z)
 {
     this->translation.x += x;
     this->translation.y += y;
+   
   //  this->translation.z = 0.0f;
     this->UpdateWorldMatrix();
 }

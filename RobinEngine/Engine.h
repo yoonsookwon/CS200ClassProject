@@ -13,7 +13,7 @@ public:
 private:
     Timer timer;
     bool is_FullScreen = false;
-    bool is_vSyncOn = false;
+    bool is_vSyncOn = true;
     int checVsync = 0;
 };
 

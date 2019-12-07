@@ -51,7 +51,7 @@ void Graphics::RenderFrame()
    
     {//Chicken
        // camera.UpdateViewMatrix();
-        if (_state == LEVEL1) {
+        if (current_state == LEVEL1) {
             this->Line.Draw(camera.GetViewMatrix() * camera.GetProjectionMatrix());
             this->deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY::D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
             this->Elipse.Draw(camera.GetViewMatrix() * camera.GetProjectionMatrix());
@@ -60,12 +60,15 @@ void Graphics::RenderFrame()
             this->Quad.Draw(camera.GetViewMatrix() * camera.GetProjectionMatrix());
 
         }
-        else if(_state == LEVEL2)
+        else if(current_state == LEVEL2)
         {
             //InitScene();
             this->deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY::D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
             //this->Triangle.Draw(camera.GetViewMatrix() * camera.GetProjectionMatrix());
           //  this->deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY::D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+            this->ChulLArm.Draw(camera.GetViewMatrix() * camera.GetProjectionMatrix());
+            this->ChulRArm.Draw(camera.GetViewMatrix() * camera.GetProjectionMatrix());
+            this->Chullegs.Draw(camera.GetViewMatrix() * camera.GetProjectionMatrix());
             this->ChulBody.Draw(camera.GetViewMatrix() * camera.GetProjectionMatrix());
             this->ChulHead.Draw(camera.GetViewMatrix() * camera.GetProjectionMatrix());
         }
@@ -342,7 +345,7 @@ bool Graphics::InitShaders()
 
 bool Graphics::InitScene()
 {
-    //이미지 입히는곳
+    //Initialize Constant Buffer(s)
     HRESULT hr = DirectX::CreateWICTextureFromFile(this->device.Get(), L"Data\\Textures\\chicken.png", nullptr, myTexture.GetAddressOf());
     if (FAILED(hr))
     {
@@ -367,7 +370,7 @@ bool Graphics::InitScene()
         ErrorLogger::Log(hr, "Failed to create wic texture from file.");
         return false;
     }
-    //Initialize Constant Buffer(s)
+
    hr = this->cb_vs_vertexshader.Initialize(this->device.Get(), this->deviceContext.Get());
     if (FAILED(hr)) {
         ErrorLogger::Log(hr, "Failed to initialize constant buffer.");
@@ -377,6 +380,30 @@ bool Graphics::InitScene()
     if (FAILED(hr))
     {
         ErrorLogger::Log(hr, "Failed to initialize constant buffer.");
+        return false;
+    }
+    hr = DirectX::CreateWICTextureFromFile(this->device.Get(), L"Data\\Textures\\Chulbody.png", nullptr, ChulBody_Texture.GetAddressOf());
+    if (FAILED(hr))
+    {
+        ErrorLogger::Log(hr, "Failed to create wic texture from file.");
+        return false;
+    }
+    hr = DirectX::CreateWICTextureFromFile(this->device.Get(), L"Data\\Textures\\ChulLeg1.png", nullptr, Chullegs_Texture.GetAddressOf());
+    if (FAILED(hr))
+    {
+        ErrorLogger::Log(hr, "Failed to create wic texture from file.");
+        return false;
+    }
+    hr = DirectX::CreateWICTextureFromFile(this->device.Get(), L"Data\\Textures\\rightArm.png", nullptr, ChulLarm_Texture.GetAddressOf());
+    if (FAILED(hr))
+    {
+        ErrorLogger::Log(hr, "Failed to create wic texture from file.");
+        return false;
+    }
+    hr = DirectX::CreateWICTextureFromFile(this->device.Get(), L"Data\\Textures\\leftArm.png", nullptr, ChulRarm_Texture.GetAddressOf());
+    if (FAILED(hr))
+    {
+        ErrorLogger::Log(hr, "Failed to create wic texture from file.");
         return false;
     }
 
@@ -396,27 +423,40 @@ bool Graphics::InitScene()
     if (!Elipse.Initialize(this->device.Get(), this->deviceContext.Get(), this->myTexture.Get(), cb_vs_vertexshader, Elipse.Elipse)) {
         return false;
     }
+
+
     if (!ChulHead.Initialize(this->device.Get(), this->deviceContext.Get(), this->ChulHead_Texture.Get(), cb_vs_vertexshader, Elipse.Rectangle)) {
         return false;
     }
     ChulHead.translation.x += 2.f;
     ChulHead.scale.x += 0.2f;
     ChulHead.scale.y += 0.2f;
-
-
-    hr = DirectX::CreateWICTextureFromFile(this->device.Get(), L"Data\\Textures\\Chulbody.png", nullptr, ChulBody_Texture.GetAddressOf());
-    if (FAILED(hr))
-    {
-        ErrorLogger::Log(hr, "Failed to create wic texture from file.");
-        return false;
-    }
     if (!ChulBody.Initialize(this->device.Get(), this->deviceContext.Get(), this->ChulBody_Texture.Get(), cb_vs_vertexshader, ChulBody.Rectangle)) {
         return false;
     }
+    ChulBody.HierarchicalTYPE = Model::HierarchicalBODY;
     ChulBody.translation.x += 2.0f;
     ChulBody.translation.y -= 1.3f;
-    ChulBody.scale.x += 1.5;
-    ChulBody.scale.y += 1.4;
+    ChulBody.scale.x += 0.5;
+    ChulBody.scale.y += 0.8;
+    if (!Chullegs.Initialize(this->device.Get(), this->deviceContext.Get(), this->Chullegs_Texture .Get(), cb_vs_vertexshader, ChulBody.Rectangle)) {
+        return false;
+    }
+    Chullegs.translation.x += 2.0f;
+    Chullegs.translation.y -= 2.5f;
+
+    if (!ChulLArm.Initialize(this->device.Get(), this->deviceContext.Get(), this->ChulLarm_Texture.Get(), cb_vs_vertexshader, ChulBody.Rectangle)) {
+        return false;
+    }
+
+    ChulLArm.translation.x += 0.5f;
+    ChulLArm.translation.y -= 1.3f;
+    if (!ChulRArm.Initialize(this->device.Get(), this->deviceContext.Get(), this->ChulRarm_Texture.Get(), cb_vs_vertexshader, ChulBody.Rectangle)) {
+        return false;
+    }
+
+    ChulRArm.translation.x += 3.5f;
+    ChulRArm.translation.y -= 1.3f;
 
     camera.SetPosition(0.0f, 0.0f, -3.0f);
     camera.SetProjectionValues(90.0f, static_cast<float>(windowWidth)/static_cast<float>(windowHeight),0.1f, 1000.0f);
