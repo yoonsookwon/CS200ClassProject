@@ -9,7 +9,7 @@ class Camera
 {
 public:
     Camera();
-    void SetProjectionValues(float fovDegrees, float aspectRatio, float nearZ, float farZ);
+    //void SetProjectionValues(float fovDegrees, float aspectRatio, float nearZ, float farZ);
     vector2<float> GetCameraPosition();
 
     const  matrix4<float>& GetViewMatrix() const;

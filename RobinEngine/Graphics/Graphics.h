@@ -47,14 +47,16 @@ public:
     bool is_vSyncOn = true;
 
     STATE current_state = LEVEL1;
+    Microsoft::WRL::ComPtr<  ID3D11Device> device;
+    Microsoft::WRL::ComPtr<ID3D11DeviceContext> deviceContext;
+
+    Microsoft::WRL::ComPtr<ID3D11Texture2D> backbuffer;
 private:
     bool InitDirectX(HWND hwnd);
     bool InitShaders();
     bool InitScene();
 
     //Work like smart pointer
-    Microsoft::WRL::ComPtr<  ID3D11Device> device;
-    Microsoft::WRL::ComPtr<ID3D11DeviceContext> deviceContext;
     Microsoft::WRL::ComPtr<ID3D11RenderTargetView>renderTargetView;
 
 

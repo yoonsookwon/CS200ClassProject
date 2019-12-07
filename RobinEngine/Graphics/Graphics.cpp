@@ -143,8 +143,7 @@ bool Graphics::InitDirectX(HWND hwnd)
         ErrorLogger::Log(hr, "Failed to create device and swapchain.");
         return  false;
     }
-
-    Microsoft::WRL::ComPtr<ID3D11Texture2D> backbuffer;
+///////////////////////////////////////////½ºÅ©¸°¼¦ backbuffer
     hr = this->swapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), reinterpret_cast<void**>(backbuffer.GetAddressOf()));
 
     if (FAILED(hr))
@@ -441,6 +440,6 @@ bool Graphics::InitScene()
     ChulRArm.translation.y -= 1.3f;
 
     camera.SetPosition(0.0f, 0.0f);
-    camera.SetProjectionValues(90.0f, static_cast<float>(windowWidth)/static_cast<float>(windowHeight),0.1f, 1000.0f);
+   //camera.SetProjectionValues(90.0f, static_cast<float>(windowWidth)/static_cast<float>(windowHeight),0.1f, 1000.0f);
     return true;
 }

@@ -1,5 +1,6 @@
 ﻿#include  "Engine.h"
-
+#include  "ScreenGrab.h"
+#include "wincodec.h"
 bool Engine::Init(HINSTANCE hInstance, std::string window_title, std::string window_class, int width, int height)
 {
     timer.Start();
@@ -40,6 +41,12 @@ void Engine::Update()
         {
         }
         if (kbe.IsPress()) {
+            if(keycode == VK_NUMPAD9)
+            {
+                SaveWICTextureToFile(this->gfx.deviceContext.Get(),
+                   this->gfx.backbuffer.Get(), GUID_ContainerFormatPng,L"SCREENSHOTaa.PNG");
+            }
+
             if (keycode == 'V')
             {
                 if (is_vSyncOn == false)

@@ -5,10 +5,10 @@ Camera::Camera()
     this->UpdateViewMatrix();
 }
 
-void Camera::SetProjectionValues(float fovDegrees, float aspectRatio, float nearZ, float farZ)
-{
-    float fovRadians = (fovDegrees / 360.0f) * XM_2PI;
-}
+//void Camera::SetProjectionValues(float fovDegrees, float aspectRatio, float nearZ, float farZ)
+//{
+//    float fovRadians = (fovDegrees / 360.0f) * XM_2PI;
+//}
 
 vector2<float> Camera::GetCameraPosition()
 {

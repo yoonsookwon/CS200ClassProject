@@ -1,6 +1,7 @@
 #include "Model.h"
 #include "vector2.hpp"
 
+#include  "DirectXHelpers.h"
 bool Model::Initialize(ID3D11Device * device, ID3D11DeviceContext * deviceContext, ID3D11ShaderResourceView * texture, ConstantBuffer<CB_VS_vertexshader> & cb_vs_vertexshader, Model::MeshType MeshType)
 {
     this->device = device;
