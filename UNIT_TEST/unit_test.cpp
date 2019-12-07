@@ -87,11 +87,8 @@ TEST_CASE("magnitude(vector2<float> a) ")
     vector2<float> test(12, 4);
     REQUIRE(Approx(magnitude(test)).epsilon(0.001) == sqrt(160));
 }
-//TEST_CASE("normalize(vector2<float> a) ")
-//{
-//    vector2<float> test(12, 4);
-//    REQUIRE(normalize(test).x == 160);
-//}
+
+
 TEST_CASE("distance_between_squared(vector2<float> a, vector2<float> b)")
 {
     //vector2<float> test(12, 4);
@@ -105,17 +102,6 @@ TEST_CASE("distance_between(vector2<float> a, vector2<float> b)")
     vector2<float> test2(4, 2);
     REQUIRE(Approx(distance_between(test, test2)).epsilon(0.001) == sqrt(40));
 }
-//TEST_CASE("angle_between(vector2<float> a, vector2<float> b)")
-//{
-//    vector2<float> test(1, 0);
-//    vector2<float> test2(0, 1);
-//    REQUIRE(angle_between(test,test2) == 0.90);
-//}
-//TEST_CASE("rotate_by(float angle_in_radians, vector2<float> v)")
-//{
-//    vector2<float> test(1.0,0.0);
-//    REQUIRE(rotate_by(90, test).x == 0.0);
-//}
 
 
 //vector3
@@ -199,12 +185,7 @@ TEST_CASE(" cross(vector3<float> a, vector3<float> b)")
     REQUIRE(result.y == 6);
     REQUIRE(result.z == -12);
 }
-//TEST_CASE("normalize(vector2<float> a) ")
-//{
-//    vector2<float> test(12, 4);
-//    REQUIRE(normalize(test).x == 160);
-//}
-//
+
 TEST_CASE("magnitude_squared(vector3<float> a) ")
 {
     vector3<float> test(12, 4,4);
@@ -457,6 +438,173 @@ TEST_CASE("matrix3<float> build_rotation")
     REQUIRE(test.column1.y == cos(60.0f));
 }
 
+
 //matrix4
+TEST_CASE("matrix4<float> constructors")
+{
+    matrix4<float> test;
+    REQUIRE(test.column0.x == 0);
+    REQUIRE(test.column0.y == 0);
+    REQUIRE(test.column0.z == 0);
+    REQUIRE(test.column0.w == 0);
+    REQUIRE(test.column1.x == 0);
+    REQUIRE(test.column1.y == 0);
+    REQUIRE(test.column1.z == 0);
+    REQUIRE(test.column1.w == 0);
+    REQUIRE(test.column2.x == 0);
+    REQUIRE(test.column2.y == 0);
+    REQUIRE(test.column2.z == 0);
+    REQUIRE(test.column2.w == 0);
+    REQUIRE(test.column3.x == 0);
+    REQUIRE(test.column3.y == 0);
+    REQUIRE(test.column3.z == 0);
+    REQUIRE(test.column3.w == 0);
+
+
+    matrix4<float> test2(1, 1, 1, 1,
+        0, 0, 0, 0,
+        0, 0, 0, 0
+        , 0, 0, 0, 0);
+    REQUIRE(test2.column0.x == 1);
+    REQUIRE(test2.column0.y == 1);
+    REQUIRE(test2.column0.z == 1);
+    REQUIRE(test2.column0.w == 1);
+    REQUIRE(test2.column1.x == 0);
+    REQUIRE(test2.column1.y == 0);
+    REQUIRE(test2.column1.z == 0);
+    REQUIRE(test2.column1.w == 0);
+    REQUIRE(test2.column2.x == 0);
+    REQUIRE(test2.column2.y == 0);
+    REQUIRE(test2.column2.z == 0);
+    REQUIRE(test2.column2.w == 0);
+    REQUIRE(test2.column3.x == 0);
+    REQUIRE(test2.column3.y == 0);
+    REQUIRE(test2.column3.z == 0);
+    REQUIRE(test2.column3.w == 0);
+}
+
+TEST_CASE("*operator multiplies")
+{
+    matrix4<float> test(1, 1, 1,1,
+        0, 0, 0,0,
+        0, 0, 0,0
+        ,0,0,0,0);
+    matrix4<float> test2(0, 0, 0,0,
+        0, 0, 0,0,0,0,0,0,1,
+        1, 1, 1);
+
+    matrix4<float> result = test * test2;
+
+    REQUIRE(result.column3.x == 1);
+    REQUIRE(result.column3.y == 1);
+    REQUIRE(result.column3.z == 1);
+    REQUIRE(result.column3.w == 1);
+
+    matrix4<float> test3(1, 1, 1,1,
+        0,0,0,0,
+        0,0,0,0,
+        0, 0, 0, 0);
+
+
+    test3 *= test2;
+    REQUIRE(test3.column3.x == 1);
+    REQUIRE(test3.column3.y == 1);
+    REQUIRE(test3.column3.z == 1);
+    REQUIRE(test3.column3.w == 1);
+}
+
+TEST_CASE("matrix4<float> build_identity() ")
+{
+    matrix4<float> TEST_identity = MATRIX4::build_identity<float>();
+
+    REQUIRE(TEST_identity.column0.x == 1);
+    REQUIRE(TEST_identity.column0.y == 0);
+    REQUIRE(TEST_identity.column0.z == 0);
+    REQUIRE(TEST_identity.column0.w == 0);
+
+    REQUIRE(TEST_identity.column1.x == 0);
+    REQUIRE(TEST_identity.column1.y == 1);
+    REQUIRE(TEST_identity.column1.z == 0);
+    REQUIRE(TEST_identity.column1.w == 0);
+
+    REQUIRE(TEST_identity.column2.x == 0);
+    REQUIRE(TEST_identity.column2.y == 0);
+    REQUIRE(TEST_identity.column2.z == 1);
+    REQUIRE(TEST_identity.column2.w == 0);
+
+    REQUIRE(TEST_identity.column3.x == 0);
+    REQUIRE(TEST_identity.column3.y == 0);
+    REQUIRE(TEST_identity.column3.z == 0);
+    REQUIRE(TEST_identity.column3.w == 1);
+}
+
+TEST_CASE("matrix4<float> transpose(const matrix4<float>& m) ")
+{
+    matrix4<float> test(1, 2, 3, 4, 5, 6, 7, 8, 9,10,11,12,13,14,15,16);
+    test = MATRIX4::transpose(test);
+
+    REQUIRE(test.column0.x == 1);
+    REQUIRE(test.column0.y == 5);
+    REQUIRE(test.column0.z == 9);
+    REQUIRE(test.column0.w == 13);
+
+    REQUIRE(test.column1.x == 2);
+    REQUIRE(test.column1.y == 6);
+    REQUIRE(test.column1.z == 10);
+    REQUIRE(test.column1.w == 14);
+
+    REQUIRE(test.column2.x == 3);
+    REQUIRE(test.column2.y == 7);
+    REQUIRE(test.column2.z == 11);
+    REQUIRE(test.column2.w == 15);
+
+    REQUIRE(test.column3.x == 4);
+    REQUIRE(test.column3.y == 8);
+    REQUIRE(test.column3.z == 12);
+    REQUIRE(test.column3.w == 16);
+}
+
+TEST_CASE("matrix4<float> build_scale")
+{
+    matrix4<float> test = MATRIX4::build_identity<float>();
+    test = MATRIX4::build_scale<float>(12, 5);
+
+    REQUIRE(test.column0.x == 12);
+    REQUIRE(test.column1.y == 5);
+
+    test = MATRIX4::build_identity<float>();
+    test = MATRIX4::build_scale<float>(5);
+
+    REQUIRE(test.column0.x == 5);
+    REQUIRE(test.column1.y == 5);
+
+    vector2<float> a(5, 10);
+    test = MATRIX4::build_identity<float>();
+    test = MATRIX4::build_scale<float>(a);
+
+    REQUIRE(test.column0.x == 5);
+    REQUIRE(test.column1.y == 10);
+}
+TEST_CASE("matrix4<float> build_translation")
+{
+    matrix4<float> test = MATRIX4::build_identity<float>();
+    test = MATRIX4::build_translation<float>(4, 17);
+    REQUIRE(test.column3.x == 4);
+    REQUIRE(test.column3.y == 17);
+
+    test = MATRIX4::build_identity<float>();
+    test = MATRIX4::build_translation<float>(50,128);
+    REQUIRE(test.column3.x == 50);
+    REQUIRE(test.column3.y == 128);
+}
+TEST_CASE("matrix4<float> build_rotation")
+{
+    matrix4<float> test = MATRIX4::build_rotation<float>(80.0f);
+
+    REQUIRE(test.column0.x == cos(80.0f));
+    REQUIRE(test.column0.y == sin(80.0f));
+    REQUIRE(test.column1.x == -sin(80.0f));
+    REQUIRE(test.column1.y == cos(80.0f));
+}
 
 

@@ -9,6 +9,37 @@ constexpr matrix4<T>::matrix4() noexcept
         }
     }
 }
+template <typename T>
+constexpr  matrix4<T>::matrix4(T column0_row0, T column0_row1, T column0_row2, T column0_row3, T column1_row0, T column1_row1,
+    T column1_row2, T column1_row3, T column2_row0, T column2_row1, T column2_row2, T column2_row3, T column3_row0, T column3_row1, T column3_row2, T column3_row3) noexcept
+{
+
+    elements[0][0] = column0_row0;
+    elements[1][0] = column1_row0;
+    elements[2][0] = column2_row0;
+    elements[3][0] = column3_row0;
+
+
+    elements[0][1] = column0_row1;
+    elements[1][1] = column1_row1;
+    elements[2][1] = column2_row1;
+    elements[3][1] = column3_row1;
+
+
+    elements[0][2] = column0_row2;
+    elements[1][2] = column1_row2;
+    elements[2][2] = column2_row2;
+    elements[3][2] = column3_row2;
+
+    elements[0][3] = column0_row3;
+    elements[1][3] = column1_row3;
+    elements[2][3] = column2_row3;
+    elements[3][3] = column3_row3;
+
+
+
+}
+
 
 template <typename T>
 constexpr T matrix4<T>::operator()(int column, int row) const noexcept
@@ -22,6 +53,9 @@ constexpr T matrix4<T>::operator()(int column, int row) const noexcept
 
     return element_val;
 }
+
+
+
 
 template <typename T>
 constexpr T& matrix4<T>::operator()(int column, int row) noexcept

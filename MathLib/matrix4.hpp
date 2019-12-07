@@ -22,6 +22,8 @@ vector4<T> column3;
 
 public:
 constexpr matrix4() noexcept;
+constexpr matrix4(T column0_row0, T column0_row1, T column0_row2, T column0_row3,T column1_row0, T column1_row1,
+    T column1_row2, T column1_row3,T column2_row0, T column2_row1, T column2_row2, T column2_row3, T column3_row0, T column3_row1, T column3_row2, T column3_row3) noexcept;
 //constexpr matrix4(vector3<T> first_column, vector3<T> second_column, vector3<T> third_column, vector3<T> fourth_column) noexcept;
 
 constexpr T  operator()(int column, int row) const noexcept;
@@ -55,8 +57,6 @@ namespace MATRIX4
     constexpr matrix4<T> build_scale(const vector2<T>& scale) noexcept;
     template <typename T>
     constexpr matrix4<T> build_translation(float translate_x, float translate_y) noexcept;
-    //template <typename T>
-    //constexpr matrix4<T> build_translation(const vector2<T>& translation) noexcept;
 }
 
 
