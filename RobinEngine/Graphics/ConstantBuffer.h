@@ -1,3 +1,9 @@
+/*------------------------------------------------------------------------
+Name: yoonsoo.kwon
+Assignment name : Class project
+Course name : CS200
+Term : Fall Year(2019)
+------------------------------------------------------------------------*/
 #ifndef ConstantBuffer_h__
 #define ConstantBuffer_h__
 #include <d3d11.h>

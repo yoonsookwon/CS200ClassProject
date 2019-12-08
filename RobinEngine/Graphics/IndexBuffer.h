@@ -1,3 +1,9 @@
+/*------------------------------------------------------------------------
+Name: yoonsoo.kwon
+Assignment name : Class project
+Course name : CS200
+Term : Fall Year(2019)
+------------------------------------------------------------------------*/
 #ifndef IndicesBuffer_h__
 #define IndicesBuffer_h__
 #include <d3d11.h>
@@ -31,9 +37,7 @@ public:
     }
 
     HRESULT Initialize(ID3D11Device *device, DWORD * data, UINT numIndices)
-    {/*
-        if (buffer.Get() != nullptr)
-            buffer.Reset();*/
+    {
 
         this->bufferSize = numIndices;
         //Load Index Data

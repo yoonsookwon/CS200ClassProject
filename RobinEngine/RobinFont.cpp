@@ -1,3 +1,9 @@
+/*------------------------------------------------------------------------
+Name: yoonsoo.kwon
+Assignment name : Class project
+Course name : CS200
+Term : Fall Year(2019)
+------------------------------------------------------------------------*/
 #include  "RobinFont.h"
 #include <iostream>
 #include  <WICTextureLoader.h>
@@ -12,7 +18,6 @@ void RobinFont::Init(ID3D11Device* _device, ID3D11DeviceContext* _device_context
     {
         return;
     }
-    //MUST be png file????
     HRESULT hr = DirectX::CreateWICTextureFromFile(this->device, L"Data\\Fonts\\bitmap_0.png", nullptr, font.GetAddressOf());
 
     if (FAILED(hr))
@@ -43,7 +48,7 @@ void RobinFont::SetText(std::wstring text,  float offsetX, float offsetY)
     v = new Vertex[6 * text.size()];
     indices = new DWORD[6 * text.size()];
 
-    for (int i = 0; i < text.size(); i++)
+    for (unsigned int i = 0; i < text.size(); i++)
     {
         charInfo = robin_font.GetCharacter(text.at(i));
         vector2<float> text_leftTop = { static_cast<float>(charInfo.x) / static_cast<float>(robin_font.GetInformation().imageWidth),
@@ -77,8 +82,8 @@ void RobinFont::SetText(std::wstring text,  float offsetX, float offsetY)
         countIndex += 6;
         offset += (text_Offset +0.04f);
     }
-    HRESULT hr = this->vertexBuffer.Initialize(this->device, v, text.size() * 6);
-    hr = this->indexBuffer.Initialize(this->device, indices, text.size() * 6);
+    HRESULT hr = this->vertexBuffer.Initialize(this->device, v, static_cast<UINT>(text.size() * 6));
+    hr = this->indexBuffer.Initialize(this->device, indices, static_cast<UINT>(text.size() * 6));
 
     delete[]v;
     delete[]indices;

@@ -1,8 +1,9 @@
-/*
- * Rudy Castan
- * Graphics Library
- * CS230
- */
+/*------------------------------------------------------------------------
+Name: yoonsoo.kwon
+Assignment name : Class project
+Course name : CS200
+Term : Fall Year(2019)
+------------------------------------------------------------------------*/
 #pragma once
 #include <filesystem>
 #include <string>

@@ -1,6 +1,11 @@
-cbuffer mycBuffer : register(b0) //second를 만들고 싶으면 b1이라고 한다
+/*------------------------------------------------------------------------
+Name: yoonsoo.kwon
+Assignment name : Class project
+Course name : CS200
+Term : Fall Year(2019)
+------------------------------------------------------------------------*/
+cbuffer mycBuffer : register(b0)
 {
-    //row_major & column_major
     float4x4 mat;
 };
 

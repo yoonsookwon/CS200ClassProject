@@ -1,4 +1,10 @@
-﻿#include  "Engine.h"
+﻿/*------------------------------------------------------------------------
+Name: yoonsoo.kwon
+Assignment name : Class project
+Course name : CS200
+Term : Fall Year(2019)
+------------------------------------------------------------------------*/
+#include  "Engine.h"
 #include  "ScreenGrab.h"
 #include "wincodec.h"
 bool Engine::Init(HINSTANCE hInstance, std::string window_title, std::string window_class, int width, int height)
@@ -72,7 +78,7 @@ void Engine::Update()
 
     //this->gfx.model.AdjustRotation(0.0f, 0.0f, 0.001f);
     const float cameraSpeed = 0.03f;
-    const float objectSpeed = 1.f;
+    const float objectSpeed = 0.03f;
     while (!mouse.EventBufferisEmpty())
     {
         MouseEvent mouse_event = mouse.ReadEvent();
@@ -144,28 +150,28 @@ void Engine::Update()
     {
         this->gfx.Rectangle.AdjustPosition(0.0f, -cameraSpeed);
     }
-    if (keyboard.KeyIsPressed('1'))
+    if (keyboard.KeyIsPressed('1')|| keyboard.KeyIsPressed(VK_NUMPAD1))
     {
         this->gfx.Rectangle.AdjustRotation(cameraSpeed*2);
     }
-    if (keyboard.KeyIsPressed('2'))
+    if (keyboard.KeyIsPressed('2') || keyboard.KeyIsPressed(VK_NUMPAD2))
     {
         this->gfx.Rectangle.AdjustRotation(-cameraSpeed*2);
     }
 
-    if (keyboard.KeyIsPressed('3'))
+    if (keyboard.KeyIsPressed('3') || keyboard.KeyIsPressed(VK_NUMPAD3))
     {
         this->gfx.Rectangle.AdjustScale(0.01f, 0.0f);
     }
-    if (keyboard.KeyIsPressed('4'))
+    if (keyboard.KeyIsPressed('4') || keyboard.KeyIsPressed(VK_NUMPAD4))
     {
         this->gfx.Rectangle.AdjustScale(-0.01f, 0.0f);
     }
-    if (keyboard.KeyIsPressed('5'))
+    if (keyboard.KeyIsPressed('5') || keyboard.KeyIsPressed(VK_NUMPAD5))
     {
         this->gfx.Rectangle.AdjustScale(0.0f, 0.01f);
     }
-    if (keyboard.KeyIsPressed('6'))
+    if (keyboard.KeyIsPressed('6') || keyboard.KeyIsPressed(VK_NUMPAD6))
     {
         this->gfx.Rectangle.AdjustScale(0.0f, -0.01f);
 
@@ -174,16 +180,16 @@ void Engine::Update()
     {
         if (model.HierarchicalTYPE == Model::HierarchicalBODY)
         {
-            this->gfx.ChulBody.AdjustPosition(-0.005f, 0.0f);
-            this->gfx.ChulHead.AdjustRotation(objectSpeed);
-            this->gfx.ChulHead.AdjustPosition(-0.005f, 0.0f);
-            this->gfx.Chullegs.AdjustPosition(-0.005f, 0.0f);
-            this->gfx.ChulLArm.AdjustPosition(-0.005f, 0.0f);
-            this->gfx.ChulRArm.AdjustPosition(-0.005f, 0.0f);
+            this->gfx.ChulBody.AdjustPosition(-objectSpeed, 0.0f);
+            this->gfx.ChulHead.AdjustRotation(objectSpeed*5);
+            this->gfx.ChulHead.AdjustPosition(-objectSpeed, 0.0f);
+            this->gfx.Chullegs.AdjustPosition(-objectSpeed, 0.0f);
+            this->gfx.ChulLArm.AdjustPosition(-objectSpeed, 0.0f);
+            this->gfx.ChulRArm.AdjustPosition(-objectSpeed, 0.0f);
 
 
-            this->gfx.ChulRArm.AdjustScale(0.001f, 0.005f);
-            this->gfx.ChulLArm.AdjustScale(0.001f, 0.005f);
+            this->gfx.ChulRArm.AdjustScale(0.008f, 0.005f);
+            this->gfx.ChulLArm.AdjustScale(0.008f, 0.005f);
 
         }
     }
@@ -191,16 +197,16 @@ void Engine::Update()
     {
         if (model.HierarchicalTYPE == Model::HierarchicalBODY)
         {
-            this->gfx.ChulBody.AdjustPosition(0.005f, 0.0f);
-           this->gfx.ChulHead.AdjustRotation(-objectSpeed);
-            this->gfx.ChulHead.AdjustPosition(0.005f, 0.0f);
-            this->gfx.Chullegs.AdjustPosition(0.005f, 0.0f);
-            this->gfx.ChulLArm.AdjustPosition(0.005f, 0.0f);
-            this->gfx.ChulRArm.AdjustPosition(0.005f, 0.0f);
+            this->gfx.ChulBody.AdjustPosition(objectSpeed, 0.0f);
+           this->gfx.ChulHead.AdjustRotation(-objectSpeed*5);
+            this->gfx.ChulHead.AdjustPosition(objectSpeed, 0.0f);
+            this->gfx.Chullegs.AdjustPosition(objectSpeed, 0.0f);
+            this->gfx.ChulLArm.AdjustPosition(objectSpeed, 0.0f);
+            this->gfx.ChulRArm.AdjustPosition(objectSpeed, 0.0f);
 
 
-            this->gfx.ChulRArm.AdjustScale(-0.001f, -0.005f);
-            this->gfx.ChulLArm.AdjustScale(-0.001f, -0.005f);
+            this->gfx.ChulRArm.AdjustScale(-0.008f, -0.005f);
+            this->gfx.ChulLArm.AdjustScale(-0.008f, -0.005f);
 
         }
     }
@@ -208,44 +214,41 @@ void Engine::Update()
     {
         if (model.HierarchicalTYPE == Model::HierarchicalBODY)
         {
-            this->gfx.ChulBody.AdjustPosition(0.0f, 0.005f);
-            this->gfx.ChulHead.AdjustRotation(-objectSpeed);
-            this->gfx.ChulHead.AdjustPosition(0.0f, 0.005f);
-            this->gfx.Chullegs.AdjustPosition(0.0f, 0.005f);
-            this->gfx.ChulLArm.AdjustPosition(0.0f, 0.005f);
-            this->gfx.ChulRArm.AdjustPosition(0.0f, 0.005f);
+            this->gfx.ChulBody.AdjustPosition(0.0f, objectSpeed);
+            this->gfx.ChulHead.AdjustRotation(-objectSpeed*5);
+            this->gfx.ChulHead.AdjustPosition(0.0f, objectSpeed);
+            this->gfx.Chullegs.AdjustPosition(0.0f, objectSpeed);
+            this->gfx.ChulLArm.AdjustPosition(0.0f, objectSpeed);
+            this->gfx.ChulRArm.AdjustPosition(0.0f, objectSpeed);
 
 
-            this->gfx.Chullegs.AdjustScale(0.004f, 0.001f);
+            this->gfx.Chullegs.AdjustScale(0.009f, 0.001f);
         }
     }
     if (this->gfx.current_state == LEVEL2 && keyboard.KeyIsPressed(VK_DOWN))
     {
         if (model.HierarchicalTYPE == Model::HierarchicalBODY)
         {
-            this->gfx.ChulBody.AdjustPosition(0.0f, -0.005f);
-           this->gfx.ChulHead.AdjustRotation(objectSpeed);
-            this->gfx.ChulHead.AdjustPosition(0.0f, -0.005f);
-            this->gfx.Chullegs.AdjustPosition(0.0f, -0.005f);
-            this->gfx.ChulLArm.AdjustPosition(0.0f, -0.005f);
-            this->gfx.ChulRArm.AdjustPosition(0.0f, -0.005f);
+            this->gfx.ChulBody.AdjustPosition(0.0f, -objectSpeed);
+           this->gfx.ChulHead.AdjustRotation(objectSpeed*5);
+            this->gfx.ChulHead.AdjustPosition(0.0f, -objectSpeed);
+            this->gfx.Chullegs.AdjustPosition(0.0f, -objectSpeed);
+            this->gfx.ChulLArm.AdjustPosition(0.0f, -objectSpeed);
+            this->gfx.ChulRArm.AdjustPosition(0.0f, -objectSpeed);
 
-            this->gfx.Chullegs.AdjustScale(-0.004f, -0.001f);
+            this->gfx.Chullegs.AdjustScale(-0.009f, -0.001f);
         }
     }
-
-
     if (keyboard.KeyIsPressed('F'))
     {
         this->gfx.FULLSCREEN(!is_FullScreen);
         is_FullScreen = !is_FullScreen;
     }
-
-    if (keyboard.KeyIsPressed('Z'))
+    if (keyboard.KeyIsPressed('Z') && this->gfx.current_state == LEVEL1)
     {
         this->gfx.camera.AdjustRotation(-cameraSpeed, 0.0f);
     }
-    if (keyboard.KeyIsPressed('X'))
+    if (keyboard.KeyIsPressed('X') && this->gfx.current_state == LEVEL1)
     {
         this->gfx.camera.AdjustRotation(cameraSpeed, 0.0f);
     }

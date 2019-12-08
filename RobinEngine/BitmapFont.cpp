@@ -1,16 +1,15 @@
+/*------------------------------------------------------------------------
+Name: yoonsoo.kwon
+Assignment name : Class project
+Course name : CS200
+Term : Fall Year(2019)
+------------------------------------------------------------------------*/
 #include "BitmapFont.hpp"
 #include <cassert>
 #include <filesystem>
 #include <fstream>
 #include <pplinterface.h>
 #include <sstream>
-
-/*------------------------------------------------------------------------
-Name: yoonsoo.kwon
-Assignment name: Text programming
-Course name: CS230
-Term: Spring Year(2019)
-------------------------------------------------------------------------*/
 
 bool BitmapFont::LoadFromFile(const std::filesystem::path& filename)
 {

@@ -1,3 +1,9 @@
+/*------------------------------------------------------------------------
+Name: yoonsoo.kwon
+Assignment name : Class project
+Course name : CS200
+Term : Fall Year(2019)
+------------------------------------------------------------------------*/
 #include  "Graphics.h"
 
 bool Graphics::Init(HWND hwnd, int width, int height)
@@ -66,8 +72,6 @@ void Graphics::RenderFrame()
             //InitScene();
             this->camera.SetPosition(0, 0);
             this->deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY::D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-            //this->Triangle.Draw(camera.GetViewMatrix() * camera.GetProjectionMatrix());
-          //  this->deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY::D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
             this->ChulLArm.Draw(camera.GetViewMatrix() * camera.GetProjectionMatrix());
             this->ChulRArm.Draw(camera.GetViewMatrix() * camera.GetProjectionMatrix());
@@ -79,8 +83,6 @@ void Graphics::RenderFrame()
 
             this->Level2Text[0].Update();
             this->Level2Text[1].Update();
-         //   this->description[12].Update();
-        //    this->description[13].Update();
         }
     }
 
@@ -100,9 +102,6 @@ void Graphics::RenderFrame()
     spriteFont->DrawString(spriteBatch.get(), StringConverter::StringToWide(fpsString).c_str(), DirectX::XMFLOAT2(0, 0), DirectX::Colors::White, 0.0f, DirectX::XMFLOAT2(0.0f, 0.0f), DirectX::XMFLOAT2(1.0f, 1.0f));
     spriteBatch->End();
 
-    //If want to turn on the vSync put the value 1, otherwise put 0
-    //if (vSync) {
-    //}
     this->swapChain->Present(is_vSyncOn, NULL);
 
 }
@@ -163,7 +162,6 @@ bool Graphics::InitDirectX(HWND hwnd)
         ErrorLogger::Log(hr, "Failed to create device and swapchain.");
         return  false;
     }
-    ///////////////////////////////////////////½ºÅ©¸°¼¦ backbuffer
     hr = this->swapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), reinterpret_cast<void**>(backbuffer.GetAddressOf()));
 
     if (FAILED(hr))
@@ -245,7 +243,6 @@ bool Graphics::InitDirectX(HWND hwnd)
     //RasterizerDesc!! 
     rasterizerDesc.FillMode = D3D11_FILL_MODE::D3D11_FILL_SOLID;
     rasterizerDesc.CullMode = D3D11_CULL_MODE::D3D11_CULL_NONE;
-    /* rasterizerDesc.FrontCounterClockwise = TRUE;*/
 
     hr = this->device->CreateRasterizerState(&rasterizerDesc, this->rasterizerState.GetAddressOf());
     if (hr != S_OK)
@@ -315,7 +312,7 @@ bool Graphics::InitShaders()
 #ifdef  _WIN64 //x64
         shaderfolder = L"..\\x64\\Debug\\";
 #else //x86(Win32)
-        shaderfloder = L"..\\Debug\\";
+        shaderfolder = L"..\\Debug\\";
 #endif
 #else // Release mode
 #ifdef _WIN64
@@ -512,16 +509,6 @@ bool Graphics::InitScene()
     Level2Text[1].Init(this->device.Get(), this->deviceContext.Get(), this->cb_vs_vertexshader);
     Level2Text[1].SetText(L"MOVE : ARROW KEY", -2.6f, 2.4f);
 
-  /*  description[12].Init(this->device.Get(), this->deviceContext.Get(), this->cb_vs_vertexshader);
-    description[12].SetText(L"*************-CHULSEUNG HIERARCHICAL-*************", -2.0f, 1.2f);
-
-    description[13].Init(this->device.Get(), this->deviceContext.Get(), this->cb_vs_vertexshader);
-    description[13].SetText(L"MOVE : ARROW KEY", -2.0f, 1.0f);
-    */
-    //description2.Init(this->device.Get(), this->deviceContext.Get(), this->cb_vs_vertexshader);
-    //description.SetText(L"CAMERA ROTATE : Z X", -3.0f, 3.0f);
-
     camera.SetPosition(0.0f, -0.2f);
-    //camera.SetProjectionValues(90.0f, static_cast<float>(windowWidth)/static_cast<float>(windowHeight),0.1f, 1000.0f);
     return true;
 }

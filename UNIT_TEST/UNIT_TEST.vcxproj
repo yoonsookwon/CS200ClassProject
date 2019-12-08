@@ -156,11 +156,6 @@
   <ItemGroup>
     <ClCompile Include="unit_test.cpp" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\MathLib\MathLib.vcxproj">
-      <Project>{d72c5f88-d999-44d2-adc6-293e339613df}</Project>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

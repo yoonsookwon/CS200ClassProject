@@ -1,3 +1,9 @@
+/*------------------------------------------------------------------------
+Name: yoonsoo.kwon
+Assignment name : Class project
+Course name : CS200
+Term : Fall Year(2019)
+------------------------------------------------------------------------*/
 #ifndef VertexBuffer_h__
 #define VertexBuffer_h__
 #include <d3d11.h>

@@ -1,3 +1,9 @@
+/*------------------------------------------------------------------------
+Name: yoonsoo.kwon
+Assignment name : Class project
+Course name : CS200
+Term : Fall Year(2019)
+------------------------------------------------------------------------*/
 #include "Model.h"
 #include "vector2.hpp"
 
@@ -13,8 +19,6 @@ bool Model::Initialize(ID3D11Device * _device, ID3D11DeviceContext * _deviceCont
     if (MeshType == Elipse)
     {
         double theta = 0;
-        //double posX = 0;
-        //double posY = 0;
         float radius = 0.7f;
         vector2<float> Pos(0,0);
         vector2<float> stores[21] = { vector2(0.f,0.f) };
@@ -265,8 +269,6 @@ bool Model::Initialize(ID3D11Device * _device, ID3D11DeviceContext * _deviceCont
             ErrorLogger::Log(hr, "Failed to create indices buffer");
             return false;
         }
-      //  this->SetPosition(0.0f, 0.0f, 0.0f);
-       // this->SetRotation(0.0f, 0.0f, 0.0f);
     }
     else if (MeshType == Rectangle) {
       
@@ -403,14 +405,11 @@ void Model::Draw(const matrix4<float> & viewProjectionMatrix)
 
 void Model::UpdateWorldMatrix()
 {
-   // matrix4<float> theResult = MATRIX4::build_identity<float>();
-
-  //  this->worldMatrix = XMMatrixRotationRollPitchYaw(this->rot.x, this->rot.y, this->rot.z) * XMMatrixTranslation(this->translation.x, this->pos.y, this->pos.z);
     matrix4<float> _translation = MATRIX4::build_translation<float>(translation.x, translation.y);
     matrix4<float> _rotation = MATRIX4::build_rotation<float>(angle);
     matrix4<float> _scale = MATRIX4::build_scale<float>(scale.x, scale.y);
     
-    this->worldMatrix = _translation * _rotation * _scale;//_scale * _rotation * _translation;
+    this->worldMatrix = _translation * _rotation * _scale;
     this->worldMatrix = MATRIX4::transpose(this->worldMatrix);
 
 }
@@ -420,7 +419,6 @@ void Model::AdjustPosition(float x, float y)
     this->translation.x += x;
     this->translation.y += y;
    
-  //  this->translation.z = 0.0f;
     this->UpdateWorldMatrix();
 }
 

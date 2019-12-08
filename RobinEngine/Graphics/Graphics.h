@@ -1,12 +1,15 @@
+/*------------------------------------------------------------------------
+Name: yoonsoo.kwon
+Assignment name : Class project
+Course name : CS200
+Term : Fall Year(2019)
+------------------------------------------------------------------------*/
 #pragma once
 #include "AdapterReader.h"
 #include  "Shaders.h"
-//#include "Vertex.h"
 #include  <SpriteBatch.h>
 #include  <SpriteFont.h>
 #include <WICTextureLoader.h>
-//#include "vertexbuffer.h"
-//#include "IndexBuffer.h"
 #include "ConstantBuffer.h"
 #include "Camera.h"
 #include "Model.h"

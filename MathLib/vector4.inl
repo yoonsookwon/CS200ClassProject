@@ -1,9 +1,9 @@
-/************************************************
- *NAME              : yoonsoo.kwon
- *ASSIGNMENT NUMBER : 1
- *COURSE NAME       : CS230
- *TERM              : Spring 2019
- ************************************************/
+/*------------------------------------------------------------------------
+Name: yoonsoo.kwon
+Assignment name : Class project
+Course name : CS200
+Term : Fall Year(2019)
+------------------------------------------------------------------------*/
 
 template <typename T>
 vector4<T>::vector4() noexcept

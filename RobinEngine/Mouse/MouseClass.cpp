@@ -1,3 +1,9 @@
+/*------------------------------------------------------------------------
+Name: yoonsoo.kwon
+Assignment name : Class project
+Course name : CS200
+Term : Fall Year(2019)
+------------------------------------------------------------------------*/
 #include "MouseClass.h"
 
 void MouseClass::LeftPressed(int _x, int _y)
@@ -16,7 +22,6 @@ void MouseClass::LeftReleased(int _x, int _y)
 void MouseClass::RightPressed(int _x, int _y)
 {
     this->rightIsDown = true;
-    //MouseEvent mouse_event(MouseEvent::EventType::LRelease, x, y);
     this->eventBuffer.push(MouseEvent(MouseEvent::EventType::Rpress,_x,_y));
 }
 

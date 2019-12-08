@@ -1,3 +1,9 @@
+/*------------------------------------------------------------------------
+Name: yoonsoo.kwon
+Assignment name : Class project
+Course name : CS200
+Term : Fall Year(2019)
+------------------------------------------------------------------------*/
 #include "KeyboardClass.h"
 
 keyboardClass::keyboardClass()
@@ -38,7 +44,7 @@ KeyboardEvent keyboardClass::ReadKey()
 unsigned char keyboardClass::ReadChar()
 {
     if (this->charBuffer.empty()) {
-        return 0u; // null char
+        return 0u; 
     }
     else
     {

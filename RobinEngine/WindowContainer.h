@@ -1,3 +1,9 @@
+/*------------------------------------------------------------------------
+Name: yoonsoo.kwon
+Assignment name : Class project
+Course name : CS200
+Term : Fall Year(2019)
+------------------------------------------------------------------------*/
 #pragma once
 #include  "RobinsWindow.h"
 #include  "Keyboard/KeyboardClass.h"
@@ -9,8 +15,6 @@ class WindowContainer
 public:
     WindowContainer();
     LRESULT WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
-//    Mouse
-//    KeyBoard
 protected:
 	RobinsWindow robins_windows;
     keyboardClass keyboard;

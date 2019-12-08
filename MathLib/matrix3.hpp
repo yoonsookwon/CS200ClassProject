@@ -1,8 +1,10 @@
-/*
- * Rudy Castan
- * Math Library
- * CS230
- */
+/*------------------------------------------------------------------------
+Name: yoonsoo.kwon
+Assignment name : Class project
+Course name : CS200
+Term : Fall Year(2019)
+------------------------------------------------------------------------*/
+
 #pragma once
 #include  "vector3.hpp"
 #pragma warning(push)

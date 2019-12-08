@@ -1,3 +1,9 @@
+/*------------------------------------------------------------------------
+Name: yoonsoo.kwon
+Assignment name : Class project
+Course name : CS200
+Term : Fall Year(2019)
+------------------------------------------------------------------------*/
 #pragma once
 #include "matrix4.hpp"
 #include "vector4.hpp"
@@ -16,8 +22,6 @@ public:
 
     void SetPosition(float x, float y);
 
-    //void AdjustPosition(const vector4<float> & pos);
-  //  void AdjustPosition(const vector3<float> & pos);
     void AdjustPosition(float x, float y);
 
     void AdjustRotation(float x, float y);
@@ -26,10 +30,8 @@ public:
 
     void UpdateViewMatrix();
     float zoom = 0.3f;
-   // float angle = 0;
+
 private:
-   // vector4<float> posVector;
-    //vector4<float> rotVector;
 
     vector2<float> pos;
     vector3<float> rot;

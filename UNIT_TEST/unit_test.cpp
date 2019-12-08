@@ -1,3 +1,9 @@
+/*------------------------------------------------------------------------
+Name: yoonsoo.kwon
+Assignment name : Class project
+Course name : CS200
+Term : Fall Year(2019)
+------------------------------------------------------------------------*/
 #define   CATCH_CONFIG_MAIN 
 #include  "catch.hpp"
 #include "vector2.hpp"
