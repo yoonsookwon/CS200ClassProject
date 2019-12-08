@@ -20,7 +20,7 @@ bool Engine::ProcessMessages()
 
 void Engine::Update()
 {
-    float dt = timer.GetMilisecondsElapsed();
+   // double dt = timer.GetMilisecondsElapsed();
     timer.Restart();
 
     while (!keyboard.CharBufferIsEmpty())
@@ -41,10 +41,10 @@ void Engine::Update()
         {
         }
         if (kbe.IsPress()) {
-            if(keycode == VK_NUMPAD9)
+            if(keycode == 'P')
             {
                 SaveWICTextureToFile(this->gfx.deviceContext.Get(),
-                   this->gfx.backbuffer.Get(), GUID_ContainerFormatPng,L"SCREENSHOTaa.PNG");
+                   this->gfx.backbuffer.Get(), GUID_ContainerFormatPng,L"SCREENSHOT.PNG");
             }
 
             if (keycode == 'V')
@@ -144,28 +144,28 @@ void Engine::Update()
     {
         this->gfx.Rectangle.AdjustPosition(0.0f, -cameraSpeed);
     }
-    if (keyboard.KeyIsPressed(VK_NUMPAD1))
+    if (keyboard.KeyIsPressed('1'))
     {
         this->gfx.Rectangle.AdjustRotation(cameraSpeed*2);
     }
-    if (keyboard.KeyIsPressed(VK_NUMPAD2))
+    if (keyboard.KeyIsPressed('2'))
     {
         this->gfx.Rectangle.AdjustRotation(-cameraSpeed*2);
     }
 
-    if (keyboard.KeyIsPressed(VK_NUMPAD3))
+    if (keyboard.KeyIsPressed('3'))
     {
         this->gfx.Rectangle.AdjustScale(0.01f, 0.0f);
     }
-    if (keyboard.KeyIsPressed(VK_NUMPAD4))
+    if (keyboard.KeyIsPressed('4'))
     {
         this->gfx.Rectangle.AdjustScale(-0.01f, 0.0f);
     }
-    if (keyboard.KeyIsPressed(VK_NUMPAD5))
+    if (keyboard.KeyIsPressed('5'))
     {
         this->gfx.Rectangle.AdjustScale(0.0f, 0.01f);
     }
-    if (keyboard.KeyIsPressed(VK_NUMPAD6))
+    if (keyboard.KeyIsPressed('6'))
     {
         this->gfx.Rectangle.AdjustScale(0.0f, -0.01f);
 

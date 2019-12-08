@@ -11,6 +11,7 @@
 #include "Camera.h"
 #include "Model.h"
 #include "vector2.hpp"
+#include <..\\RobinFont.h>
 #include "..\\Timer.h"
 
 enum STATE
@@ -43,14 +44,18 @@ public:
     Model ChulLArm;
     Model ChulRArm;
 
+    RobinFont description[20];
+    //RobinFont description2;
+    //RobinFont description3;
+
  
     bool is_vSyncOn = true;
 
     STATE current_state = LEVEL1;
     Microsoft::WRL::ComPtr<  ID3D11Device> device;
     Microsoft::WRL::ComPtr<ID3D11DeviceContext> deviceContext;
-
     Microsoft::WRL::ComPtr<ID3D11Texture2D> backbuffer;
+     
 private:
     bool InitDirectX(HWND hwnd);
     bool InitShaders();
@@ -90,7 +95,7 @@ private:
     Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> ChulRarm_Texture;
    // Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> ramen_Texture;
 
-    int windowWidth = 0;
-    int windowHeight = 0;
+    FLOAT windowWidth = 0;
+    FLOAT windowHeight = 0;
     Timer fpsTimer;
 };

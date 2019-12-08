@@ -12,21 +12,21 @@ bool Model::Initialize(ID3D11Device * _device, ID3D11DeviceContext * _deviceCont
 
     if (MeshType == Elipse)
     {
-        float theta = 0;
-        float posX = 0;
-        float posY = 0;
+        double theta = 0;
+        //double posX = 0;
+        //double posY = 0;
         float radius = 0.7f;
+        vector2<float> Pos(0,0);
         vector2<float> stores[21] = { vector2(0.f,0.f) };
 
         for (int i = 0; i <= 20; i++)
         {
 
             theta = ((MATHLIB_PI * i) / (20.f)) - (MATHLIB_PI / 2);
-            posX = (radius * cos(theta))* 1.2f;//+2.0f;
-
-            posY = (radius * sin(theta))*0.7f;//+0.7f;
-            stores[i].x = posX;
-            stores[i].y = posY;
+            Pos.x = static_cast<float>((radius * cos(theta))* 1.2f);//+2.0f;
+            Pos.y = static_cast<float>((radius * sin(theta))*0.7f);//+0.7f;
+            stores[i].x = Pos.x;
+            stores[i].y = Pos.y;
         }
 
 
@@ -263,7 +263,7 @@ bool Model::Initialize(ID3D11Device * _device, ID3D11DeviceContext * _deviceCont
         if (FAILED(hr))
         {
             ErrorLogger::Log(hr, "Failed to create indices buffer");
-            return hr;
+            return false;
         }
       //  this->SetPosition(0.0f, 0.0f, 0.0f);
        // this->SetRotation(0.0f, 0.0f, 0.0f);
@@ -292,7 +292,7 @@ bool Model::Initialize(ID3D11Device * _device, ID3D11DeviceContext * _deviceCont
         if (FAILED(hr))
         {
             ErrorLogger::Log(hr, "Failed to create indices buffer");
-            return hr;
+            return false;
         }
         this->translation = { -2.0f, 1.2f };
     }
@@ -318,7 +318,7 @@ bool Model::Initialize(ID3D11Device * _device, ID3D11DeviceContext * _deviceCont
         if (FAILED(hr))
         {
             ErrorLogger::Log(hr, "Failed to create indices buffer");
-            return hr;
+            return false;
         }
     }
     else if (MeshType == Quad)
@@ -345,7 +345,7 @@ bool Model::Initialize(ID3D11Device * _device, ID3D11DeviceContext * _deviceCont
         if (FAILED(hr))
         {
             ErrorLogger::Log(hr, "Failed to create indices buffer");
-            return hr;
+            return false;
         }
     }
     else if (MeshType == Line)
@@ -369,7 +369,7 @@ bool Model::Initialize(ID3D11Device * _device, ID3D11DeviceContext * _deviceCont
     if (FAILED(hr))
     {
         ErrorLogger::Log(hr, "Failed to create indices buffer");
-        return hr;
+        return false;
     }
     }
 

@@ -2,8 +2,8 @@
 
 bool Graphics::Init(HWND hwnd, int width, int height)
 {
-    this->windowWidth = width;
-    this->windowHeight = height;
+    this->windowWidth = static_cast<FLOAT>(width);
+    this->windowHeight = static_cast<FLOAT>(height);
     this->fpsTimer.Start();
     if (!InitDirectX(hwnd))
         return  false;
@@ -35,7 +35,7 @@ void Graphics::RenderFrame()
     this->deviceContext->PSSetShader(pixelshader.GetShader(), NULL, 0);
     
 
-    UINT offset = 0;
+    //UINT offset = 0;
 
    
     {//Chicken
@@ -47,6 +47,9 @@ void Graphics::RenderFrame()
             this->Rectangle.Draw(camera.GetViewMatrix() * camera.GetProjectionMatrix());
             this->Triangle.Draw(camera.GetViewMatrix() * camera.GetProjectionMatrix());
             this->Quad.Draw(camera.GetViewMatrix() * camera.GetProjectionMatrix());
+            this->description[0].Update();
+            this->description[1].Update();
+            //this->description2.Update();
 
         }
         else if(current_state == LEVEL2)
@@ -106,8 +109,8 @@ bool Graphics::InitDirectX(HWND hwnd)
     DXGI_SWAP_CHAIN_DESC scd;
     ZeroMemory(&scd, sizeof(DXGI_SWAP_CHAIN_DESC));
 
-    scd.BufferDesc.Width = this->windowWidth;
-    scd.BufferDesc.Height = this->windowHeight;
+    scd.BufferDesc.Width = static_cast<UINT>(this->windowWidth);
+    scd.BufferDesc.Height = static_cast<UINT>(this->windowHeight);
     scd.BufferDesc.RefreshRate.Numerator = 60;
     scd.BufferDesc.RefreshRate.Denominator = 1;
 
@@ -161,8 +164,8 @@ bool Graphics::InitDirectX(HWND hwnd)
     }
     //Describe our Depth/Stencil buffer
     D3D11_TEXTURE2D_DESC depthStencilDesc;
-    depthStencilDesc.Width = this->windowWidth;
-    depthStencilDesc.Height = this->windowHeight;
+    depthStencilDesc.Width = static_cast<UINT>(this->windowWidth);
+    depthStencilDesc.Height = static_cast<UINT>(this->windowHeight);
     depthStencilDesc.MipLevels = 1;
     depthStencilDesc.ArraySize = 1;
     depthStencilDesc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
@@ -418,8 +421,8 @@ bool Graphics::InitScene()
     ChulBody.HierarchicalTYPE = Model::HierarchicalBODY;
     ChulBody.translation.x += 2.0f;
     ChulBody.translation.y -= 1.3f;
-    ChulBody.scale.x += 0.5;
-    ChulBody.scale.y += 0.8;
+    ChulBody.scale.x += 0.5f;
+    ChulBody.scale.y += 0.8f;
     if (!Chullegs.Initialize(this->device.Get(), this->deviceContext.Get(), this->Chullegs_Texture .Get(), cb_vs_vertexshader, ChulBody.Rectangle)) {
         return false;
     }
@@ -439,7 +442,17 @@ bool Graphics::InitScene()
     ChulRArm.translation.x += 3.5f;
     ChulRArm.translation.y -= 1.3f;
 
-    camera.SetPosition(0.0f, 0.0f);
+    //Custom Font
+    description[0].Init(this->device.Get(), this->deviceContext.Get(), this->cb_vs_vertexshader);
+    description[0].SetText(L"CAMERA MOVE : W A S D", -3.0f, 3.5f);
+
+    description[1].Init(this->device.Get(), this->deviceContext.Get(), this->cb_vs_vertexshader);
+    description[1].SetText(L"CAMERA ROTATE : Z X", -3.0f, 3.2f);
+
+    //description2.Init(this->device.Get(), this->deviceContext.Get(), this->cb_vs_vertexshader);
+    //description.SetText(L"CAMERA ROTATE : Z X", -3.0f, 3.0f);
+
+    camera.SetPosition(0.0f, -0.2f);
    //camera.SetProjectionValues(90.0f, static_cast<float>(windowWidth)/static_cast<float>(windowHeight),0.1f, 1000.0f);
     return true;
 }

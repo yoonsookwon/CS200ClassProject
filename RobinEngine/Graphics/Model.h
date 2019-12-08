@@ -3,6 +3,7 @@
 #include "vertexbuffer.h"
 #include "IndexBuffer.h"
 #include "ConstantBuffer.h"
+#include  "ConstantBufferTypes.h"
 #include "matrix4.hpp"
 #include "vector3.hpp"
 using namespace DirectX;

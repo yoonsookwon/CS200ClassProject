@@ -1,6 +1,25 @@
 template <typename T>
 constexpr matrix4<T>::matrix4() noexcept
 {
+    column0.x = 0.0f;
+    column0.y = 0.0f;
+    column0.z = 0.0f;
+    column0.w = 0.0f;
+
+    column1.x = 0.0f;
+    column1.y = 0.0f;
+    column1.z = 0.0f;
+    column1.w = 0.0f;
+
+    column2.x = 0.0f;
+    column2.y = 0.0f;
+    column2.z = 0.0f;
+    column2.w = 0.0f;
+
+    column3.x = 0.0f;
+    column3.y = 0.0f;
+    column3.z = 0.0f;
+    column3.w = 0.0f;
     for (int i = 0; i < 4; i++)
     {
         for (int j = 0; j < 4; j++)
@@ -126,12 +145,12 @@ constexpr matrix4<T> MATRIX4::build_rotation(float angle_in_radians) noexcept
     matrix4<T>   result_matrix;
     const int zero_val = 0;
 
-    result_matrix.column0.x = cos(angle_in_radians);
-    result_matrix.column0.y = sin(angle_in_radians);
+    result_matrix.column0.x = static_cast<T>(cos(angle_in_radians));
+    result_matrix.column0.y = static_cast<T>(sin(angle_in_radians));
     result_matrix.column0.z = 0.0f;
     result_matrix.column0.w = 0.0f;
-    result_matrix.column1.x = -(sin(angle_in_radians));
-    result_matrix.column1.y = cos(angle_in_radians);
+    result_matrix.column1.x = static_cast<T>(-(sin(angle_in_radians)));
+    result_matrix.column1.y = static_cast<T>(cos(angle_in_radians));
     result_matrix.column1.z = 0.0f;
     result_matrix.column1.w = 0.0f;
     result_matrix.column2.x = 0.0f;
