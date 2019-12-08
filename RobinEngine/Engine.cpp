@@ -44,7 +44,7 @@ void Engine::Update()
             if(keycode == 'P')
             {
                 SaveWICTextureToFile(this->gfx.deviceContext.Get(),
-                   this->gfx.backbuffer.Get(), GUID_ContainerFormatPng,L"SCREENSHOT.PNG");
+                   this->gfx.backbuffer.Get(), GUID_ContainerFormatJpeg,L"SCREENSHOT.JPG");
             }
 
             if (keycode == 'V')
@@ -192,7 +192,7 @@ void Engine::Update()
         if (model.HierarchicalTYPE == Model::HierarchicalBODY)
         {
             this->gfx.ChulBody.AdjustPosition(0.005f, 0.0f);
-            this->gfx.ChulHead.AdjustRotation(-objectSpeed);
+           this->gfx.ChulHead.AdjustRotation(-objectSpeed);
             this->gfx.ChulHead.AdjustPosition(0.005f, 0.0f);
             this->gfx.Chullegs.AdjustPosition(0.005f, 0.0f);
             this->gfx.ChulLArm.AdjustPosition(0.005f, 0.0f);
@@ -224,7 +224,7 @@ void Engine::Update()
         if (model.HierarchicalTYPE == Model::HierarchicalBODY)
         {
             this->gfx.ChulBody.AdjustPosition(0.0f, -0.005f);
-            this->gfx.ChulHead.AdjustRotation(objectSpeed);
+           this->gfx.ChulHead.AdjustRotation(objectSpeed);
             this->gfx.ChulHead.AdjustPosition(0.0f, -0.005f);
             this->gfx.Chullegs.AdjustPosition(0.0f, -0.005f);
             this->gfx.ChulLArm.AdjustPosition(0.0f, -0.005f);

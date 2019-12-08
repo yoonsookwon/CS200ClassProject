@@ -43,8 +43,10 @@ public:
     Model Chullegs;
     Model ChulLArm;
     Model ChulRArm;
+    Model FixLastPoint;
 
     RobinFont description[20];
+    RobinFont Level2Text[2];
     //RobinFont description2;
     //RobinFont description3;
 
@@ -55,6 +57,7 @@ public:
     Microsoft::WRL::ComPtr<  ID3D11Device> device;
     Microsoft::WRL::ComPtr<ID3D11DeviceContext> deviceContext;
     Microsoft::WRL::ComPtr<ID3D11Texture2D> backbuffer;
+
      
 private:
     bool InitDirectX(HWND hwnd);
@@ -93,6 +96,7 @@ private:
     Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> Chullegs_Texture;
     Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> ChulLarm_Texture;
     Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> ChulRarm_Texture;
+    Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> Nothing_Texture;
    // Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> ramen_Texture;
 
     FLOAT windowWidth = 0;

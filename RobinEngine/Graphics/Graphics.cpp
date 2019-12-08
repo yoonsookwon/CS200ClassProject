@@ -60,8 +60,6 @@ void Graphics::RenderFrame()
             this->description[9].Update();
             this->description[10].Update();
             this->description[11].Update();
-            //this->description2.Update();
-
         }
         else if (current_state == LEVEL2)
         {
@@ -70,11 +68,19 @@ void Graphics::RenderFrame()
             this->deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY::D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
             //this->Triangle.Draw(camera.GetViewMatrix() * camera.GetProjectionMatrix());
           //  this->deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY::D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
             this->ChulLArm.Draw(camera.GetViewMatrix() * camera.GetProjectionMatrix());
             this->ChulRArm.Draw(camera.GetViewMatrix() * camera.GetProjectionMatrix());
             this->Chullegs.Draw(camera.GetViewMatrix() * camera.GetProjectionMatrix());
             this->ChulBody.Draw(camera.GetViewMatrix() * camera.GetProjectionMatrix());
             this->ChulHead.Draw(camera.GetViewMatrix() * camera.GetProjectionMatrix());
+
+            this->FixLastPoint.Draw(camera.GetViewMatrix() * camera.GetProjectionMatrix());
+
+            this->Level2Text[0].Update();
+            this->Level2Text[1].Update();
+         //   this->description[12].Update();
+        //    this->description[13].Update();
         }
     }
 
@@ -377,6 +383,7 @@ bool Graphics::InitScene()
         ErrorLogger::Log(hr, "Failed to initialize constant buffer.");
         return false;
     }
+
     hr = DirectX::CreateWICTextureFromFile(this->device.Get(), L"Data\\Textures\\Chulbody.png", nullptr, ChulBody_Texture.GetAddressOf());
     if (FAILED(hr))
     {
@@ -449,11 +456,17 @@ bool Graphics::InitScene()
     if (!ChulRArm.Initialize(this->device.Get(), this->deviceContext.Get(), this->ChulRarm_Texture.Get(), cb_vs_vertexshader, ChulBody.Rectangle)) {
         return false;
     }
-
     ChulRArm.translation.x += 3.5f;
     ChulRArm.translation.y -= 1.3f;
 
-    //Custom Font
+    if (!FixLastPoint.Initialize(this->device.Get(), this->deviceContext.Get(), this->Nothing_Texture.Get(), cb_vs_vertexshader, ChulBody.Line)) {
+        return false;
+    }
+    FixLastPoint.translation.x += 2.0f;
+    FixLastPoint.translation.y -= 0.0f;
+
+
+    //Custom Font(CAMERA)
     description[0].Init(this->device.Get(), this->deviceContext.Get(), this->cb_vs_vertexshader);
     description[0].SetText(L"-CAMERA- ", -3.0f, 3.5f);
 
@@ -492,7 +505,19 @@ bool Graphics::InitScene()
     description[11].SetText(L"V SYNC ON/OFF : V", 1.f, 1.7f);
 
 
-    
+
+    Level2Text[0].Init(this->device.Get(), this->deviceContext.Get(), this->cb_vs_vertexshader);
+    Level2Text[0].SetText(L"-CHULSEUNG      HIERARCHICAL-", -3.2f, 2.9f);
+
+    Level2Text[1].Init(this->device.Get(), this->deviceContext.Get(), this->cb_vs_vertexshader);
+    Level2Text[1].SetText(L"MOVE : ARROW KEY", -2.6f, 2.4f);
+
+  /*  description[12].Init(this->device.Get(), this->deviceContext.Get(), this->cb_vs_vertexshader);
+    description[12].SetText(L"*************-CHULSEUNG HIERARCHICAL-*************", -2.0f, 1.2f);
+
+    description[13].Init(this->device.Get(), this->deviceContext.Get(), this->cb_vs_vertexshader);
+    description[13].SetText(L"MOVE : ARROW KEY", -2.0f, 1.0f);
+    */
     //description2.Init(this->device.Get(), this->deviceContext.Get(), this->cb_vs_vertexshader);
     //description.SetText(L"CAMERA ROTATE : Z X", -3.0f, 3.0f);
 
