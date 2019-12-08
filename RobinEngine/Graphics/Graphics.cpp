@@ -33,11 +33,11 @@ void Graphics::RenderFrame()
     this->deviceContext->PSSetSamplers(0, 1, this->samplerState.GetAddressOf());
     this->deviceContext->VSSetShader(vertexshader.GetShader(), NULL, 0);
     this->deviceContext->PSSetShader(pixelshader.GetShader(), NULL, 0);
-    
+
 
     //UINT offset = 0;
 
-   
+
     {//Chicken
        // camera.UpdateViewMatrix();
         if (current_state == LEVEL1) {
@@ -49,13 +49,24 @@ void Graphics::RenderFrame()
             this->Quad.Draw(camera.GetViewMatrix() * camera.GetProjectionMatrix());
             this->description[0].Update();
             this->description[1].Update();
+            this->description[2].Update();
+            this->description[3].Update();
+            this->description[4].Update();
+
+            this->description[5].Update();
+            this->description[6].Update();
+            this->description[7].Update();
+            this->description[8].Update();
+            this->description[9].Update();
+            this->description[10].Update();
+            this->description[11].Update();
             //this->description2.Update();
 
         }
-        else if(current_state == LEVEL2)
+        else if (current_state == LEVEL2)
         {
             //InitScene();
-            this->camera.SetPosition( 0,0);
+            this->camera.SetPosition(0, 0);
             this->deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY::D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
             //this->Triangle.Draw(camera.GetViewMatrix() * camera.GetProjectionMatrix());
           //  this->deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY::D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
@@ -77,17 +88,17 @@ void Graphics::RenderFrame()
         fpsCounter = 0;
         fpsTimer.Restart();
     }
-    spriteBatch->Begin();
-    //spriteFont->DrawString(spriteBatch.get(), L"HELLO I'M ROBIN!!", DirectX::XMFLOAT2(0, 0), DirectX::Colors::White, 0.0f, DirectX::XMFLOAT2(0.0f, 0.0f), DirectX::XMFLOAT2(1.0f, 1.0f));
-    spriteFont->DrawString(spriteBatch.get(), StringConverter::StringToWide(fpsString).c_str(), DirectX::XMFLOAT2(0, 0), DirectX::Colors::White, 0.0f, DirectX::XMFLOAT2(0.0f, 0.0f), DirectX::XMFLOAT2(1.0f, 1.0f));
 
+    spriteBatch->Begin();
+    ////spriteFont->DrawString(spriteBatch.get(), L"HELLO I'M ROBIN!!", DirectX::XMFLOAT2(0, 0), DirectX::Colors::White, 0.0f, DirectX::XMFLOAT2(0.0f, 0.0f), DirectX::XMFLOAT2(1.0f, 1.0f));
+    spriteFont->DrawString(spriteBatch.get(), StringConverter::StringToWide(fpsString).c_str(), DirectX::XMFLOAT2(0, 0), DirectX::Colors::White, 0.0f, DirectX::XMFLOAT2(0.0f, 0.0f), DirectX::XMFLOAT2(1.0f, 1.0f));
     spriteBatch->End();
 
     //If want to turn on the vSync put the value 1, otherwise put 0
     //if (vSync) {
     //}
     this->swapChain->Present(is_vSyncOn, NULL);
-  
+
 }
 
 void Graphics::FULLSCREEN(bool toggle)
@@ -146,7 +157,7 @@ bool Graphics::InitDirectX(HWND hwnd)
         ErrorLogger::Log(hr, "Failed to create device and swapchain.");
         return  false;
     }
-///////////////////////////////////////////½ºÅ©¸°¼¦ backbuffer
+    ///////////////////////////////////////////½ºÅ©¸°¼¦ backbuffer
     hr = this->swapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), reinterpret_cast<void**>(backbuffer.GetAddressOf()));
 
     if (FAILED(hr))
@@ -307,7 +318,7 @@ bool Graphics::InitShaders()
         shaderfolder = L"..\\Release\\";
 #endif
 #endif
-    }
+}
 
     D3D11_INPUT_ELEMENT_DESC layout[] =
     {
@@ -336,7 +347,7 @@ bool Graphics::InitScene()
         ErrorLogger::Log(hr, "Failed to create wic texture from file.");
         return false;
     }
-   hr = DirectX::CreateWICTextureFromFile(this->device.Get(), L"Data\\Textures\\ttuck.png", nullptr, ttuckBokki_Texture.GetAddressOf());
+    hr = DirectX::CreateWICTextureFromFile(this->device.Get(), L"Data\\Textures\\ttuck.png", nullptr, ttuckBokki_Texture.GetAddressOf());
     if (FAILED(hr))
     {
         ErrorLogger::Log(hr, "Failed to create wic texture from file.");
@@ -355,7 +366,7 @@ bool Graphics::InitScene()
         return false;
     }
 
-   hr = this->cb_vs_vertexshader.Initialize(this->device.Get(), this->deviceContext.Get());
+    hr = this->cb_vs_vertexshader.Initialize(this->device.Get(), this->deviceContext.Get());
     if (FAILED(hr)) {
         ErrorLogger::Log(hr, "Failed to initialize constant buffer.");
         return false;
@@ -397,13 +408,13 @@ bool Graphics::InitScene()
     }
     if (!Triangle.Initialize(this->device.Get(), this->deviceContext.Get(), this->myTexture.Get(), cb_vs_vertexshader, Triangle.Triangle)) {
         return false;
-    }  
+    }
     if (!Quad.Initialize(this->device.Get(), this->deviceContext.Get(), this->ttuckBokki_Texture.Get(), cb_vs_vertexshader, Quad.Quad)) {
         return false;
-    }  
+    }
     if (!Rectangle.Initialize(this->device.Get(), this->deviceContext.Get(), this->ramen_Texture.Get(), cb_vs_vertexshader, Rectangle.Rectangle)) {
         return false;
-    } 
+    }
     if (!Elipse.Initialize(this->device.Get(), this->deviceContext.Get(), this->myTexture.Get(), cb_vs_vertexshader, Elipse.Elipse)) {
         return false;
     }
@@ -423,7 +434,7 @@ bool Graphics::InitScene()
     ChulBody.translation.y -= 1.3f;
     ChulBody.scale.x += 0.5f;
     ChulBody.scale.y += 0.8f;
-    if (!Chullegs.Initialize(this->device.Get(), this->deviceContext.Get(), this->Chullegs_Texture .Get(), cb_vs_vertexshader, ChulBody.Rectangle)) {
+    if (!Chullegs.Initialize(this->device.Get(), this->deviceContext.Get(), this->Chullegs_Texture.Get(), cb_vs_vertexshader, ChulBody.Rectangle)) {
         return false;
     }
     Chullegs.translation.x += 2.0f;
@@ -444,15 +455,48 @@ bool Graphics::InitScene()
 
     //Custom Font
     description[0].Init(this->device.Get(), this->deviceContext.Get(), this->cb_vs_vertexshader);
-    description[0].SetText(L"CAMERA MOVE : W A S D", -3.0f, 3.5f);
+    description[0].SetText(L"-CAMERA- ", -3.0f, 3.5f);
 
     description[1].Init(this->device.Get(), this->deviceContext.Get(), this->cb_vs_vertexshader);
-    description[1].SetText(L"CAMERA ROTATE : Z X", -3.0f, 3.2f);
+    description[1].SetText(L"MOVE : W A S D", -3.0f, 3.2f);
 
+    description[2].Init(this->device.Get(), this->deviceContext.Get(), this->cb_vs_vertexshader);
+    description[2].SetText(L"ROTATION : Z X", -3.0f, 2.9f);
+
+    description[3].Init(this->device.Get(), this->deviceContext.Get(), this->cb_vs_vertexshader);
+    description[3].SetText(L"ZOOM IN : MOUSE WHEEL UP", -3.0f, 2.6f);
+
+    description[4].Init(this->device.Get(), this->deviceContext.Get(), this->cb_vs_vertexshader);
+    description[4].SetText(L"ZOOM OUT : MOUSE WHEEL DOWN", -3.0f, 2.3f);
+
+    //OBJECT
+    description[5].Init(this->device.Get(), this->deviceContext.Get(), this->cb_vs_vertexshader);
+    description[5].SetText(L"-OBJECT-", 1.f, 3.7f);
+
+    description[6].Init(this->device.Get(), this->deviceContext.Get(), this->cb_vs_vertexshader);
+    description[6].SetText(L"MOVE : ARROW KEYS ", 1.f, 3.4f);
+
+    description[7].Init(this->device.Get(), this->deviceContext.Get(), this->cb_vs_vertexshader);
+    description[7].SetText(L"ROTATION : NUM 1 2", 1.f, 3.1f);
+
+    description[8].Init(this->device.Get(), this->deviceContext.Get(), this->cb_vs_vertexshader);
+    description[8].SetText(L"X SCALE : NUM 3 4", 1.f, 2.8f);
+
+    description[9].Init(this->device.Get(), this->deviceContext.Get(), this->cb_vs_vertexshader);
+    description[9].SetText(L"Y SCALE : NUM 5 6", 1.f, 2.5f);
+
+    description[10].Init(this->device.Get(), this->deviceContext.Get(), this->cb_vs_vertexshader);
+    description[10].SetText(L"SCREEN SHOT : P", 1.f, 2.0f);
+
+    description[11].Init(this->device.Get(), this->deviceContext.Get(), this->cb_vs_vertexshader);
+    description[11].SetText(L"V SYNC ON/OFF : V", 1.f, 1.7f);
+
+
+    
     //description2.Init(this->device.Get(), this->deviceContext.Get(), this->cb_vs_vertexshader);
     //description.SetText(L"CAMERA ROTATE : Z X", -3.0f, 3.0f);
 
     camera.SetPosition(0.0f, -0.2f);
-   //camera.SetProjectionValues(90.0f, static_cast<float>(windowWidth)/static_cast<float>(windowHeight),0.1f, 1000.0f);
+    //camera.SetProjectionValues(90.0f, static_cast<float>(windowWidth)/static_cast<float>(windowHeight),0.1f, 1000.0f);
     return true;
 }
