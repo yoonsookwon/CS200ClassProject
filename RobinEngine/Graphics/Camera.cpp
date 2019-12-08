@@ -5,11 +5,6 @@ Camera::Camera()
     this->UpdateViewMatrix();
 }
 
-//void Camera::SetProjectionValues(float fovDegrees, float aspectRatio, float nearZ, float farZ)
-//{
-//    float fovRadians = (fovDegrees / 360.0f) * XM_2PI;
-//}
-
 vector2<float> Camera::GetCameraPosition()
 {
     vector2<float> result;
@@ -34,19 +29,19 @@ void Camera::SetPosition(float x, float y)
     this->UpdateViewMatrix();
 }
 
-void Camera::AdjustPosition(const vector4<float> & pos)
-{
-    this->UpdateViewMatrix();
-}
+//void Camera::AdjustPosition(const vector4<float> & _pos)
+//{
+//    this->UpdateViewMatrix();
+//}
 
-void Camera::AdjustPosition(const vector3<float> & pos)
-{
-    this->pos.x += pos.y;
-    this->pos.y += pos.y;
-    this->UpdateViewMatrix();
-}
+//void Camera::AdjustPosition(const vector3<float> & pos)
+//{
+//    this->pos.x += pos.y;
+//    this->pos.y += pos.y;
+//    this->UpdateViewMatrix();
+//}
 
-void Camera::AdjustPosition(float x, float y, float z)
+void Camera::AdjustPosition(float x, float y)
 {
     this->pos.x += x;
     this->pos.y += y;
@@ -54,13 +49,13 @@ void Camera::AdjustPosition(float x, float y, float z)
 }
 void Camera::AdjustCameraZoom(float _zoom)
 {
-    this->zoom += zoom;
+    this->zoom += _zoom;
     this->UpdateViewMatrix();
 }
 
 
 
-void Camera::AdjustRotation(float x, float y, float z)
+void Camera::AdjustRotation(float x, float y)
 {
     this->rot.x += x;
     this->rot.y += y;

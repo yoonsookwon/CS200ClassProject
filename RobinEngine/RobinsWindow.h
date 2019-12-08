@@ -7,7 +7,7 @@ class WindowContainer;
 class RobinsWindow
 {
 public:
-	bool Init(WindowContainer * pWindowContainer,HINSTANCE hInstance, std::string window_title, std::string window_class, int width, int height);
+	bool Init(WindowContainer * pWindowContainer,HINSTANCE _hInstance, std::string _window_title, std::string _window_class, int _width, int _height);
 	bool ProcessMessages();
     HWND GetHWND() const;
 	~RobinsWindow();

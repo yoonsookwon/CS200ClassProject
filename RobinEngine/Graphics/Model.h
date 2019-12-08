@@ -23,11 +23,11 @@ public:
     };
     ModelType HierarchicalTYPE = HierarchicalBODY;
     
-    bool Initialize(ID3D11Device * device, ID3D11DeviceContext * deviceContext, ID3D11ShaderResourceView * texture, ConstantBuffer<CB_VS_vertexshader> & cb_vs_vertexshader, Model::MeshType MeshType);
-    void SetTexture(ID3D11ShaderResourceView * texture);
+    bool Initialize(ID3D11Device * _device, ID3D11DeviceContext * _deviceContext, ID3D11ShaderResourceView * _texture, ConstantBuffer<CB_VS_vertexshader> & _cb_vs_vertexshader, Model::MeshType MeshType);
+    void SetTexture(ID3D11ShaderResourceView * _texture);
     void Draw(const matrix4<float> & viewProjectionMatrix);
 
-    void AdjustPosition(float x, float y, float z);
+    void AdjustPosition(float x, float y);
     void AdjustScale(float scaleX, float scaleY);
     void AdjustRotation(float angle);
 

@@ -5,17 +5,17 @@
 class MouseClass 
 {
 public:
-    void LeftPressed(int x, int y);
-    void LeftReleased(int x, int y);
-    void RightPressed(int x, int y);
-    void RightReleased(int x, int y);
-    void MiddlePressed(int x, int y);
-    void MiddleReleased(int x, int y);
-    void WheelUp(int x, int y); 
-    void WheelDown(int x, int y);
-    void WheelPressed(int x, int y);
-    void MouseMove(int x, int y);
-    void MouseMoveRaw(int x, int y);
+    void LeftPressed(int _x, int _y);
+    void LeftReleased(int _x, int _y);
+    void RightPressed(int _x, int _y);
+    void RightReleased(int _x, int _y);
+    void MiddlePressed(int _x, int _y);
+    void MiddleReleased(int _x, int _y);
+    void WheelUp(int _x, int _y); 
+    void WheelDown(int _x, int _y);
+    void WheelPressed(int _x, int _y);
+    void MouseMove(int _x, int _y);
+    void MouseMoveRaw(int _x, int _y);
 
     bool IsLeftDown();
     bool IsMiddleDown();

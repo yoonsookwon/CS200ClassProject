@@ -1,14 +1,14 @@
 #include "WindowContainer.h"
 #include  "resource1.h"
 
-bool RobinsWindow::Init(WindowContainer * pWindowContainer,HINSTANCE hInstance, std::string window_title, std::string window_class, int width, int height)
+bool RobinsWindow::Init(WindowContainer * pWindowContainer,HINSTANCE _hInstance, std::string _window_title, std::string _window_class, int _width, int _height)
 {
-    this->hInstance = hInstance;
-    this->width = width;
-    this->height = height;
-    this->window_title = window_title;
+    this->hInstance = _hInstance;
+    this->width = _width;
+    this->height = _height;
+    this->window_title = _window_title;
     this->window_title_wide = StringConverter::StringToWide(this->window_title);
-    this->window_class = window_class;
+    this->window_class = _window_class;
     this->window_class_wide = StringConverter::StringToWide(this->window_class);
 
     this->RegisterWindowClass();

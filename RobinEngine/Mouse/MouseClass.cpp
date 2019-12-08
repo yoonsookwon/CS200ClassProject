@@ -1,68 +1,68 @@
 #include "MouseClass.h"
 
-void MouseClass::LeftPressed(int x, int y)
+void MouseClass::LeftPressed(int _x, int _y)
 {
     this->leftIsDown = true;
-    MouseEvent mouse_event(MouseEvent::EventType::Lpress, x, y);
+    MouseEvent mouse_event(MouseEvent::EventType::Lpress, _x, _y);
     this->eventBuffer.push(mouse_event);
 }
 
-void MouseClass::LeftReleased(int x, int y)
+void MouseClass::LeftReleased(int _x, int _y)
 {
     this->leftIsDown = false;
-    this->eventBuffer.push(MouseEvent(MouseEvent::EventType::LRelease, x, y));
+    this->eventBuffer.push(MouseEvent(MouseEvent::EventType::LRelease, _x, _y));
 }
 
-void MouseClass::RightPressed(int x, int y)
+void MouseClass::RightPressed(int _x, int _y)
 {
     this->rightIsDown = true;
     //MouseEvent mouse_event(MouseEvent::EventType::LRelease, x, y);
-    this->eventBuffer.push(MouseEvent(MouseEvent::EventType::Rpress,x,y));
+    this->eventBuffer.push(MouseEvent(MouseEvent::EventType::Rpress,_x,_y));
 }
 
-void MouseClass::RightReleased(int x, int y)
+void MouseClass::RightReleased(int _x, int _y)
 {
     this->rightIsDown = false;
-    this->eventBuffer.push(MouseEvent(MouseEvent::EventType::RRelease, x, y));
+    this->eventBuffer.push(MouseEvent(MouseEvent::EventType::RRelease, _x, _y));
 }
 
-void MouseClass::MiddlePressed(int x, int y)
+void MouseClass::MiddlePressed(int _x, int _y)
 {
     this->mButtonIsDown = true;
-    this->eventBuffer.push(MouseEvent(MouseEvent::EventType::Mpress, x, y));
+    this->eventBuffer.push(MouseEvent(MouseEvent::EventType::Mpress, _x, _y));
 }
 
-void MouseClass::MiddleReleased(int x, int y)
+void MouseClass::MiddleReleased(int _x, int _y)
 {
     this->mButtonIsDown = false;
-    this->eventBuffer.push(MouseEvent(MouseEvent::EventType::MRelease, x, y));
+    this->eventBuffer.push(MouseEvent(MouseEvent::EventType::MRelease, _x, _y));
 }
 
-void MouseClass::WheelUp(int x, int y)
+void MouseClass::WheelUp(int _x, int _y)
 {
-    this->eventBuffer.push(MouseEvent(MouseEvent::EventType::WheelUp, x, y));
+    this->eventBuffer.push(MouseEvent(MouseEvent::EventType::WheelUp, _x, _y));
 }
 
-void MouseClass::WheelDown(int x, int y)
+void MouseClass::WheelDown(int _x, int _y)
 {
-    this->eventBuffer.push(MouseEvent(MouseEvent::EventType::WheelDown, x, y));
+    this->eventBuffer.push(MouseEvent(MouseEvent::EventType::WheelDown, _x, _y));
 }
 
-void MouseClass::WheelPressed(int x, int y)
+void MouseClass::WheelPressed(int _x, int _y)
 {
-    this->eventBuffer.push(MouseEvent(MouseEvent::EventType::WheelPress , x, y));
+    this->eventBuffer.push(MouseEvent(MouseEvent::EventType::WheelPress , _x, _y));
 }
 
-void MouseClass::MouseMove(int x, int y)
+void MouseClass::MouseMove(int _x, int _y)
 {
-    this->x = x;
-    this->y = y;
-    this->eventBuffer.push(MouseEvent(MouseEvent::EventType::Move, x, y));
+    this->x = _x;
+    this->y = _y;
+    this->eventBuffer.push(MouseEvent(MouseEvent::EventType::Move, _x, _y));
 }
 
-void MouseClass::MouseMoveRaw(int x, int y)
+void MouseClass::MouseMoveRaw(int _x, int _y)
 {
-    this->eventBuffer.push(MouseEvent(MouseEvent::EventType::RAW_MOVE, x, y));
+    this->eventBuffer.push(MouseEvent(MouseEvent::EventType::RAW_MOVE, _x, _y));
 }
 
 bool MouseClass::IsLeftDown()

@@ -31,12 +31,12 @@ public:
         return buffer.GetAddressOf();
     }
 
-    HRESULT Initialize(ID3D11Device *device, ID3D11DeviceContext * deviceContext)
+    HRESULT Initialize(ID3D11Device *device, ID3D11DeviceContext * _deviceContext)
     {
         if (buffer.Get() != nullptr)
             buffer.Reset();
 
-        this->deviceContext = deviceContext;
+        this->deviceContext = _deviceContext;
 
         D3D11_BUFFER_DESC desc;
         desc.Usage = D3D11_USAGE_DYNAMIC;

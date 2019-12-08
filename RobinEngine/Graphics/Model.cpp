@@ -2,12 +2,12 @@
 #include "vector2.hpp"
 
 #include  "DirectXHelpers.h"
-bool Model::Initialize(ID3D11Device * device, ID3D11DeviceContext * deviceContext, ID3D11ShaderResourceView * texture, ConstantBuffer<CB_VS_vertexshader> & cb_vs_vertexshader, Model::MeshType MeshType)
+bool Model::Initialize(ID3D11Device * _device, ID3D11DeviceContext * _deviceContext, ID3D11ShaderResourceView * _texture, ConstantBuffer<CB_VS_vertexshader> & _cb_vs_vertexshader, Model::MeshType MeshType)
 {
-    this->device = device;
-    this->deviceContext = deviceContext;
-    this->texture = texture;
-    this->cb_vs_vertexshader = &cb_vs_vertexshader;
+    this->device = _device;
+    this->deviceContext = _deviceContext;
+    this->texture = _texture;
+    this->cb_vs_vertexshader = &_cb_vs_vertexshader;
     this->scale = { 1.0f,1.0f };
 
     if (MeshType == Elipse)
@@ -378,9 +378,9 @@ bool Model::Initialize(ID3D11Device * device, ID3D11DeviceContext * deviceContex
     return true;
 }
 
-void Model::SetTexture(ID3D11ShaderResourceView * texture)
+void Model::SetTexture(ID3D11ShaderResourceView * _texture)
 {
-    this->texture = texture;
+    this->texture = _texture;
 }
 
 void Model::Draw(const matrix4<float> & viewProjectionMatrix)
@@ -415,7 +415,7 @@ void Model::UpdateWorldMatrix()
 
 }
 
-void Model::AdjustPosition(float x, float y, float z)
+void Model::AdjustPosition(float x, float y)
 {
     this->translation.x += x;
     this->translation.y += y;

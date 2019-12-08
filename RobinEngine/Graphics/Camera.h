@@ -9,7 +9,6 @@ class Camera
 {
 public:
     Camera();
-    //void SetProjectionValues(float fovDegrees, float aspectRatio, float nearZ, float farZ);
     vector2<float> GetCameraPosition();
 
     const  matrix4<float>& GetViewMatrix() const;
@@ -17,11 +16,11 @@ public:
 
     void SetPosition(float x, float y);
 
-    void AdjustPosition(const vector4<float> & pos);
-    void AdjustPosition(const vector3<float> & pos);
-    void AdjustPosition(float x, float y, float z);
+    //void AdjustPosition(const vector4<float> & pos);
+  //  void AdjustPosition(const vector3<float> & pos);
+    void AdjustPosition(float x, float y);
 
-    void AdjustRotation(float x, float y, float z);
+    void AdjustRotation(float x, float y);
     void AdjustCameraZoom(float _zoom);
 
 

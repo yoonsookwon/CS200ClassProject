@@ -6,7 +6,7 @@ struct  Vertex
 {
     Vertex():pos(0,0,0){}
     Vertex(float x, float y ,float z,float u, float v)
-        : pos(x, y, 0), texCoord(u,v) {}
+        : pos(x, y, z), texCoord(u,v) {}
 
   
     vector3<float> pos;
